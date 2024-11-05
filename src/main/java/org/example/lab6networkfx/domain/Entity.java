@@ -1,4 +1,4 @@
-package org.example.domain;
+package org.example.lab6networkfx.domain;
 
 import java.io.Serializable;
 

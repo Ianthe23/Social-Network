@@ -1,12 +1,12 @@
-package org.example.repository.database;
+package org.example.lab6networkfx.repository.database;
 
-import org.example.domain.Friendship;
-import org.example.domain.Tuple;
-import org.example.domain.User;
-import org.example.domain.validators.Validator;
-import org.example.repository.database.utils.AbstractDataBaseRepo;
-import org.example.repository.database.utils.DataBaseAcces;
-import org.example.exceptions.RepoException;
+import org.example.lab6networkfx.domain.Friendship;
+import org.example.lab6networkfx.domain.Tuple;
+import org.example.lab6networkfx.domain.User;
+import org.example.lab6networkfx.domain.validators.Validator;
+import org.example.lab6networkfx.exceptions.RepoException;
+import org.example.lab6networkfx.repository.database.utils.AbstractDataBaseRepo;
+import org.example.lab6networkfx.repository.database.utils.DataBaseAcces;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

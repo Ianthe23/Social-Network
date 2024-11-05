@@ -1,8 +1,8 @@
-package org.example.repository;
+package org.example.lab6networkfx.repository;
 
 
-import org.example.domain.Entity;
-import org.example.exceptions.ValidationException;
+import org.example.lab6networkfx.domain.Entity;
+import org.example.lab6networkfx.exceptions.ValidationException;
 
 import java.util.Optional;
 

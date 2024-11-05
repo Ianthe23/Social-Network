@@ -1,10 +1,10 @@
-package org.example.service;
+package org.example.lab6networkfx.service;
 
-import org.example.domain.Friendship;
-import org.example.domain.User;
-import org.example.repository.Repository;
-import org.example.exceptions.ServiceException;
-import org.example.domain.Tuple;
+import org.example.lab6networkfx.domain.Friendship;
+import org.example.lab6networkfx.domain.Tuple;
+import org.example.lab6networkfx.domain.User;
+import org.example.lab6networkfx.exceptions.ServiceException;
+import org.example.lab6networkfx.repository.Repository;
 
 import java.util.*;
 import java.util.stream.Collectors;

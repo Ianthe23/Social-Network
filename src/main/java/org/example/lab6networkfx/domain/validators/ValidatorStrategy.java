@@ -1,4 +1,4 @@
-package org.example.domain.validators;
+package org.example.lab6networkfx.domain.validators;
 
 /**
  * Enum for the strategy of the validator

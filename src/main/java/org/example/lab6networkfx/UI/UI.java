@@ -1,7 +1,7 @@
-package org.example.UI;
+package org.example.lab6networkfx.UI;
 
-import org.example.domain.User;
-import org.example.service.NetworkService;
+import org.example.lab6networkfx.domain.User;
+import org.example.lab6networkfx.service.NetworkService;
 
 import java.util.List;
 import java.util.Scanner;

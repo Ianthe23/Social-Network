@@ -1,4 +1,4 @@
-package org.example.repository.database.utils;
+package org.example.lab6networkfx.repository.database.utils;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

@@ -1,7 +1,7 @@
-package org.example.domain.validators;
+package org.example.lab6networkfx.domain.validators;
 
-import org.example.domain.Friendship;
-import org.example.exceptions.ValidationException;
+import org.example.lab6networkfx.domain.Friendship;
+import org.example.lab6networkfx.exceptions.ValidationException;
 
 import java.util.Objects;
 

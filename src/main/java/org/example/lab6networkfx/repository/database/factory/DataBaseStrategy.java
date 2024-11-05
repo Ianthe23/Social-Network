@@ -1,4 +1,4 @@
-package org.example.repository.database.factory;
+package org.example.lab6networkfx.repository.database.factory;
 
 /**
  * Enum for database strategy

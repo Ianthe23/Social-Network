@@ -1,8 +1,8 @@
-package org.example.repository.file;
+package org.example.lab6networkfx.repository.file;
 
-import org.example.domain.Entity;
-import org.example.domain.validators.Validator;
-import org.example.repository.memory.InMemoryRepository;
+import org.example.lab6networkfx.domain.Entity;
+import org.example.lab6networkfx.domain.validators.Validator;
+import org.example.lab6networkfx.repository.memory.InMemoryRepository;
 
 import java.io.*;
 import java.util.Optional;

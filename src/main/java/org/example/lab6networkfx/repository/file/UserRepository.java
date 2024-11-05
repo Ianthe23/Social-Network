@@ -1,7 +1,7 @@
-package org.example.repository.file;
+package org.example.lab6networkfx.repository.file;
 
-import org.example.domain.User;
-import org.example.domain.validators.Validator;
+import org.example.lab6networkfx.domain.User;
+import org.example.lab6networkfx.domain.validators.Validator;
 
 /**
  * CRUD operations repository for file storage

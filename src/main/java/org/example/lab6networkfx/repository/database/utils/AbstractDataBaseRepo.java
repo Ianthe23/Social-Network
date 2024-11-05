@@ -1,8 +1,8 @@
-package org.example.repository.database.utils;
+package org.example.lab6networkfx.repository.database.utils;
 
-import org.example.domain.Entity;
-import org.example.repository.Repository;
-import org.example.domain.validators.Validator;
+import org.example.lab6networkfx.domain.Entity;
+import org.example.lab6networkfx.domain.validators.Validator;
+import org.example.lab6networkfx.repository.Repository;
 
 
 /**

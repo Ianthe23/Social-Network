@@ -1,12 +1,12 @@
-package org.example.repository.database.factory;
+package org.example.lab6networkfx.repository.database.factory;
 
-import org.example.repository.database.utils.AbstractDataBaseRepo;
-import org.example.repository.database.utils.DataBaseAcces;
-import org.example.repository.database.FriendshipDataBaseRepo;
-import org.example.repository.database.factory.DataBaseStrategy;
-import org.example.repository.database.UserDataBaseRepo;
-import org.example.exceptions.RepoException;
-import org.example.domain.validators.Validator;
+import org.example.lab6networkfx.domain.validators.Validator;
+import org.example.lab6networkfx.exceptions.RepoException;
+import org.example.lab6networkfx.repository.database.FriendshipDataBaseRepo;
+import org.example.lab6networkfx.repository.database.UserDataBaseRepo;
+import org.example.lab6networkfx.repository.database.factory.DataBaseStrategy;
+import org.example.lab6networkfx.repository.database.utils.AbstractDataBaseRepo;
+import org.example.lab6networkfx.repository.database.utils.DataBaseAcces;
 
 /**
  * Factory for creating database repositories

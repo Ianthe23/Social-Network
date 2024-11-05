@@ -1,4 +1,4 @@
-package org.example.exceptions;
+package org.example.lab6networkfx.exceptions;
 
 /**
  * Exception for the repository

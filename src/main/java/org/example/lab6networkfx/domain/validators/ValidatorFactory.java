@@ -1,6 +1,6 @@
-package org.example.domain.validators;
+package org.example.lab6networkfx.domain.validators;
 
-import org.example.exceptions.ValidationException;
+import org.example.lab6networkfx.exceptions.ValidationException;
 
 /**
  * Interface for a factory

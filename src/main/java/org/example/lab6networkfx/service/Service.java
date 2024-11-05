@@ -1,6 +1,6 @@
-package org.example.service;
+package org.example.lab6networkfx.service;
 
-import org.example.domain.User;
+import org.example.lab6networkfx.domain.User;
 
 import java.util.List;
 
