@@ -1,0 +1,61 @@
+/* styles.css */
+
+/* General Styles */
+.root {
+    -fx-font-family: 'Helvetica';
+    -fx-background-color: #535556;
+}
+
+/* VBox Panels Styling */
+.vbox {
+    -fx-border-color: #707070;
+    -fx-border-width: 0 1px 0 0; /* Add right border */
+    -fx-border-style: solid;
+}
+
+.hbox {
+    -fx-font-weight: bold;
+}
+
+/* Label Styling */
+.label {
+    -fx-font-size: 16px;
+    -fx-text-fill: #ccc;  /* Light grey text */
+}
+
+/* RadioButton Styling */
+.radio-button {
+    -fx-font-size: 14px;
+    -fx-text-fill: #bbb;  /* Light grey text */
+}
+
+/* TableView Styling */
+.table-view {
+    -fx-border-color: #999;  /* Grey border */
+    -fx-table-cell-border-color: transparent;
+}
+
+.table-column-header {
+    -fx-background-color: #ccc;  /* Light grey header background */
+    -fx-font-weight: bold;
+}
+
+/* Button Styling */
+.button {
+    -fx-background-color: #c9c2c2;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-background-radius: 5px;
+    -fx-effect: dropshadow(one-pass-box, rgba(0, 0, 0, 0.3), 8, 0, 0, 3);
+    -fx-padding: 10px 15px;
+}
+
+.button:hover {
+    -fx-background-color: #b6b1af;
+    -fx-effect: dropshadow(one-pass-box, rgba(0, 0, 0, 0.3), 10, 0, 0, 5);
+}
+
+.button:pressed {
+    -fx-background-color: #545754;
+    -fx-effect: none;
+}
