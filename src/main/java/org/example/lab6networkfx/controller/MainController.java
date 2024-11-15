@@ -2,15 +2,25 @@ package org.example.lab6networkfx.controller;
 
 import javafx.fxml.FXML;
 import javafx.animation.FadeTransition;
-import javafx.scene.control.Label;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import javafx.util.Duration;
-import javafx.scene.control.Button;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.ToggleGroup;
+import org.example.lab6networkfx.domain.Friendship;
 import org.example.lab6networkfx.service.NetworkService;
+import org.example.lab6networkfx.utils.events.EventType;
 import org.example.lab6networkfx.utils.events.NetworkEvent;
 import org.example.lab6networkfx.utils.observer.Observer;
+import org.example.lab6networkfx.domain.User;
+
+import java.awt.event.ActionEvent;
+import java.io.IOException;
+import java.net.URL;
 
 
 public class MainController implements Observer<NetworkEvent> {
@@ -35,40 +45,138 @@ public class MainController implements Observer<NetworkEvent> {
     private Label noTableLabel;
 
     @FXML
+    private HBox tableHeader;
+
+    //USERS TABLE
+    @FXML
+    private TableView<User> userTableView;
+
+    @FXML
+    private TableColumn<User, Integer> tableUserID;
+
+    @FXML
+    private TableColumn<User, String> tableFirstName;
+
+    @FXML
+    private TableColumn<User, String> tableLastName;
+
+    @FXML
+    private TableColumn<User, String> tableUsername;
+
+    //FRIENDSHIPS TABLE
+    @FXML
+    private TableView<Friendship> friendshipTableView;
+
+    @FXML
+    private TableColumn<Friendship, String> tableFriendshipUser1;
+
+    @FXML
+    private TableColumn<Friendship, String> tableFriendshipUser2;
+
+    @FXML
+    private TableColumn<Friendship, String> tableFriendshipDate ;
+
+
+
+    @FXML
     public void initialize() {
+        // Initial visibility settings for the table
+        tablePanel.setVisible(false);
+        tablePanel.setManaged(false);
+
+        tableHeader.setVisible(false);
+        tableHeader.setManaged(false);
+
+        // Initialize toggle group for radio buttons
         ToggleGroup toggleGroup = new ToggleGroup();
         usersRadioButton.setToggleGroup(toggleGroup);
         friendshipsRadioButton.setToggleGroup(toggleGroup);
 
         toggleGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
-            if (usersRadioButton.isSelected() || friendshipsRadioButton.isSelected()) {
+            if (usersRadioButton.isSelected()) {
                 tablePanel.setVisible(true);
                 tablePanel.setManaged(true);
 
-                noTableLabel.setText("Table");
-                noTableLabel.setTextFill(javafx.scene.paint.Color.web("#ffffff"));
+                userTableView.setVisible(true);
+                userTableView.setManaged(true);
 
-//                noTableLabel.setVisible(false);
-//                noTableLabel.setManaged(false);
+                friendshipTableView.setVisible(false);
+                friendshipTableView.setManaged(false);
 
-                if (usersRadioButton.isSelected()) {
-                    System.out.println("Users selected");
-                } else {
-                    System.out.println("Friendships selected");
-                }
+                noTableLabel.setVisible(false);
+                noTableLabel.setManaged(false);
+
+                tableHeader.setVisible(true);
+                tableHeader.setManaged(true);
+
+                initializeUsers();
+            } else if (friendshipsRadioButton.isSelected()) {
+                tablePanel.setVisible(true);
+                tablePanel.setManaged(true);
+
+                friendshipTableView.setVisible(true);
+                friendshipTableView.setManaged(true);
+
+                userTableView.setVisible(false);
+                userTableView.setManaged(false);
+
+                noTableLabel.setVisible(false);
+                noTableLabel.setManaged(false);
+
+                tableHeader.setVisible(true);
+                tableHeader.setManaged(true);
+
+                initializeFriendships();
             } else {
                 tablePanel.setVisible(false);
                 tablePanel.setManaged(false);
 
-                noTableLabel.setText("No table selected");
-                noTableLabel.setTextFill(javafx.scene.paint.Color.web("#FF0000"));
+                tableHeader.setVisible(false);
+                tableHeader.setManaged(false);
+
                 noTableLabel.setVisible(true);
                 noTableLabel.setManaged(true);
             }
         });
 
         configureButtons();
+    }
 
+    @FXML
+    private void handleUserPanelClick(ActionEvent event) {
+        if (event.getSource() == btnAdd) {
+            handleSceneInputData(null);
+        }
+    }
+
+    public void handleSceneInputData(User user) {
+        try {
+            URL resourceUrl = getClass().getResource("/org/example/lab6networkfx/inputDataView.fxml");
+            System.out.println("Resource URL: " + resourceUrl);
+
+            FXMLLoader loader = new FXMLLoader(resourceUrl);
+            loader.setLocation(resourceUrl);
+
+            AnchorPane root = (AnchorPane) loader.load();
+
+            Stage inputDataStage = new Stage();
+            inputDataStage.setTitle("Input Data");
+            inputDataStage.initModality(javafx.stage.Modality.WINDOW_MODAL);
+            Scene scene = new Scene(root);
+            inputDataStage.setScene(scene);
+
+            InputDataController inputDataController = loader.getController();
+            inputDataController.setService(service, inputDataStage, user);
+            inputDataStage.show();
+        } catch(IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+    private User getSelectedUser() {
+        User selected = userTableView.getSelectionModel().getSelectedItem();
+        return selected;
     }
 
     @Override
@@ -88,6 +196,19 @@ public class MainController implements Observer<NetworkEvent> {
     private void configureButtons() {
         configureFadeTransition(btnAdd);
         configureFadeTransition(btnDelete);
+    }
+
+    private void initializeUsers() {
+        tableUserID.setCellValueFactory(new PropertyValueFactory<>("id"));
+        tableFirstName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+        tableLastName.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+        tableUsername.setCellValueFactory(new PropertyValueFactory<>("username"));
+    }
+
+    private void initializeFriendships() {
+        tableFriendshipUser1.setCellValueFactory(new PropertyValueFactory<>("user1"));
+        tableFriendshipUser2.setCellValueFactory(new PropertyValueFactory<>("user2"));
+        tableFriendshipDate.setCellValueFactory(new PropertyValueFactory<>("date"));
     }
 
 }
