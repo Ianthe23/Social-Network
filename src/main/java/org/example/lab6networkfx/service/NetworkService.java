@@ -5,6 +5,10 @@ import org.example.lab6networkfx.domain.Tuple;
 import org.example.lab6networkfx.domain.User;
 import org.example.lab6networkfx.exceptions.ServiceException;
 import org.example.lab6networkfx.repository.Repository;
+import org.example.lab6networkfx.utils.events.EventType;
+import org.example.lab6networkfx.utils.events.NetworkEvent;
+import org.example.lab6networkfx.utils.observer.Observable;
+import org.example.lab6networkfx.utils.observer.Observer;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -14,9 +18,10 @@ import java.util.stream.StreamSupport;
 /**
  * Service for the network
  */
-public class NetworkService implements Service<Integer>{
+public class NetworkService implements Service<Integer>, Observable<NetworkEvent> {
     private final Repository<Integer, User> userRepo;
     private final Repository friendshipRepo;
+    private List<Observer<NetworkEvent>> observers=new ArrayList<>();
     public Set<User> set; //for verifying if a user has been traversed
     private final String type;
 
@@ -43,6 +48,7 @@ public class NetworkService implements Service<Integer>{
     public boolean addUser(String firstName, String lastName, String username) {
         User newUser = new User(firstName, lastName, username);
         userRepo.save(newUser);
+        notifyObservers(new NetworkEvent(EventType.ADD, newUser));
         return true;
     }
 
@@ -71,6 +77,7 @@ public class NetworkService implements Service<Integer>{
         }
 
         Optional<User> deletedUser = userRepo.delete(foundUser.getId());
+        notifyObservers(new NetworkEvent(EventType.DELETE, deletedUser.get()));
         return deletedUser.get();
     }
 
@@ -92,8 +99,7 @@ public class NetworkService implements Service<Integer>{
 
         Friendship friendship = new Friendship(user1, user2);
         friendshipRepo.save(friendship); // This should insert the friendship into the database
-
-        //addFriendToUsers(user1, user2);
+        observers.forEach(observer -> observer.update(new NetworkEvent(EventType.ADD, friendship)));
 
         return true;
     }
@@ -131,6 +137,7 @@ public class NetworkService implements Service<Integer>{
         }
 
         friendshipRepo.delete(friendship.getId());
+        observers.forEach(observer -> observer.update(new NetworkEvent(EventType.DELETE, friendship)));
         return true;
     }
 
@@ -324,6 +331,21 @@ public class NetworkService implements Service<Integer>{
                     else
                         return userRepo.findOne(friendship.getId().getFirst()).orElse(null);
                 }).filter(Objects::nonNull).map(element->(User)element).collect(Collectors.toList());
+    }
+
+    @Override
+    public void addObserver(Observer<NetworkEvent> e) {
+        observers.add(e);
+    }
+
+    @Override
+    public void removeObserver(Observer<NetworkEvent> e) {
+        observers.remove(e);
+    }
+
+    @Override
+    public void notifyObservers(NetworkEvent networkEvent) {
+        observers.forEach(observer -> observer.update(networkEvent));
     }
 
     /**

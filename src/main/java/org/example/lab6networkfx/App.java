@@ -3,8 +3,10 @@ package org.example.lab6networkfx;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import org.example.lab6networkfx.controller.MainController;
+import org.example.lab6networkfx.domain.Friendship;
+import org.example.lab6networkfx.domain.Tuple;
 import org.example.lab6networkfx.domain.User;
 import org.example.lab6networkfx.domain.validators.Validator;
 import org.example.lab6networkfx.domain.validators.ValidatorFactory;
@@ -15,14 +17,13 @@ import org.example.lab6networkfx.repository.database.utils.AbstractDataBaseRepo;
 import org.example.lab6networkfx.repository.database.utils.DataBaseAcces;
 import org.example.lab6networkfx.service.NetworkService;
 
-import java.awt.*;
 import java.io.IOException;
 import java.sql.SQLException;
 
 public class App extends Application {
     private DataBaseAcces data;
     private AbstractDataBaseRepo<Integer, User> userRepo;
-    private AbstractDataBaseRepo<Integer, User> friendshipRepo;
+    private AbstractDataBaseRepo<Tuple<Integer,Integer>, Friendship> friendshipRepo;
     public NetworkService service;
 
     @Override
@@ -55,11 +56,14 @@ public class App extends Application {
 
     private void initView(Stage primaryStage) throws IOException {
         FXMLLoader stageLoader = new FXMLLoader();
-        stageLoader.setLocation(getClass().getResource("mainView.fxml"));
+        stageLoader.setLocation(getClass().getResource("main-view.fxml"));
         Scene scene = new Scene(stageLoader.load());
-        scene.getStylesheets().add(getClass().getResource("/org/example/lab6networkfx/styles/mainView.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("/org/example/lab6networkfx/styles/main-view.css").toExternalForm());
         primaryStage.setTitle("Network Application");
         primaryStage.setScene(scene);
+
+        MainController controller = stageLoader.getController();
+        controller.setNetworkService(service);
     }
 
     public static void main(String[] args) {

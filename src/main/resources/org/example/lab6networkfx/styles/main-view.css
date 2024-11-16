@@ -1,14 +1,14 @@
 /* styles.css */
-. {
-    -fx-primary-color: #007acc;
-    -fx-secondary-color: #4B6EAF;
-    -fx-accent-color: #B6FF00;
-    -fx-grey-color: #b9b9b9;
-    -fx-light-grey-color: #d1d1d1;
-    -fx-lightest-grey-color: #F9F9FB;
+/*. {*/
+/*    -fx-primary-color: #007acc;*/
+/*    -fx-secondary-color: #4B6EAF;*/
+/*    -fx-accent-color: #B6FF00;*/
+/*    -fx-grey-color: #b9b9b9;*/
+/*    -fx-light-grey-color: #d1d1d1;*/
+/*    -fx-lightest-grey-color: #F9F9FB;*/
 
-    -fx-focus-color: -fx-secondary-color;
-}
+/*    -fx-focus-color: -fx-secondary-color;*/
+/*}*/
 
 /* General Styles */
 .root {
@@ -121,6 +121,7 @@
 
 .button:hover {
     -fx-background-color: #c5c1c0;
+    -fx-tooltip-visible-duration: 0;
     -fx-effect: dropshadow(one-pass-box, rgba(0, 0, 0, 0.3), 10, 0, 0, 5);
 }
 
@@ -136,6 +137,12 @@
     -fx-border-radius: 10px;
     -fx-border-color: #9da0a1;
 
+}
+
+.tooltip {
+    -fx-background-color: #545754;
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
 }
 
 /*.button-panel-inner {*/

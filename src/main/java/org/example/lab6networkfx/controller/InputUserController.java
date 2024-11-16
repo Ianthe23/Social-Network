@@ -2,15 +2,15 @@ package org.example.lab6networkfx.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import org.example.lab6networkfx.domain.User;
 import org.example.lab6networkfx.service.NetworkService;
+import javafx.event.ActionEvent;
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
+import javafx.scene.control.TextField;
 
-public class InputDataController {
-
+public class InputUserController {
     @FXML
     private TextField firstNameField;
 
@@ -22,9 +22,6 @@ public class InputDataController {
 
     @FXML
     private Button btnAdd;
-
-    @FXML
-    private Button btnDelete;
 
     @FXML
     private Button btnExit;
@@ -55,7 +52,6 @@ public class InputDataController {
         usernameField.setText(user.getUsername());
     }
 
-    @FXML
     private void handleAdd() {
         String firstName = firstNameField.getText();
         String lastName = lastNameField.getText();
@@ -67,20 +63,6 @@ public class InputDataController {
         clearFields();
     }
 
-    private void handleDelete() {
-        String username = usernameField.getText();
-
-        try {
-            service.removeUser(username);
-            inputStage.close();
-        } catch (Exception e) {
-            AlertMessages.showMessage(null, Alert.AlertType.CONFIRMATION, "Delete User", "User deleted successfully!");
-        }
-
-        inputStage.close();
-    }
-
-    @FXML
     public void handleExit() {
         inputStage.close();
     }
@@ -88,20 +70,19 @@ public class InputDataController {
     private void saveUser(User user) {
         try {
             service.addUser(user.getFirstName(), user.getLastName(), user.getUsername());
+            AlertMessages.showMessage(null, Alert.AlertType.CONFIRMATION, "Add User", "User added successfully!");
             inputStage.close();
         } catch (Exception e) {
-            AlertMessages.showMessage(null, Alert.AlertType.CONFIRMATION, "Add User", "User added successfully!");
+            AlertMessages.showMessage(null, Alert.AlertType.ERROR, "Add User", e.getMessage());
         }
-
         inputStage.close();
     }
 
+    @FXML
     public void handleClicks(ActionEvent event) {
         if (event.getSource() == btnAdd) {
             handleAdd();
-        } else if (event.getSource() == btnDelete) {
-            handleDelete();
-        } else if (event.getSource() == btnExit) {
+        } else {
             handleExit();
         }
     }
