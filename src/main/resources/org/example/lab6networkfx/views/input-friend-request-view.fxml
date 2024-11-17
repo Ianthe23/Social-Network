@@ -1,28 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="org.example.lab6networkfx.controller.InputFriendRequestController"
-            prefHeight="400.0" prefWidth="600.0">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.lab6networkfx.controller.InputFriendRequestController">
   <children>
     <VBox alignment="CENTER" prefHeight="400.0" prefWidth="600.0" spacing="10.0">
-      <Label text="Input Friend Request Data"/>
+      <Label text="Input Friend Request Data" />
       <HBox alignment="CENTER" spacing="10.0">
-        <Label text="First Username:"/>
-        <ComboBox fx:id="user1Field"/>
+        <Label text="First Username:" />
+        <ComboBox fx:id="user1Field" />
       </HBox>
       <HBox alignment="CENTER" spacing="10.0">
-        <Label text="Second Username:"/>
-        <ComboBox fx:id="user2Field"/>
+        <Label text="Second Username:" />
+        <ComboBox fx:id="user2Field" />
       </HBox>
-      <Button fx:id="btnSendRequest" onAction="#handleClicks" text="Send Friend Request"/>
-      <Button fx:id="btnExit" onAction="#handleClicks" text="Cancel"/>
+      <HBox alignment="CENTER" prefHeight="72.0" prefWidth="601.0" spacing="10.0">
+        <Button fx:id="btnSendRequest" onAction="#handleClicks" style="-fx-text-fill: black;" text="Send Friend Request" />
+        <Button fx:id="btnExit" onAction="#handleClicks" style="-fx-text-fill: black;" text="Cancel" />
+      </HBox>
     </VBox>
   </children>
 

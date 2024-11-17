@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.lab6networkfx.controller.TableFriendRequestsController">
+
+  <VBox alignment="TOP_CENTER" prefHeight="400" style="-fx-padding: 10;" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+    <HBox fx:id="tableHeader" alignment="CENTER" style="-fx-padding: 10; -fx-font-weight: bold;">
+      <Label style="-fx-font-size: 18px; -fx-text-fill: white;" text="Friend Requests" />
+    </HBox>
+    <VBox fx:id="tablePanel" alignment="TOP_CENTER" style="-fx-padding: 10;">
+      <TableView fx:id="friendRequestTableView" prefHeight="286.0" prefWidth="559.0">
+        <columns>
+          <TableColumn fx:id="tableFriendRequestUser1" prefWidth="110.0000022649765" text="User 1" />
+          <TableColumn fx:id="tableFriendRequestUser2" prefWidth="109.20002746582031" text="User 2" />
+          <TableColumn fx:id="tableFriendRequestStatus" prefWidth="129.4000244140625" text="Status" />
+          <TableColumn fx:id="tableFriendRequestDate" prefWidth="211.39987182617188" text="Date" />
+        </columns>
+      </TableView>
+    </VBox>
+  </VBox>
+
+</AnchorPane>

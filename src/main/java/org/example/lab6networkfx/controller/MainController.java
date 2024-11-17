@@ -10,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -178,6 +179,36 @@ public class MainController implements Observer<NetworkEvent> {
     }
 
     @FXML
+    public void handleUserRowClick(MouseEvent event) {
+        if (event.getClickCount() == 1) { // Se detectează un singur click
+            User selectedItem = userTableView.getSelectionModel().getSelectedItem();
+            if (selectedItem != null) {
+                boolean alreadySelected = userTableView.getSelectionModel().isSelected(
+                        userTableView.getSelectionModel().getSelectedIndex());
+                if (alreadySelected) {
+                    // Deselectăm linia dacă este deja selectată
+                    userTableView.getSelectionModel().clearSelection();
+                }
+            }
+        }
+    }
+
+    public void handleFriendshipRowClick(MouseEvent event) {
+        if (event.getClickCount() == 1) { // Se detectează un singur click
+            Friendship selectedItem = friendshipTableView.getSelectionModel().getSelectedItem();
+            if (selectedItem != null) {
+                boolean alreadySelected = friendshipTableView.getSelectionModel().isSelected(
+                        friendshipTableView.getSelectionModel().getSelectedIndex());
+                if (alreadySelected) {
+                    // Deselectăm linia dacă este deja selectată
+                    friendshipTableView.getSelectionModel().clearSelection();
+                }
+            }
+        }
+    }
+
+
+    @FXML
     private void handleUserPanelClick(ActionEvent event) {
         if (usersRadioButton.isSelected()) {
             if (event.getSource() == btnAdd) {
@@ -196,7 +227,10 @@ public class MainController implements Observer<NetworkEvent> {
                 } else {
                     AlertMessages.showMessage(null, Alert.AlertType.ERROR, "Error", "No user selected!");
                 }
+            } else if (event.getSource() == btnFriendRequestsList) {
+                handleSceneInputRequests(getSelectedUser());
             }
+
         } else if (friendshipsRadioButton.isSelected()) {
             if (event.getSource() == btnDelete) {
                 handleDeleteFriendship();
@@ -220,10 +254,37 @@ public class MainController implements Observer<NetworkEvent> {
             inputDataStage.setTitle("Input Data User");
             inputDataStage.initModality(javafx.stage.Modality.WINDOW_MODAL);
             Scene scene = new Scene(root);
+            scene.getStylesheets().add(getClass().getResource("/org/example/lab6networkfx/styles/main-view.css").toExternalForm());
             inputDataStage.setScene(scene);
 
             InputUserController inputUserController = loader.getController();
             inputUserController.setService(service, inputDataStage, user);
+            inputDataStage.show();
+        } catch(IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void handleSceneInputRequests(User user) {
+        try {
+            URL resourceUrl = getClass().getResource("/org/example/lab6networkfx/views/table-friend-requests-view.fxml");
+            System.out.println("Resource URL: " + resourceUrl);
+
+            FXMLLoader loader = new FXMLLoader(resourceUrl);
+            loader.setLocation(resourceUrl);
+
+            AnchorPane root = (AnchorPane) loader.load();
+
+            Stage inputDataStage = new Stage();
+            inputDataStage.setTitle("Table Friend Requests");
+            inputDataStage.initModality(javafx.stage.Modality.WINDOW_MODAL);
+            Scene scene = new Scene(root);
+            scene.getStylesheets().add(getClass().getResource("/org/example/lab6networkfx/styles/main-view.css").toExternalForm());
+            inputDataStage.setScene(scene);
+
+            TableFriendRequestsController tableFriendRequestsController = loader.getController();
+            tableFriendRequestsController.setService(service, inputDataStage, user);
             inputDataStage.show();
         } catch(IOException e) {
             e.printStackTrace();
@@ -245,6 +306,7 @@ public class MainController implements Observer<NetworkEvent> {
             inputDataStage.setTitle("Input Data Friendship");
             inputDataStage.initModality(javafx.stage.Modality.WINDOW_MODAL);
             Scene scene = new Scene(root);
+            scene.getStylesheets().add(getClass().getResource("/org/example/lab6networkfx/styles/main-view.css").toExternalForm());
             inputDataStage.setScene(scene);
 
             InputFriendshipController inputFriendshipController = loader.getController();
@@ -270,6 +332,7 @@ public class MainController implements Observer<NetworkEvent> {
             inputDataStage.setTitle("Input Data Friendship Request");
             inputDataStage.initModality(javafx.stage.Modality.WINDOW_MODAL);
             Scene scene = new Scene(root);
+            scene.getStylesheets().add(getClass().getResource("/org/example/lab6networkfx/styles/main-view.css").toExternalForm());
             inputDataStage.setScene(scene);
 
             InputFriendRequestController inputFriendRequestController = loader.getController();

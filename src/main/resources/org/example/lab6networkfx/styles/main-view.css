@@ -86,6 +86,10 @@
     -fx-padding:20px;
 }
 
+.table-row:selected {
+
+}
+
 /* Label Styling */
 .label {
     -fx-font-size: 16px;

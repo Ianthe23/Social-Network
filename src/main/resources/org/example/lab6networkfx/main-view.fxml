@@ -32,7 +32,7 @@
             <Label fx:id="noTableLabel" text="No table selected" style="-fx-font-size: 18px; -fx-text-fill: grey;" />
           </StackPane>
           <VBox fx:id="tablePanel" alignment="TOP_CENTER" style="-fx-padding: 10;">
-            <TableView fx:id="userTableView" prefWidth="320" prefHeight="350">
+            <TableView fx:id="userTableView" prefWidth="320" prefHeight="350" onMouseClicked="#handleUserRowClick">
               <columns>
                 <TableColumn fx:id="tableUserID" prefWidth="50" text="ID"/>
                 <TableColumn fx:id="tableFirstName" prefWidth="100" text="First Name"/>
@@ -40,7 +40,7 @@
                 <TableColumn fx:id="tableUsername" prefWidth="100" text="Username"/>
               </columns>
             </TableView>
-            <TableView fx:id="friendshipTableView" prefWidth="320" prefHeight="350">
+            <TableView fx:id="friendshipTableView" prefWidth="320" prefHeight="350" onMouseClicked="#handleFriendshipRowClick">
               <columns>
                 <TableColumn fx:id="tableFriendshipUser1" prefWidth="107" text="1st User"/>
                 <TableColumn fx:id="tableFriendshipUser2" prefWidth="107" text="2nd User"/>
