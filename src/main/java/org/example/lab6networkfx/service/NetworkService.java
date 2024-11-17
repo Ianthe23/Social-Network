@@ -3,13 +3,17 @@ package org.example.lab6networkfx.service;
 import org.example.lab6networkfx.domain.Friendship;
 import org.example.lab6networkfx.domain.Tuple;
 import org.example.lab6networkfx.domain.User;
+import org.example.lab6networkfx.domain.friendships.FriendshipRequest;
+import org.example.lab6networkfx.domain.friendships.FriendshipStatus;
 import org.example.lab6networkfx.exceptions.ServiceException;
 import org.example.lab6networkfx.repository.Repository;
 import org.example.lab6networkfx.utils.events.EventType;
+import org.example.lab6networkfx.utils.events.FriendshipStatusType;
 import org.example.lab6networkfx.utils.events.NetworkEvent;
 import org.example.lab6networkfx.utils.observer.Observable;
 import org.example.lab6networkfx.utils.observer.Observer;
 
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -21,6 +25,7 @@ import java.util.stream.StreamSupport;
 public class NetworkService implements Service<Integer>, Observable<NetworkEvent> {
     private final Repository<Integer, User> userRepo;
     private final Repository friendshipRepo;
+    private final Repository friendshipRequestRepo;
     private List<Observer<NetworkEvent>> observers=new ArrayList<>();
     public Set<User> set; //for verifying if a user has been traversed
     private final String type;
@@ -30,9 +35,10 @@ public class NetworkService implements Service<Integer>, Observable<NetworkEvent
      * @param userRepo - the repository for the users
      * @param friendshipRepo - the repository for the friendships
      */
-    public NetworkService(Repository userRepo, Repository friendshipRepo, String type) {
+    public NetworkService(Repository userRepo, Repository friendshipRepo, Repository friendshipRequestRepo, String type) {
         this.userRepo = userRepo;
         this.friendshipRepo = friendshipRepo;
+        this.friendshipRequestRepo = friendshipRequestRepo;
         this.type = type;
     }
 
@@ -67,18 +73,102 @@ public class NetworkService implements Service<Integer>, Observable<NetworkEvent
 
         if (Objects.equals(type, "InMemory")) {
             List<User> friends = new ArrayList<>(foundUser.getFriendships());
+            List<User> pendingFriends = new ArrayList<>(foundUser.getPendingFriendships());
             try {
                 friends.forEach(friend->removeFriendship(foundUser.getUsername(), friend.getUsername()));
                 friends.forEach(friend->removeFriendship(friend.getUsername(), foundUser.getUsername()));
+                pendingFriends.forEach(pendingFriend->rejectFriendshipRequest(foundUser.getUsername(), pendingFriend.getUsername()));
+                pendingFriends.forEach(pendingFriend->rejectFriendshipRequest(pendingFriend.getUsername(), foundUser.getUsername()));
             } catch (ServiceException e) {
 
             }
             foundUser.getFriendships().clear();
+            foundUser.getPendingFriendships().clear();
         }
 
         Optional<User> deletedUser = userRepo.delete(foundUser.getId());
         notifyObservers(new NetworkEvent(EventType.DELETE, deletedUser.get()));
         return deletedUser.get();
+    }
+
+    @Override
+    public boolean pendingFriendshipRequest(String username1, String username2) {
+        User user1 = findUsername(username1);
+        User user2 = findUsername(username2);
+
+        if (user1.getFriendships().contains(user2) || user2.getFriendships().contains(user1)) {
+            throw new ServiceException("They are already friends!");
+        }
+
+        try {
+            FriendshipRequest friendshipRequest = new FriendshipRequest(user1, user2, FriendshipStatus.PENDING, LocalDateTime.now());
+            friendshipRequestRepo.save(friendshipRequest);
+            notifyObservers(new NetworkEvent(EventType.PEND, friendshipRequest));
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean rejectFriendshipRequest(String username1, String username2) {
+        User user1 = findUsername(username1);
+        User user2 = findUsername(username2);
+
+        FriendshipRequest friendshipRequest = findFriendshipRequest(user1, user2);
+
+        if (friendshipRequest == null) {
+            throw new ServiceException("The friendship request was not found!");
+        }
+
+        friendshipRequest.setStatus(FriendshipStatus.REJECTED);
+        friendshipRequestRepo.update(friendshipRequest);
+        notifyObservers(new NetworkEvent(EventType.REJECT, friendshipRequest));
+        return true;
+    }
+
+    private FriendshipRequest findFriendshipRequest(User user1, User user2) {
+        Tuple<Integer, Integer> id = new Tuple<>(user1.getId(), user2.getId());
+
+        if (type.equals("InMemory")) {
+            Optional<FriendshipRequest> friendshipRequest = friendshipRequestRepo.findOne(id);
+
+            if (friendshipRequest == null) {
+                Tuple<Integer, Integer> id2 = new Tuple<>(user2.getId(), user1.getId());
+                friendshipRequest = friendshipRequestRepo.findOne(id2);
+            }
+
+            return friendshipRequest.get();
+        } else {
+            System.out.println("Finding entered successfully");
+            return (FriendshipRequest) friendshipRequestRepo.findOne(id).get();
+        }
+    }
+
+    @Override
+    public boolean acceptFriendshipRequest(String username1, String username2) {
+        User user1 = findUsername(username1);
+        User user2 = findUsername(username2);
+
+        if (user1.getFriendships().contains(user2) || user2.getFriendships().contains(user1)) {
+            throw new ServiceException("They are already friends!");
+        }
+
+        FriendshipRequest friendshipRequest = findFriendshipRequest(user1, user2);
+
+        if (friendshipRequest == null) {
+            throw new ServiceException("The friendship request was not found!");
+        }
+
+        friendshipRequest.setStatus(FriendshipStatus.ACCEPTED);
+        friendshipRequestRepo.update(friendshipRequest);
+        notifyObservers(new NetworkEvent(EventType.ACCEPT, friendshipRequest));
+
+        Friendship friendship = new Friendship(user1, user2);
+        friendshipRepo.save(friendship);
+        notifyObservers(new NetworkEvent(EventType.ADD, friendship));
+
+        return true;
     }
 
     /**
@@ -157,6 +247,11 @@ public class NetworkService implements Service<Integer>, Observable<NetworkEvent
     @Override
     public Iterable getAllFriendships() {
         return friendshipRepo.findAll();
+    }
+
+    @Override
+    public Iterable getAllFriendshipRequests() {
+        return friendshipRequestRepo.findAll();
     }
 
     /**

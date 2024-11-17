@@ -82,6 +82,18 @@
                 </ImageView>
               </graphic>
             </Button>
+            <Button fx:id="btnSendRequest" onAction="#handleUserPanelClick">
+              <tooltip>
+                <Tooltip text="Send Friend Request"/>
+              </tooltip>
+              <graphic>
+                <ImageView fitWidth="24" fitHeight="24">
+                  <image>
+                    <Image url="@/org/example/lab6networkfx/images/send-request.png"/>
+                  </image>
+                </ImageView>
+              </graphic>
+            </Button>
             <Button fx:id="btnFriendAdd" onAction="#handleUserPanelClick">
               <tooltip>
                 <Tooltip text="Add Friend"/>
@@ -106,9 +118,9 @@
                 </ImageView>
               </graphic>
             </Button>
-            <Button fx:id="btnFriendRequest" onAction="#handleUserPanelClick">
+            <Button fx:id="btnFriendRequestsList" onAction="#handleUserPanelClick">
               <tooltip>
-                <Tooltip text="Friend Request"/>
+                <Tooltip text="Friend Requests List"/>
               </tooltip>
               <graphic>
                 <ImageView fitWidth="24" fitHeight="24">

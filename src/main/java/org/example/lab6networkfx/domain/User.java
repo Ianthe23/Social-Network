@@ -12,6 +12,7 @@ public class User extends Entity<Integer>{
     private String lastName;
     private String username;
     private ArrayList<User> friendships;
+    private ArrayList<User> pendingFriendships;
 
     /**
      * Constructor for a user
@@ -24,6 +25,7 @@ public class User extends Entity<Integer>{
         this.lastName = lastName;
         this.username = username;
         this.friendships = new ArrayList<>();
+        this.pendingFriendships = new ArrayList<>();
     }
 
     /**
@@ -88,6 +90,22 @@ public class User extends Entity<Integer>{
      */
     public void setFriendships(ArrayList<User> friendships) {
         this.friendships = friendships;
+    }
+
+    /**
+     * Getter for the pending friendships
+     * @return pendingFriendships - the pending friendships
+     */
+    public ArrayList<User> getPendingFriendships() {
+        return pendingFriendships;
+    }
+
+    /**
+     * Setter for the pending friendships
+     * @param pendingFriendships - the new pending friendships
+     */
+    public void setPendingFriendships(ArrayList<User> pendingFriendships) {
+        this.pendingFriendships = pendingFriendships;
     }
 
     /**

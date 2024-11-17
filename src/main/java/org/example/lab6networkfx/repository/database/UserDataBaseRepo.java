@@ -75,6 +75,28 @@ public class UserDataBaseRepo extends AbstractDataBaseRepo<Integer, User> {
         }
     }
 
+    private void loadFriendshipRequests(Map<Integer, User> userMap) {
+        String friendshipRequestSql = "SELECT * FROM \"FriendshipRequest\"";
+
+        try (PreparedStatement statement = data.createStatement(friendshipRequestSql);
+             ResultSet resultSet = statement.executeQuery()) {
+
+            while (resultSet.next()) {
+                int user1Id = resultSet.getInt("sender_id");
+                int user2Id = resultSet.getInt("receiver_id");
+
+                User user1 = userMap.get(user1Id);
+                User user2 = userMap.get(user2Id);
+
+                if (user1 != null && user2 != null) {
+                    user2.getPendingFriendships().add(user1);
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     /**
      * Method to find a user by id
      * @param id - the user id
@@ -124,6 +146,7 @@ public class UserDataBaseRepo extends AbstractDataBaseRepo<Integer, User> {
 
         // Load all friendships
         loadFriendships(userMap);
+        loadFriendshipRequests(userMap);
 
         return userMap.values();
     }

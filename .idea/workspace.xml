@@ -4,21 +4,31 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="41f2fb74-9aed-4b1e-911c-0a45cacd57e5" name="Changes" comment="styling">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/controller/InputFriendshipController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/utils/TooltipExample.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/images/add-friend.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/images/friend-request.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/images/friends.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/views/input-friendship-view.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/views/input-user-view.fxml" afterDir="false" />
+    <list default="true" id="41f2fb74-9aed-4b1e-911c-0a45cacd57e5" name="Changes" comment="add friend through GUI">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/controller/InputFriendRequestController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/domain/friendships/FriendshipRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/domain/friendships/FriendshipStatus.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/domain/validators/FriendshipRequestValidator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/repository/database/FriendshipRequestDataBaseRepo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/images/send-request.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/views/input-friend-request-view.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/App.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/controller/InputDataController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/controller/InputUserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/controller/InputFriendshipController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/controller/InputFriendshipController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/controller/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/controller/MainController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/domain/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/domain/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/domain/validators/ValidatorFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/domain/validators/ValidatorFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/domain/validators/ValidatorStrategy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/domain/validators/ValidatorStrategy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/repository/database/UserDataBaseRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/repository/database/UserDataBaseRepo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/repository/database/factory/DataBaseRepoFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/repository/database/factory/DataBaseRepoFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/repository/database/factory/DataBaseStrategy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/repository/database/factory/DataBaseStrategy.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/service/NetworkService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/service/NetworkService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/mainView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/main-view.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/styles/mainView.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/styles/main-view.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/service/Service.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/service/Service.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/utils/TooltipExample.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/utils/events/EventType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/utils/events/EventType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/main-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/main-view.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/styles/main-view.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/styles/main-view.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/views/input-friendship-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/views/input-friendship-view.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,8 +46,8 @@
         <option value="Interface" />
         <option value="Enum" />
         <option value="CSS File" />
-        <option value="FxmlFile" />
         <option value="Class" />
+        <option value="FxmlFile" />
       </list>
     </option>
   </component>
@@ -125,7 +135,8 @@
       <workItem from="1731698712021" duration="66000" />
       <workItem from="1731758477512" duration="3069000" />
       <workItem from="1731766527306" duration="5185000" />
-      <workItem from="1731783724660" duration="7238000" />
+      <workItem from="1731783724660" duration="7572000" />
+      <workItem from="1731832898418" duration="15093000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit">
       <option name="closed" value="true" />
@@ -151,7 +162,15 @@
       <option name="project" value="LOCAL" />
       <updated>1731698731715</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="add friend through GUI">
+      <option name="closed" value="true" />
+      <created>1731791324963</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1731791324963</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -161,6 +180,7 @@
     <MESSAGE value="initial commit" />
     <MESSAGE value="mainView + styling and some controller" />
     <MESSAGE value="styling" />
-    <option name="LAST_COMMIT_MESSAGE" value="styling" />
+    <MESSAGE value="add friend through GUI" />
+    <option name="LAST_COMMIT_MESSAGE" value="add friend through GUI" />
   </component>
 </project>

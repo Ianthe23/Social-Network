@@ -37,6 +37,9 @@ public class ValidatorFactory implements Factory{
             case Friendship -> {
                 return new FriendshipValidator();
             }
+            case FriendshipRequest -> {
+                return new FriendshipRequestValidator();
+            }
             default -> throw new ValidationException("Invalid strategy");
         }
     }

@@ -17,13 +17,16 @@ import java.util.List;
 
 public class InputFriendshipController {
     @FXML
-    private ComboBox<String> user1Field;
+    private TextField user1Field;
 
     @FXML
     private ComboBox<String> user2Field;
 
     @FXML
-    private Button btnAdd;
+    private Button btnAccept;
+
+    @FXML
+    private Button btnReject;
 
     @FXML
     private Button btnExit;
@@ -33,7 +36,7 @@ public class InputFriendshipController {
     User user;
 
     private void clearFields() {
-        user1Field.setValue(null);
+        user1Field.setText("");
         user2Field.setValue(null);
     }
 
@@ -48,27 +51,44 @@ public class InputFriendshipController {
     private void setFields(User user) {
         //add the users to the combo boxes
         List<String> users = new ArrayList<>();
-        service.getAllUsers().forEach(user1 -> users.add(((User) user1).getUsername()));
+        service.getAllUsers().forEach(currentUser -> {
+            if (((User) currentUser).getUsername().equals(user.getUsername())) {
+                ((User) currentUser).getPendingFriendships().forEach(friend ->
+                        users.add(friend.getUsername())
+                );
+            }
+        });
 
-        if (user == null) {
-            user1Field.setValue(null);
-        } else {
-            user1Field.setValue(user.getUsername());
-        }
-        user1Field.getItems().addAll(users);
+        user1Field.setText(user.getUsername());
         user2Field.getItems().addAll(users);
     }
 
     private void handleAdd() {
         try {
-            String user1 = user1Field.getValue().toString();
+            String user1 = user1Field.getText().toString();
             String user2 = user2Field.getValue().toString();
-            service.addFriendship(user1, user2);
+            System.out.println(user1 + " " + user2);
+            service.acceptFriendshipRequest(user1, user2);
+            System.out.println("Friendship added");
             AlertMessages.showMessage(null, Alert.AlertType.CONFIRMATION, "Friendship added", "Friendship added successfully");
             clearFields();
             inputStage.close();
         } catch (Exception e) {
             AlertMessages.showMessage(null, Alert.AlertType.ERROR, "Add Friendship", e.getMessage());
+        }
+        inputStage.close();
+    }
+
+    public void handleReject() {
+        try {
+            String user1 = user1Field.getText().toString();
+            String user2 = user2Field.getValue().toString();
+            service.rejectFriendshipRequest(user1, user2);
+            AlertMessages.showMessage(null, Alert.AlertType.CONFIRMATION, "Friendship rejected", "Friendship rejected successfully");
+            clearFields();
+            inputStage.close();
+        } catch (Exception e) {
+            AlertMessages.showMessage(null, Alert.AlertType.ERROR, "Reject Friendship", e.getMessage());
         }
         inputStage.close();
     }
@@ -79,9 +99,12 @@ public class InputFriendshipController {
 
     @FXML
     public void handleClicks(ActionEvent event) {
-        if (event.getSource() == btnAdd) {
+        if (event.getSource() == btnAccept) {
             handleAdd();
-        } else if (event.getSource() == btnExit) {
+        } else if (event.getSource() == btnReject){
+            handleReject();
+        }
+        else if (event.getSource() == btnExit) {
             handleExit();
         }
     }

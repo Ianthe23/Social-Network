@@ -45,13 +45,16 @@ public class MainController implements Observer<NetworkEvent> {
     private Button btnDelete;
 
     @FXML
+    private Button btnSendRequest;
+
+    @FXML
     private Button btnFriendAdd;
 
     @FXML
     private Button btnFriendList;
 
     @FXML
-    private Button btnFriendRequest;
+    private Button btnFriendRequestsList;
 
     @FXML
     private VBox tablePanel;
@@ -137,6 +140,9 @@ public class MainController implements Observer<NetworkEvent> {
                 tableHeader.setVisible(true);
                 tableHeader.setManaged(true);
 
+                btnAdd.setVisible(true);
+                btnAdd.setManaged(true);
+
             } else if (friendshipsRadioButton.isSelected()) {
                 tablePanel.setVisible(true);
                 tablePanel.setManaged(true);
@@ -178,6 +184,12 @@ public class MainController implements Observer<NetworkEvent> {
                 handleSceneInputData(null);
             } else if (event.getSource() == btnDelete) {
                 handleDeleteUser();
+            } else if (event.getSource() == btnSendRequest) {
+                if (getSelectedUser() != null) {
+                    handleSceneInputFriendRequest(getSelectedUser());
+                } else {
+                    AlertMessages.showMessage(null, Alert.AlertType.ERROR, "Error", "No user selected!");
+                }
             } else if (event.getSource() == btnFriendAdd) {
                 if (getSelectedUser() != null) {
                     handleSceneInputFriendship(getSelectedUser());
@@ -244,6 +256,31 @@ public class MainController implements Observer<NetworkEvent> {
         }
     }
 
+    public void handleSceneInputFriendRequest(User user) {
+        try {
+            URL resourceUrl = getClass().getResource("/org/example/lab6networkfx/views/input-friend-request-view.fxml");
+            System.out.println("Resource URL: " + resourceUrl);
+
+            FXMLLoader loader = new FXMLLoader(resourceUrl);
+            loader.setLocation(resourceUrl);
+
+            AnchorPane root = (AnchorPane) loader.load();
+
+            Stage inputDataStage = new Stage();
+            inputDataStage.setTitle("Input Data Friendship Request");
+            inputDataStage.initModality(javafx.stage.Modality.WINDOW_MODAL);
+            Scene scene = new Scene(root);
+            inputDataStage.setScene(scene);
+
+            InputFriendRequestController inputFriendRequestController = loader.getController();
+            inputFriendRequestController.setService(service, inputDataStage, user);
+            inputDataStage.show();
+        } catch(IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
     private void handleDeleteUser() {
         User selected = getSelectedUser();
         if (selected != null) {
@@ -301,7 +338,8 @@ public class MainController implements Observer<NetworkEvent> {
         configureFadeTransition(btnDelete);
         configureFadeTransition(btnFriendAdd);
         configureFadeTransition(btnFriendList);
-        configureFadeTransition(btnFriendRequest);
+        configureFadeTransition(btnFriendRequestsList);
+        configureFadeTransition(btnSendRequest);
     }
 
     private void initializeUsers() {

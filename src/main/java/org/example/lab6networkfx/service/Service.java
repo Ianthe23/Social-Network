@@ -28,6 +28,30 @@ public interface Service<ID> {
     User removeUser(String username);
 
     /**
+     * Method for sending a friendship request
+     * @param username1 - the username of the first user
+     * @param username2 - the username of the second user
+     * @return
+     */
+    boolean pendingFriendshipRequest(String username1, String username2);
+
+    /**
+     * Method for rejecting a friendship request
+     * @param username1 - the username of the first user
+     * @param username2 - the username of the second user
+     * @return
+     */
+    boolean rejectFriendshipRequest(String username1, String username2);
+
+    /**
+     * Method for accepting a friendship request
+     * @param username1 - the username of the first user
+     * @param username2 - the username of the second user
+     * @return
+     */
+    boolean acceptFriendshipRequest(String username1, String username2);
+
+    /**
      * Method for adding a friendship
      * @param username1 - the username of the first user
      * @param username2 - the username of the second user
@@ -56,6 +80,12 @@ public interface Service<ID> {
      * @return all friendships
      */
     Iterable getAllFriendships();
+
+    /**
+     * Method for getting all friendship requests
+     * @return all friendship requests
+     */
+    Iterable getAllFriendshipRequests();
 
     /**
      * Method for getting the number of communities

@@ -5,5 +5,5 @@ package org.example.lab6networkfx.domain.validators;
  */
 public enum ValidatorStrategy {
     // The possible strategies for the validator
-    User, Friendship
+    User, Friendship, FriendshipRequest
 }

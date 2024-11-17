@@ -8,6 +8,7 @@ import org.example.lab6networkfx.controller.MainController;
 import org.example.lab6networkfx.domain.Friendship;
 import org.example.lab6networkfx.domain.Tuple;
 import org.example.lab6networkfx.domain.User;
+import org.example.lab6networkfx.domain.friendships.FriendshipRequest;
 import org.example.lab6networkfx.domain.validators.Validator;
 import org.example.lab6networkfx.domain.validators.ValidatorFactory;
 import org.example.lab6networkfx.domain.validators.ValidatorStrategy;
@@ -24,6 +25,7 @@ public class App extends Application {
     private DataBaseAcces data;
     private AbstractDataBaseRepo<Integer, User> userRepo;
     private AbstractDataBaseRepo<Tuple<Integer,Integer>, Friendship> friendshipRepo;
+    private AbstractDataBaseRepo<Tuple<Integer, Integer>, FriendshipRequest> friendshipRequestRepo;
     public NetworkService service;
 
     @Override
@@ -32,6 +34,7 @@ public class App extends Application {
         ValidatorFactory factory = ValidatorFactory.getInstance();
         Validator userValidator = factory.createValidator(ValidatorStrategy.User);
         Validator friendValidator = factory.createValidator(ValidatorStrategy.Friendship);
+        Validator requestValidator = factory.createValidator(ValidatorStrategy.FriendshipRequest);
 
         String url = "jdbc:postgresql://localhost:5432/postgres";
         String username = "postgres";
@@ -47,7 +50,8 @@ public class App extends Application {
         DataBaseRepoFactory repoFactory = new DataBaseRepoFactory(data);
         this.userRepo = repoFactory.createRepo(DataBaseStrategy.User, userValidator);
         this.friendshipRepo = repoFactory.createRepo(DataBaseStrategy.Friendship, friendValidator);
-        this.service = new NetworkService(userRepo, friendshipRepo, "database");
+        this.friendshipRequestRepo = repoFactory.createRepo(DataBaseStrategy.FriendshipRequest, requestValidator);
+        this.service = new NetworkService(userRepo, friendshipRepo, friendshipRequestRepo, "database");
         initView(stage);
         stage.setMinHeight(400);
         stage.setMinWidth(700);

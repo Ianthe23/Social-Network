@@ -143,6 +143,9 @@
     -fx-background-color: #545754;
     -fx-text-fill: white;
     -fx-font-size: 12px;
+    -fx-border-radius: 3;
+    -fx-background-radius: 3;
+    -fx-border-color: transparent;
 }
 
 /*.button-panel-inner {*/
