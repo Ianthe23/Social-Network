@@ -4,18 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="41f2fb74-9aed-4b1e-911c-0a45cacd57e5" name="Changes" comment="added the possibility of friend requests">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/controller/TableFriendRequestsController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/views/table-friend-requests-view.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/views/table-friends-view.fxml" afterDir="false" />
+    <list default="true" id="41f2fb74-9aed-4b1e-911c-0a45cacd57e5" name="Changes" comment="improvements">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/controller/InputDeleteFriendController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/controller/TableFriendListController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/images/delete-friend.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/views/input-delete-friend-view.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/controller/InputFriendshipController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/controller/InputFriendshipController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/controller/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/controller/MainController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/service/NetworkService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/service/NetworkService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/main-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/main-view.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/styles/main-view.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/styles/main-view.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/views/input-friend-request-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/views/input-friend-request-view.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/views/input-friendship-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/views/input-friendship-view.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/views/input-user-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/views/input-user-view.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -134,7 +133,10 @@
       <workItem from="1731758477512" duration="3069000" />
       <workItem from="1731766527306" duration="5185000" />
       <workItem from="1731783724660" duration="7572000" />
-      <workItem from="1731832898418" duration="21635000" />
+      <workItem from="1731832898418" duration="22269000" />
+      <workItem from="1731855331941" duration="286000" />
+      <workItem from="1731862358122" duration="6089000" />
+      <workItem from="1731920502478" duration="1913000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit">
       <option name="closed" value="true" />
@@ -176,7 +178,15 @@
       <option name="project" value="LOCAL" />
       <updated>1731848231640</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="improvements">
+      <option name="closed" value="true" />
+      <created>1731854873935</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1731854873935</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -188,7 +198,8 @@
     <MESSAGE value="styling" />
     <MESSAGE value="add friend through GUI" />
     <MESSAGE value="added the possibility of friend requests" />
-    <option name="LAST_COMMIT_MESSAGE" value="added the possibility of friend requests" />
+    <MESSAGE value="improvements" />
+    <option name="LAST_COMMIT_MESSAGE" value="improvements" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/lab6_network_fx$Main.ic" NAME="Main Coverage Results" MODIFIED="1731848459897" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">

@@ -23,71 +23,92 @@
     -fx-border-style: solid;
 }
 
-.table-button {
-    -fx-background-color: -fx-primary-color;
-    -fx-cursor: hand;
+
+.table-view{
+    -fx-background-color: transparent;
+    -fx-border-color: #ab0319;
+    -fx-border-radius: 5px;
 }
-.table-button:hover{
+
+.table-view:focused{
     -fx-background-color: transparent;
 }
-.table-view {
-    -fx-border-color: transparent;
-    -fx-background-color: transparent; /* OR  -fx-background-insets: 0.0; */
-    -fx-border-radius: 6;
+
+.table-view .column-header-background{
+    -fx-background-color: rgba(255, 255, 255, 0.92);
+    -fx-border-color: #ab0319;
+    -fx-border-width: 0px 0px 1px 0px ;
+    -fx-border-style: solid;
 }
-.table-view .column-header-background,
-.table-view .column-header-background .filler,
-.table-view .corner {
+.table-view:row-selection .column-header-background .filler{
+    -fx-background-color:rgba(255, 255, 255, 0.92);
+}
+.table-view:row-selection .column-header-background .show-hide-columns-button{
+    -fx-background-color:rgba(255, 255, 255, 0.92);
+}
+
+.table-view .column-header-background .label{
     -fx-background-color: transparent;
+    -fx-text-fill: #ab0319;
+    -fx-font-weight:bold;
+    -fx-font-size:16px;
 }
+
 .table-view .column-header {
-    -fx-background-color: -fx-light-grey-color;
-    -fx-border-color: -fx-grey-color;
-}
-.table-view .column-header .label{
-    -fx-font-weight: bold;
-    -fx-alignment: center-left;
-}
-/* This is just magic */
-.table-row-cell:filled {
     -fx-background-color: transparent;
-    -fx-border-color: transparent -fx-lightest-grey-color -fx-lightest-grey-color -fx-lightest-grey-color, transparent;
-    -fx-border-insets: 0, 1;
+    -fx-pref-height:50px;
 }
-.table-row-cell:empty {
-    -fx-background-color: transparent;
-}
-.table-row-cell:filled:hover {
-    -fx-background-color: -fx-light-grey-color;
-}
-.table-row-cell:filled:selected:hover {
-    -fx-background-color: -fx-light-grey-color;
-}
-.table-row-cell:filled:selected {
-    -fx-background-color: #eaeaea;
-    -fx-background-insets: 0.0;
-    -fx-background-radius: 0.0;
-}
-.table-row-cell:filled:selected .table-cell {
-    -fx-text-fill: black;
-}
-.table-view .cell:filled{
-    -fx-cell-size: 30;
-    -fx-alignment: center-left;
-}
-.check-box-table-cell > .check-box:selected .box .mark {
-    -fx-background-color: white;
-}
-.check-box-table-cell > .check-box:selected .box{
-    -fx-background-color: -fx-accent-color;
-}
-.table-view .placeholder .label {
-    -fx-text-fill: red;
-    -fx-padding:20px;
+.table-view  .table-column{
+    -fx-padding: 18 0 0 10;
+    -fx-border-width: 0px 0px 0px 0px ;
 }
 
-.table-row:selected {
+/* The increment and decrement button CSS class of scrollbar */
+.table-view .increment-button ,.table-view .decrement-button {
+    -fx-background-color:transparent;
+    -fx-background-radius: 2em;
 
+}
+
+/* The main scrollbar **track** CSS class  */
+.table-view .scroll-bar:horizontal .track,
+.table-view .scroll-bar:vertical .track{
+    -fx-background-color: transparent;
+    -fx-border-color:derive( #ab0319,80%);
+
+    -fx-background-radius: 2em;
+    -fx-border-radius:2em;
+}
+
+/* The main scrollbar **thumb** CSS class which we drag every time (movable) */
+.table-view .scroll-bar:horizontal .thumb,
+.table-view .scroll-bar:vertical .thumb {
+    -fx-background-color:derive( #ab0319,90%);
+    -fx-background-insets: 2, 0, 0;
+    -fx-background-radius: 2em;
+
+}
+
+.table-view .table-row-cell{
+    -fx-background-color:rgba(255, 255, 255, 0.92);
+    -fx-font-size:14px;
+    -fx-pref-height:50px;
+    -fx-border-width: 0px 0px 1px 0px ;
+    -fx-border-color:rgba(255, 255, 255, 0.92);
+}
+
+.table-view .table-row-cell:hover {
+    -fx-background-color:rgba(255, 255, 255, 0.92);
+}
+
+.table-view .table-row-cell:selected{
+    -fx-background-color: rgba(171, 3, 25, 0.74);
+    -fx-text-fill: white;
+}
+
+.table-view .table-row-cell:empty{
+    -fx-background-color:rgba(255, 255, 255, 0.92);
+    -fx-border-color:rgba(255, 255, 255, 0.92);
 }
 
 /* Label Styling */
@@ -102,20 +123,9 @@
     -fx-text-fill: #bbb;  /* Light grey text */
 }
 
-/* TableView Styling */
-.table-view {
-    -fx-border-color: #999;  /* Grey border */
-    -fx-table-cell-border-color: transparent;
-}
-
-.table-column-header {
-    -fx-background-color: #ccc;  /* Light grey header background */
-    -fx-font-weight: bold;
-}
-
 /* Button Styling */
 .button {
-    -fx-background-color: #d9d5d5;
+    -fx-background-color: rgba(255, 255, 255, 0.92);
     -fx-text-fill: white;
     -fx-font-size: 14px;
     -fx-background-radius: 5px;

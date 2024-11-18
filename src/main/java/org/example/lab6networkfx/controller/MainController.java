@@ -52,6 +52,9 @@ public class MainController implements Observer<NetworkEvent> {
     private Button btnFriendAdd;
 
     @FXML
+    private Button btnDeleteFriend;
+
+    @FXML
     private Button btnFriendList;
 
     @FXML
@@ -227,6 +230,12 @@ public class MainController implements Observer<NetworkEvent> {
                 } else {
                     AlertMessages.showMessage(null, Alert.AlertType.ERROR, "Error", "No user selected!");
                 }
+            } else if (event.getSource() == btnDeleteFriend) {
+                if (getSelectedUser() != null) {
+                    handleSceneInputDeleteFriend(getSelectedUser());
+                } else {
+                    AlertMessages.showMessage(null, Alert.AlertType.ERROR, "Error", "No user selected!");
+                }
             } else if (event.getSource() == btnFriendRequestsList) {
                 handleSceneInputRequests(getSelectedUser());
             }
@@ -318,6 +327,32 @@ public class MainController implements Observer<NetworkEvent> {
         }
     }
 
+    public void handleSceneInputDeleteFriend(User user) {
+        try {
+            URL resourceUrl = getClass().getResource("/org/example/lab6networkfx/views/input-delete-friend-view.fxml");
+            System.out.println("Resource URL: " + resourceUrl);
+
+            FXMLLoader loader = new FXMLLoader(resourceUrl);
+            loader.setLocation(resourceUrl);
+
+            AnchorPane root = (AnchorPane) loader.load();
+
+            Stage inputDataStage = new Stage();
+            inputDataStage.setTitle("Input Data Friendship");
+            inputDataStage.initModality(javafx.stage.Modality.WINDOW_MODAL);
+            Scene scene = new Scene(root);
+            scene.getStylesheets().add(getClass().getResource("/org/example/lab6networkfx/styles/main-view.css").toExternalForm());
+            inputDataStage.setScene(scene);
+
+            InputDeleteFriendController inputDeleteFriendController = loader.getController();
+            inputDeleteFriendController.setService(service, inputDataStage, user);
+            inputDataStage.show();
+        } catch(IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
     public void handleSceneInputFriendRequest(User user) {
         try {
             URL resourceUrl = getClass().getResource("/org/example/lab6networkfx/views/input-friend-request-view.fxml");
@@ -329,7 +364,7 @@ public class MainController implements Observer<NetworkEvent> {
             AnchorPane root = (AnchorPane) loader.load();
 
             Stage inputDataStage = new Stage();
-            inputDataStage.setTitle("Input Data Friendship Request");
+            inputDataStage.setTitle("Input Delete Friend");
             inputDataStage.initModality(javafx.stage.Modality.WINDOW_MODAL);
             Scene scene = new Scene(root);
             scene.getStylesheets().add(getClass().getResource("/org/example/lab6networkfx/styles/main-view.css").toExternalForm());
@@ -403,6 +438,7 @@ public class MainController implements Observer<NetworkEvent> {
         configureFadeTransition(btnFriendList);
         configureFadeTransition(btnFriendRequestsList);
         configureFadeTransition(btnSendRequest);
+        configureFadeTransition(btnDeleteFriend);
     }
 
     private void initializeUsers() {

@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.lab6networkfx.controller.InputFriendshipController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.lab6networkfx.controller.InputDeleteFriendController">
   <children>
     <VBox alignment="CENTER" prefHeight="400.0" prefWidth="600.0" spacing="10.0">
-      <Label text="Accept or Reject a Friend Request" />
+      <Label text="Delete a friend" />
       <HBox alignment="CENTER" spacing="10.0">
         <Label text="First Username:" />
         <TextField fx:id="user1Field" />
@@ -16,8 +19,7 @@
         <ComboBox fx:id="user2Field" />
       </HBox>
       <HBox alignment="CENTER" prefHeight="90.0" prefWidth="620.0" spacing="10.0">
-        <Button fx:id="btnAccept" onAction="#handleClicks" style="-fx-text-fill: black;" text="Accept" />
-        <Button fx:id="btnReject" onAction="#handleClicks" style="-fx-text-fill: black;" text="Reject" />
+        <Button fx:id="btnDelete" onAction="#handleClicks" style="-fx-text-fill: black;" text="Remove" />
         <Button fx:id="btnExit" onAction="#handleClicks" style="-fx-text-fill: black;" text="Cancel" />
       </HBox>
 
