@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="org.example.lab6networkfx.controller.TableFriendRequestsController"
-            prefHeight="400.0" prefWidth="600.0">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.lab6networkfx.controller.TableFriendListController">
+  <VBox alignment="TOP_CENTER" prefHeight="400" style="-fx-padding: 10;" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+    <HBox fx:id="tableHeader" alignment="CENTER" style="-fx-padding: 10; -fx-font-weight: bold;">
+      <Label style="-fx-font-size: 18px; -fx-text-fill: white;" text="Friends List" />
+    </HBox>
+    <VBox fx:id="tablePanel" alignment="TOP_CENTER" style="-fx-padding: 10;">
+      <TableView fx:id="friendListTableView" prefHeight="286.0" prefWidth="559.0">
+        <columns>
+          <TableColumn fx:id="tableFriendListUser2" prefWidth="279.40001714229584" text="Friend" />
+          <TableColumn fx:id="tableFriendListDate" prefWidth="279.7999267578125" text="Since" />
+        </columns>
+      </TableView>
+    </VBox>
+  </VBox>
 
 </AnchorPane>

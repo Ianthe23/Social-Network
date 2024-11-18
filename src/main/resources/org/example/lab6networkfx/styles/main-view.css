@@ -37,7 +37,7 @@
 .table-view .column-header-background{
     -fx-background-color: rgba(255, 255, 255, 0.92);
     -fx-border-color: #ab0319;
-    -fx-border-width: 0px 0px 1px 0px ;
+    -fx-border-width: 0px 1px 1px 0px;
     -fx-border-style: solid;
 }
 .table-view:row-selection .column-header-background .filler{
@@ -48,6 +48,8 @@
 }
 
 .table-view .column-header-background .label{
+    -fx-wrap-text: true; /* Enable text wrapping */
+    -fx-alignment: CENTER_LEFT; /* Aligns the text to the left */
     -fx-background-color: transparent;
     -fx-text-fill: #ab0319;
     -fx-font-weight:bold;
@@ -93,7 +95,7 @@
     -fx-background-color:rgba(255, 255, 255, 0.92);
     -fx-font-size:14px;
     -fx-pref-height:50px;
-    -fx-border-width: 0px 0px 1px 0px ;
+    -fx-border-width: 0px 0px 1px 0px;
     -fx-border-color:rgba(255, 255, 255, 0.92);
 }
 

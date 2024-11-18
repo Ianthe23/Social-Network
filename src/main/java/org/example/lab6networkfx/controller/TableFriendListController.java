@@ -33,29 +33,26 @@ public class TableFriendListController {
     Stage inputStage;
     User user;
 
-//    public void setService(NetworkService service, Stage stage, User user) {
-//        this.service = service;
-//        this.inputStage = stage;
-//        this.user = user;
-//
-//        initItems();
-//        initializeTable();
-//    }
-//
-//    @FXML
-//    public void initialize() {
-//        initializeTable();
-//    }
+    public void setService(NetworkService service, Stage stage, User user) {
+        this.service = service;
+        this.inputStage = stage;
+        this.user = user;
 
-//    private void initializeTable() {
-//        if (cellData -> cellData.getValue().getUser1().getUsername().equals(user.getUsername())) {
-//            tableFriendListUser2.setCellValueFactory(cellData->new SimpleStringProperty(cellData.getValue().getUser2().getUsername()));
-//        } else {
-//            tableFriendListUser2.setCellValueFactory(cellData->new SimpleStringProperty(cellData.getValue().getUser1().getUsername()));
-//        }
-//        tableFriendListUser2.setCellValueFactory(cellData->new SimpleStringProperty(cellData.getValue().getUser2().getUsername()));
-//        tableFriendListDate.setCellValueFactory(cellData->new SimpleStringProperty(cellData.getValue().getSince().toString()));
-//    }
+        initItems();
+        initializeTable();
+    }
+
+    @FXML
+    public void initialize() {
+        initializeTable();
+    }
+
+    private void initializeTable() {
+        tableFriendListUser2.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getUser2().getUsername()));
+        tableFriendListDate.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getSince().toString()));
+
+        friendListTableView.setItems(items);
+    }
 
     private void initItems() {
         items.clear();

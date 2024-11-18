@@ -14,6 +14,7 @@ import javafx.event.ActionEvent;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class InputFriendshipController {
     @FXML
@@ -58,9 +59,10 @@ public class InputFriendshipController {
                 );
             }
         });
-
+        //remove all duplicates from users
+        Set<String> usersSet = Set.copyOf(users);
         user1Field.setText(user.getUsername());
-        user2Field.getItems().addAll(users);
+        user2Field.getItems().addAll(usersSet);
     }
 
     private void handleAdd() {

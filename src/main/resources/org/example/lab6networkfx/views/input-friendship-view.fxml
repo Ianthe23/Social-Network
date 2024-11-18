@@ -5,17 +5,20 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.lab6networkfx.controller.InputFriendshipController">
   <children>
-    <VBox alignment="CENTER" prefHeight="400.0" prefWidth="600.0" spacing="10.0">
-      <Label text="Accept or Reject a Friend Request" />
-      <HBox alignment="CENTER" spacing="10.0">
-        <Label text="First Username:" />
-        <TextField fx:id="user1Field" />
-      </HBox>
-      <HBox alignment="CENTER" spacing="10.0">
-        <Label text="Second Username:" />
-        <ComboBox fx:id="user2Field" />
-      </HBox>
-      <HBox alignment="CENTER" prefHeight="90.0" prefWidth="620.0" spacing="10.0">
+    <VBox alignment="CENTER" maxWidth="300.0" spacing="10.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="100.0">
+      <VBox alignment="TOP_CENTER" prefWidth="100" styleClass="button-panel">
+        <Label prefHeight="41.0" prefWidth="264.0" style="-fx-font-weight: bold; -fx-text-fill: rgba(255,255,255,0.98)" text="Accept or Reject a Friend Request" />
+        <HBox alignment="CENTER" prefHeight="40.0" prefWidth="302.0" spacing="10.0">
+          <Label style="-fx-text-fill: rgba(255,255,255,0.98)" text="First Username:" />
+          <TextField fx:id="user1Field" />
+        </HBox>
+        <HBox alignment="CENTER" prefHeight="50.0" prefWidth="302.0" spacing="10.0">
+          <Label style="-fx-text-fill: rgba(255,255,255,0.98)" text="Second Username:" />
+          <ComboBox fx:id="user2Field" style="-fx-text-fill: rgba(255,255,255,0.98)" />
+        </HBox>
+      </VBox>
+
+      <HBox alignment="CENTER" prefHeight="68.0" prefWidth="300.0" spacing="10.0">
         <Button fx:id="btnAccept" onAction="#handleClicks" style="-fx-text-fill: black;" text="Accept" />
         <Button fx:id="btnReject" onAction="#handleClicks" style="-fx-text-fill: black;" text="Reject" />
         <Button fx:id="btnExit" onAction="#handleClicks" style="-fx-text-fill: black;" text="Cancel" />

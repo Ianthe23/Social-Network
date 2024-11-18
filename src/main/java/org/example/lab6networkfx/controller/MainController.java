@@ -147,6 +147,21 @@ public class MainController implements Observer<NetworkEvent> {
                 btnAdd.setVisible(true);
                 btnAdd.setManaged(true);
 
+                btnSendRequest.setVisible(true);
+                btnSendRequest.setManaged(true);
+
+                btnFriendAdd.setVisible(true);
+                btnFriendAdd.setManaged(true);
+
+                btnDeleteFriend.setVisible(true);
+                btnDeleteFriend.setManaged(true);
+
+                btnFriendList.setVisible(true);
+                btnFriendList.setManaged(true);
+
+                btnFriendRequestsList.setVisible(true);
+                btnFriendRequestsList.setManaged(true);
+
             } else if (friendshipsRadioButton.isSelected()) {
                 tablePanel.setVisible(true);
                 tablePanel.setManaged(true);
@@ -165,6 +180,18 @@ public class MainController implements Observer<NetworkEvent> {
 
                 btnAdd.setVisible(false);
                 btnAdd.setManaged(false);
+
+                btnDeleteFriend.setVisible(false);
+                btnDeleteFriend.setManaged(false);
+
+                btnFriendAdd.setVisible(false);
+                btnFriendAdd.setManaged(false);
+
+                btnFriendList.setVisible(false);
+                btnFriendList.setManaged(false);
+
+                btnSendRequest.setVisible(false);
+                btnSendRequest.setManaged(false);
 
             } else {
                 tablePanel.setVisible(false);
@@ -210,7 +237,6 @@ public class MainController implements Observer<NetworkEvent> {
         }
     }
 
-
     @FXML
     private void handleUserPanelClick(ActionEvent event) {
         if (usersRadioButton.isSelected()) {
@@ -236,6 +262,12 @@ public class MainController implements Observer<NetworkEvent> {
                 } else {
                     AlertMessages.showMessage(null, Alert.AlertType.ERROR, "Error", "No user selected!");
                 }
+            } else if (event.getSource() == btnFriendList) {
+                if (getSelectedUser() != null) {
+                    handleSceneTableFriendList(getSelectedUser());
+                } else {
+                    AlertMessages.showMessage(null, Alert.AlertType.ERROR, "Error", "No user selected!");
+                }
             } else if (event.getSource() == btnFriendRequestsList) {
                 handleSceneInputRequests(getSelectedUser());
             }
@@ -243,8 +275,8 @@ public class MainController implements Observer<NetworkEvent> {
         } else if (friendshipsRadioButton.isSelected()) {
             if (event.getSource() == btnDelete) {
                 handleDeleteFriendship();
-            } else if (event.getSource() == btnFriendAdd) {
-                handleSceneInputFriendship(null);
+            } else if (event.getSource() == btnFriendRequestsList) {
+                handleSceneInputRequests(null);
             }
         }
     }
@@ -294,6 +326,32 @@ public class MainController implements Observer<NetworkEvent> {
 
             TableFriendRequestsController tableFriendRequestsController = loader.getController();
             tableFriendRequestsController.setService(service, inputDataStage, user);
+            inputDataStage.show();
+        } catch(IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void handleSceneTableFriendList(User user) {
+        try {
+            URL resourceUrl = getClass().getResource("/org/example/lab6networkfx/views/table-friends-view.fxml");
+            System.out.println("Resource URL: " + resourceUrl);
+
+            FXMLLoader loader = new FXMLLoader(resourceUrl);
+            loader.setLocation(resourceUrl);
+
+            AnchorPane root = (AnchorPane) loader.load();
+
+            Stage inputDataStage = new Stage();
+            inputDataStage.setTitle("Table Friends List");
+            inputDataStage.initModality(javafx.stage.Modality.WINDOW_MODAL);
+            Scene scene = new Scene(root);
+            scene.getStylesheets().add(getClass().getResource("/org/example/lab6networkfx/styles/main-view.css").toExternalForm());
+            inputDataStage.setScene(scene);
+
+            TableFriendListController tableFriendListController= loader.getController();
+            tableFriendListController.setService(service, inputDataStage, user);
             inputDataStage.show();
         } catch(IOException e) {
             e.printStackTrace();
