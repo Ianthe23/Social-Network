@@ -14,10 +14,11 @@ public interface Service<ID> {
      * @param firstName - the first name of the user
      * @param lastName - the last name of the user
      * @param username - the username of the user
+     * @param password - the password of the user
      * @return true - if the user was added
      *         false - if the user already exists
      */
-    boolean addUser(String firstName, String lastName, String username);
+    boolean addUser(String firstName, String lastName, String username, String password);
 
     /**
      * Method for removing a user

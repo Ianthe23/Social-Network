@@ -51,8 +51,8 @@ public class NetworkService implements Service<Integer>, Observable<NetworkEvent
      *         false - if the user already exists
      */
     @Override
-    public boolean addUser(String firstName, String lastName, String username) {
-        User newUser = new User(firstName, lastName, username);
+    public boolean addUser(String firstName, String lastName, String username, String password) {
+        User newUser = new User(firstName, lastName, username, password);
         userRepo.save(newUser);
         notifyObservers(new NetworkEvent(EventType.ADD, newUser));
         return true;
@@ -312,7 +312,7 @@ public class NetworkService implements Service<Integer>, Observable<NetworkEvent
      * @param username - the username of the user
      * @return the user with the specified username
      */
-    private User findUsername(String username) {
+    public User findUsername(String username) {
         return StreamSupport.stream(userRepo.findAll().spliterator(),false)
                 .filter(user->user.getUsername().equals(username))
                 .findFirst()

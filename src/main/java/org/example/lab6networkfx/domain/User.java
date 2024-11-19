@@ -11,6 +11,7 @@ public class User extends Entity<Integer>{
     private String firstName;
     private String lastName;
     private String username;
+    private String password;
     private ArrayList<User> friendships;
     private ArrayList<User> pendingFriendships;
 
@@ -20,10 +21,11 @@ public class User extends Entity<Integer>{
      * @param lastName - the last name
      * @param username - the username
      */
-    public User(String firstName, String lastName, String username) {
+    public User(String firstName, String lastName, String username, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
+        this.password = password;
         this.friendships = new ArrayList<>();
         this.pendingFriendships = new ArrayList<>();
     }
@@ -106,6 +108,22 @@ public class User extends Entity<Integer>{
      */
     public void setPendingFriendships(ArrayList<User> pendingFriendships) {
         this.pendingFriendships = pendingFriendships;
+    }
+
+    /**
+     * Getter for the password
+     * @return password - the password
+     */
+    public String getPassword() {
+        return password;
+    }
+
+    /**
+     * Setter for the password
+     * @param password - the new password
+     */
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     /**

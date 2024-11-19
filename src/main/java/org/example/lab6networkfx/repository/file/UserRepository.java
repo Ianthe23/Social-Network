@@ -24,7 +24,7 @@ public class UserRepository extends AbstractFileRepository<Integer, User>{
     @Override
     public User lineToEntity(String line) {
         String[] splited = line.split(";");
-        User u = new User(splited[1], splited[2], splited[3]);
+        User u = new User(splited[1], splited[2], splited[3], splited[4]);
         u.setId(Integer.parseInt(splited[0]));
         return u;
     }

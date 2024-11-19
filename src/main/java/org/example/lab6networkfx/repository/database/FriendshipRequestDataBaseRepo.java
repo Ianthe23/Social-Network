@@ -35,8 +35,8 @@ public class FriendshipRequestDataBaseRepo extends AbstractDataBaseRepo<Tuple<In
         String sql = """
         SELECT 
             fr.sender_id, fr.receiver_id,
-            u1.firstname AS firstName1, u1.lastname AS lastName1, u1.username AS username1,
-            u2.firstname AS firstName2, u2.lastname AS lastName2, u2.username AS username2,
+            u1.firstname AS firstName1, u1.lastname AS lastName1, u1.username AS username1, u1.password AS password1,
+            u2.firstname AS firstName2, u2.lastname AS lastName2, u2.username AS username2, u2.password AS password2,
             fr.status, fr.created_at
         FROM 
             "FriendshipRequest" fr
@@ -72,13 +72,15 @@ public class FriendshipRequestDataBaseRepo extends AbstractDataBaseRepo<Tuple<In
         String firstName1 = resultSet.getString("firstName1");
         String lastName1 = resultSet.getString("lastName1");
         String username1 = resultSet.getString("username1");
+        String password1 = resultSet.getString("password1");
         String firstName2 = resultSet.getString("firstName2");
         String lastName2 = resultSet.getString("lastName2");
         String username2 = resultSet.getString("username2");
+        String password2 = resultSet.getString("password2");
 
-        User user1 = new User(firstName1, lastName1, username1);
+        User user1 = new User(firstName1, lastName1, username1, password1);
         user1.setId(id1);
-        User user2 = new User(firstName2, lastName2, username2);
+        User user2 = new User(firstName2, lastName2, username2, password2);
         user2.setId(id2);
 
         FriendshipStatus status = FriendshipStatus.valueOf(resultSet.getString("status"));
@@ -92,8 +94,8 @@ public class FriendshipRequestDataBaseRepo extends AbstractDataBaseRepo<Tuple<In
         String findAllStatement = """
         SELECT 
             fr.sender_id, fr.receiver_id,
-            u1.firstname AS firstName1, u1.lastname AS lastName1, u1.username AS username1,
-            u2.firstname AS firstName2, u2.lastname AS lastName2, u2.username AS username2,
+            u1.firstname AS firstName1, u1.lastname AS lastName1, u1.username AS username1, u1.password AS password1,
+            u2.firstname AS firstName2, u2.lastname AS lastName2, u2.username AS username2, u2.password AS password2,
             fr.status, fr.created_at
         FROM 
             "FriendshipRequest" fr

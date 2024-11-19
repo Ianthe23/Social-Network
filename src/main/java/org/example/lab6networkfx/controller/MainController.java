@@ -32,6 +32,7 @@ import java.util.stream.StreamSupport;
 
 public class MainController implements Observer<NetworkEvent> {
     NetworkService service;
+    private User userLogged;
 
     @FXML
     private RadioButton usersRadioButton;
@@ -103,8 +104,9 @@ public class MainController implements Observer<NetworkEvent> {
     @FXML
     private TableColumn<Friendship, String> tableFriendshipDate ;
 
-    public void setNetworkService(NetworkService service) {
+    public void setNetworkService(NetworkService service, User user) {
         this.service = service;
+        this.userLogged = user;
         service.addObserver(this);
         initModelUsers();
         initModelFriendships();

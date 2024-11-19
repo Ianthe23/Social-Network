@@ -3,6 +3,7 @@ package org.example.lab6networkfx.controller;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
 import javafx.stage.Stage;
 import org.example.lab6networkfx.domain.User;
 import org.example.lab6networkfx.service.NetworkService;
@@ -21,6 +22,9 @@ public class InputUserController {
     private TextField usernameField;
 
     @FXML
+    private PasswordField passwordField;
+
+    @FXML
     private Button btnAdd;
 
     @FXML
@@ -34,6 +38,7 @@ public class InputUserController {
         firstNameField.setText("");
         lastNameField.setText("");
         usernameField.setText("");
+        passwordField.setText("");
     }
 
     public void setService(NetworkService service, Stage stage, User user) {
@@ -50,14 +55,16 @@ public class InputUserController {
         firstNameField.setText(user.getFirstName());
         lastNameField.setText(user.getLastName());
         usernameField.setText(user.getUsername());
+        passwordField.setText(user.getPassword());
     }
 
     private void handleAdd() {
         String firstName = firstNameField.getText();
         String lastName = lastNameField.getText();
         String username = usernameField.getText();
+        String password = passwordField.getText();
 
-        User user = new User(firstName, lastName, username);
+        User user = new User(firstName, lastName, username, password);
         saveUser(user);
 
         clearFields();
@@ -69,7 +76,7 @@ public class InputUserController {
 
     private void saveUser(User user) {
         try {
-            service.addUser(user.getFirstName(), user.getLastName(), user.getUsername());
+            service.addUser(user.getFirstName(), user.getLastName(), user.getUsername(), user.getPassword());
             AlertMessages.showMessage(null, Alert.AlertType.CONFIRMATION, "Add User", "User added successfully!");
             inputStage.close();
         } catch (Exception e) {

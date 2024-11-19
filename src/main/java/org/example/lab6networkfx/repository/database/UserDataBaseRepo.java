@@ -39,9 +39,11 @@ public class UserDataBaseRepo extends AbstractDataBaseRepo<Integer, User> {
             String firstName = resultSet.getString("firstname");
             String lastName = resultSet.getString("lastname");
             String username = resultSet.getString("username");
-            User user = new User(firstName, lastName, username);
+            String password = resultSet.getString("password");
+            User user = new User(firstName, lastName, username, password);
             user.setId(id);
             user.setFriendships(new ArrayList<>()); // Initialize an empty list for friendships
+            user.setPendingFriendships(new ArrayList<>()); // Initialize an empty list for pending friendships
             return Optional.of(user);
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -187,12 +189,13 @@ public class UserDataBaseRepo extends AbstractDataBaseRepo<Integer, User> {
             throw new RepoException("User already exists");
         }
 
-        String sql = "INSERT INTO \"User\" (firstname, lastname, username) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO \"User\" (firstname, lastname, username, password) VALUES (?, ?, ?, ?)";
 
         try (PreparedStatement statement = data.createStatement(sql)) {
             statement.setString(1, entity.getFirstName());
             statement.setString(2, entity.getLastName());
             statement.setString(3, entity.getUsername());
+            statement.setString(4, entity.getPassword());
 
             int response = statement.executeUpdate();
             return response > 0 ? Optional.of(entity) : Optional.empty();
@@ -237,12 +240,13 @@ public class UserDataBaseRepo extends AbstractDataBaseRepo<Integer, User> {
             throw new IllegalArgumentException("Entity must not be null");
         }
         validator.validate(entity);
-        String sql = "UPDATE \"" + table + "\"" + " SET firstname = ?, lastname = ?, username = ? WHERE id = ?";
+        String sql = "UPDATE \"" + table + "\"" + " SET firstname = ?, lastname = ?, username = ?, password = ?, WHERE id = ?";
         try {
             PreparedStatement statement = data.createStatement(sql);
             statement.setString(1, entity.getFirstName());
             statement.setString(2, entity.getLastName());
             statement.setString(3, entity.getUsername());
+            statement.setString(4, entity.getPassword());
             statement.setInt(4, entity.getId());
             int response = statement.executeUpdate();
             return response == 1 ? Optional.of(entity) : Optional.empty();

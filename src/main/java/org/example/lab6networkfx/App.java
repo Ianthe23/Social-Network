@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.example.lab6networkfx.controller.LoginController;
 import org.example.lab6networkfx.controller.MainController;
 import org.example.lab6networkfx.domain.Friendship;
 import org.example.lab6networkfx.domain.Tuple;
@@ -60,14 +61,14 @@ public class App extends Application {
 
     private void initView(Stage primaryStage) throws IOException {
         FXMLLoader stageLoader = new FXMLLoader();
-        stageLoader.setLocation(getClass().getResource("main-view.fxml"));
+        stageLoader.setLocation(getClass().getResource("views/login-view.fxml"));
         Scene scene = new Scene(stageLoader.load());
         scene.getStylesheets().add(getClass().getResource("/org/example/lab6networkfx/styles/main-view.css").toExternalForm());
-        primaryStage.setTitle("Network Application");
+        primaryStage.setTitle("Log In");
         primaryStage.setScene(scene);
 
-        MainController controller = stageLoader.getController();
-        controller.setNetworkService(service);
+        LoginController controller = stageLoader.getController();
+        controller.setLoginController(service, primaryStage);
     }
 
     public static void main(String[] args) {

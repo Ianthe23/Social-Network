@@ -35,7 +35,9 @@ public class UI {
         String lastName = scanner.nextLine();
         System.out.print("Enter username: ");
         String username = scanner.nextLine();
-        service.addUser(firstName, lastName, username);
+        System.out.println();
+        String password = scanner.nextLine();
+        service.addUser(firstName, lastName, username, password);
         System.out.println("\u001B[32mOperation successful\u001B[0m\n");
     }
 
