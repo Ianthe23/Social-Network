@@ -12,10 +12,52 @@
     -fx-border-style: solid;
 }
 
-.custom-combo-box {
-    -fx-background-color: #ffffff !important;
-    -fx-text-fill: #000000 !important;
-    /* Other styles specific to this combo box */
+.scroll-bar:vertical {
+    -fx-background-color: #333; /* Background of scrollbar */
+    -fx-pref-width: 8px; /* Width of scrollbar */
+}
+
+.scroll-bar:vertical .thumb {
+    -fx-background-color: #888; /* Scrollbar thumb color */
+    -fx-background-radius: 4px; /* Rounded corners */
+}
+
+.scroll-bar:vertical .increment-button, .scroll-bar:vertical .decrement-button {
+    -fx-background-color: #333; /* Color of the increment and decrement buttons */
+    -fx-background-radius: 4px; /* Rounded corners */
+}
+
+.scroll-bar:vertical .increment-arrow, .scroll-bar:vertical .decrement-arrow {
+    -fx-background-color: #888; /* Color of the increment and decrement arrows */
+}
+
+.scroll-bar:vertical .track {
+    -fx-background-color: #333; /* Color of the track */
+    -fx-background-radius: 4px; /* Rounded corners */
+}
+
+.scroll-bar:horizontal {
+    -fx-background-color: #333; /* Background of scrollbar */
+    -fx-pref-height: 8px; /* Height of scrollbar */
+}
+
+.scroll-bar:horizontal .thumb {
+    -fx-background-color: #888; /* Scrollbar thumb color */
+    -fx-background-radius: 4px; /* Rounded corners */
+}
+
+.scroll-bar:horizontal .increment-button, .scroll-bar:horizontal .decrement-button {
+    -fx-background-color: #333; /* Color of the increment and decrement buttons */
+    -fx-background-radius: 4px; /* Rounded corners */
+}
+
+.scroll-bar:horizontal .increment-arrow, .scroll-bar:horizontal .decrement-arrow {
+    -fx-background-color: #888; /* Color of the increment and decrement arrows */
+}
+
+.scroll-bar:horizontal .track {
+    -fx-background-color: #333; /* Color of the track */
+    -fx-background-radius: 4px; /* Rounded corners */
 }
 
 .list-view {
@@ -29,7 +71,8 @@
     -fx-border-width: 1;
 }
 
-.list-cell {
+
+.list-view .list-cell {
     -fx-background-color: #3c3c3c;
     -fx-text-fill: #ffffff;
     -fx-font-size: 14px;
@@ -37,20 +80,16 @@
 
 }
 
-.list-cell:filled:selected {
+.list-view .list-cell:filled:selected {
     -fx-background-color: #4f535c;
     -fx-text-fill: #ffffff;
     -fx-background-radius: 10; /* Match the list-view rounding */
 }
 
-.list-cell:filled:hover {
+.list-view .list-cell:filled:hover {
     -fx-background-color: #3b3e45;
     -fx-text-fill: #ffffff;
     -fx-background-radius: 10; /* Match the list-view rounding */
-}
-
-.label {
-    -fx-text-fill: #b9bbbe;
 }
 
 /* Scroll bar styling */
@@ -143,7 +182,7 @@
 /* Label Styling */
 .label {
     -fx-font-size: 16px;
-    -fx-text-fill: #8c8888;  /* Light grey text */
+    /*-fx-text-fill: #d7d3d3;  !* Light grey text *!*/
 }
 
 .label-style {

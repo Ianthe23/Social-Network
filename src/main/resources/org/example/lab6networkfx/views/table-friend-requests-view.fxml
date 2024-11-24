@@ -9,15 +9,8 @@
     <HBox fx:id="tableHeader" alignment="CENTER" style="-fx-padding: 10; -fx-font-weight: bold;">
       <Label style="-fx-font-size: 18px; -fx-text-fill: white;" text="Friend Requests" />
     </HBox>
-    <VBox fx:id="tablePanel" alignment="TOP_CENTER" style="-fx-padding: 10;">
-      <TableView fx:id="friendRequestTableView" prefHeight="286.0" prefWidth="559.0">
-        <columns>
-          <TableColumn fx:id="tableFriendRequestUser1" prefWidth="110.0000022649765" text="User 1" />
-          <TableColumn fx:id="tableFriendRequestUser2" prefWidth="109.20002746582031" text="User 2" />
-          <TableColumn fx:id="tableFriendRequestStatus" prefWidth="129.4000244140625" text="Status" />
-          <TableColumn fx:id="tableFriendRequestDate" prefWidth="211.39987182617188" text="Date" />
-        </columns>
-      </TableView>
+    <VBox fx:id="listPanel" alignment="TOP_CENTER" style="-fx-padding: 10;">
+      <ListView fx:id="friendRequestsListView" prefHeight="200" prefWidth="400" />
     </VBox>
   </VBox>
 

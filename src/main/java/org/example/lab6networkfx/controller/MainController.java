@@ -12,6 +12,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
@@ -30,6 +31,7 @@ import org.example.lab6networkfx.domain.User;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -37,9 +39,11 @@ import java.util.stream.StreamSupport;
 
 
 public class MainController implements Observer<NetworkEvent> {
-    NetworkService service;
-    MessageService messageService;
+    private NetworkService service;
+    private MessageService messageService;
     private User userLogged;
+    private User selectedUser;
+
     private List<FriendshipRequest> friendRequests;
 
     Stage mainStage;
@@ -87,6 +91,14 @@ public class MainController implements Observer<NetworkEvent> {
     private ListView<Message> chatListView;
     @FXML
     private TextField messageInput;
+    @FXML
+    private TextField searchField;
+    @FXML
+    private Label chatLabel;
+    @FXML
+    private Button btnDeleteMessage;
+    @FXML
+    private Button btnEditMessage;
 
     @FXML
     private VBox listPanel;
@@ -153,7 +165,7 @@ public class MainController implements Observer<NetworkEvent> {
         initModelUsers();
         initModelFriendships();
         initModelFriendRequests();
-        initModelMessages();
+        initModelMessages(null, null);
     }
 
     @FXML
@@ -273,6 +285,20 @@ public class MainController implements Observer<NetworkEvent> {
         }
     }
 
+    public void handleMessageItemClick(MouseEvent event) {
+        if (event.getClickCount() == 1) { // Detect single click
+            Message selectedItem = chatListView.getSelectionModel().getSelectedItem();
+            if (selectedItem != null) {
+                int selectedIndex = chatListView.getSelectionModel().getSelectedIndex();
+                boolean alreadySelected = chatListView.getSelectionModel().isSelected(selectedIndex);
+                if (alreadySelected) {
+                    // Deselect the line if it is already selected
+                    chatListView.getSelectionModel().clearSelection();
+                }
+            }
+        }
+    }
+
 //    public void handleFriendshipRowClick(MouseEvent event) {
 //        if (event.getClickCount() == 1) { // Se detectează un singur click
 //            Friendship selectedItem = friendshipTableView.getSelectionModel().getSelectedItem();
@@ -286,6 +312,18 @@ public class MainController implements Observer<NetworkEvent> {
 //            }
 //        }
 //    }
+
+    @FXML
+    private void handleSearch(KeyEvent event) {
+        String searchText = searchField.getText();
+            List<User> searchResults = new ArrayList<>();
+            for (User user : modelUsers) {
+                if (user.getUsername().contains(searchText) || user.getFirstName().contains(searchText) || user.getLastName().contains(searchText)) {
+                    searchResults.add(user);
+                }
+            }
+            userListView.setItems(FXCollections.observableArrayList(searchResults));
+    }
 
     @FXML
     private void handleUserPanelClick(ActionEvent event) {
@@ -308,12 +346,19 @@ public class MainController implements Observer<NetworkEvent> {
                 handleBackButton();
             } else if (event.getSource() == btnMessage) {
                 if (getSelectedUser() != null) {
-                    initializeMessages(userLogged, getSelectedUser());
+                    selectedUser = getSelectedUser();
+                    initializeMessages(userLogged, selectedUser);
                 } else {
                     AlertMessages.showMessage(mainStage, Alert.AlertType.ERROR, "Error", "No user selected!");
                 }
             } else if (event.getSource() == btnSendMessage) {
-                handleSendMessage(getSelectedUser());
+                handleSendMessage(selectedUser);
+            } else if (event.getSource() == btnDeleteMessage) {
+                if (getSelectedMessage() != null) {
+                    messageService.deleteMessage(getSelectedMessage());
+                } else {
+                    AlertMessages.showMessage(mainStage, Alert.AlertType.ERROR, "Error", "No message selected!");
+                }
             }
 
         } else if (friendshipsRadioButton.isSelected()) {
@@ -329,6 +374,8 @@ public class MainController implements Observer<NetworkEvent> {
             AlertMessages.showMessage(mainStage, Alert.AlertType.ERROR, "Error", "Message cannot be empty!");
         } else {
             messageService.sendMessage(userLogged, user, message);
+            //sort the messages by date
+            modelMessages.sort((o1, o2) -> o1.getDate().compareTo(o2.getDate()));
 //            modelMessages.add(new Message(message, LocalDateTime.now(), user, userLogged)); // Update the model
             messageInput.clear();
         }
@@ -474,8 +521,19 @@ public class MainController implements Observer<NetworkEvent> {
         return selected;
     }
 
-    private void initModelMessages() {
-        Iterable<Message> messages = messageService.getAllMessages();
+    private Message getSelectedMessage() {
+        Message selected = chatListView.getSelectionModel().getSelectedItem();
+        return selected;
+    }
+
+    private void initModelMessages(User user1, User user2) {
+        Iterable<Message> messages;
+        if (user1 == null || user2 == null) {
+            messages = messageService.getAllMessages();
+        }
+        else {
+            messages = messageService.getMessagesBetweenUsers(user1, user2);
+        }
         List<Message> messageList = StreamSupport.stream(messages.spliterator(), false).collect(Collectors.toList());
         modelMessages.setAll(messageList);
     }
@@ -505,7 +563,7 @@ public class MainController implements Observer<NetworkEvent> {
         initModelUsers();
         initModelFriendships();
         initModelFriendRequests();
-        initModelMessages();
+        initModelMessages(userLogged, selectedUser);
 
         if (networkEvent.getType() == EventType.PEND) {
             System.out.println("Pending request");
@@ -532,6 +590,8 @@ public class MainController implements Observer<NetworkEvent> {
         configureFadeTransition(backButton);
         configureFadeTransition(btnMessage);
         configureFadeTransition(btnSendMessage);
+        configureFadeTransition(btnDeleteMessage);
+        configureFadeTransition(btnEditMessage);
     }
 
     public void initializeUsers() {
@@ -565,7 +625,9 @@ public class MainController implements Observer<NetworkEvent> {
     }
 
     private void initializeMessages(User user1, User user2) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
         modelMessages.setAll(messageService.getMessagesBetweenUsers(user1, user2));
+        chatLabel.setText("Chat with " + user2.getUsername());
 
         chatListView.setCellFactory(param -> new ListCell<Message>() {
             @Override
@@ -576,9 +638,25 @@ public class MainController implements Observer<NetworkEvent> {
                     setGraphic(null);
                 } else {
                     Label messageLabel = new Label(message.getMessage());
-                    messageLabel.setStyle("-fx-text-fill: #ffffff;");
+                    messageLabel.setWrapText(true);
+                    messageLabel.setMaxWidth(170);
 
-                    HBox hbox = new HBox(messageLabel);
+                    Label dateLabel = new Label(message.getDate().format(formatter));
+                    dateLabel.setStyle("-fx-text-fill: #cccccc; -fx-font-size: 10px;");
+                    dateLabel.setAlignment(Pos.CENTER_RIGHT);
+
+                    VBox vbox = new VBox(messageLabel, dateLabel);
+                    vbox.setSpacing(2);
+                    vbox.setAlignment(Pos.CENTER_RIGHT);
+                    vbox.setStyle("-fx-background-radius: 10; -fx-padding: 5 10 5 10;");
+
+                    if (message.getFrom().equals(userLogged)) {
+                        vbox.setStyle(vbox.getStyle() + "-fx-background-color: #7c8bef; -fx-text-fill: #FFFFFF;"); // Color for logged user
+                    } else {
+                        vbox.setStyle(vbox.getStyle() + "-fx-background-color: #706d6c; -fx-text-fill: #FFFFFF;"); // Color for other user
+                    }
+
+                    HBox hbox = new HBox(vbox);
                     hbox.setSpacing(10);
                     hbox.setAlignment(message.getFrom().equals(userLogged) ? Pos.CENTER_RIGHT : Pos.CENTER_LEFT);
 

@@ -4,6 +4,8 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
@@ -35,6 +37,9 @@ public class TableFriendRequestsController {
     private TableColumn<FriendshipRequest, String> tableFriendRequestDate;
 
     @FXML
+    private ListView<FriendshipRequest> friendRequestsListView;
+
+    @FXML
     private ObservableList<FriendshipRequest> items = FXCollections.observableArrayList();
 
     NetworkService service;
@@ -47,21 +52,29 @@ public class TableFriendRequestsController {
         this.user = user;
 
         initItems();
-        initializeTable();
+        initializeList();
     }
 
     @FXML
     public void initialize() {
-        initializeTable();
+        initializeList();
     }
 
-    private void initializeTable() {
-        tableFriendRequestUser1.setCellValueFactory(cellData->new SimpleStringProperty(cellData.getValue().getUser1().getUsername()));
-        tableFriendRequestUser2.setCellValueFactory(cellData->new SimpleStringProperty(cellData.getValue().getUser2().getUsername()));
-        tableFriendRequestStatus.setCellValueFactory(cellData->new SimpleStringProperty(cellData.getValue().getStatus().toString()));
-        tableFriendRequestDate.setCellValueFactory(cellData->new SimpleStringProperty(cellData.getValue().getDate().toString()));
-
-        friendRequestTableView.setItems(items);
+    private void initializeList() {
+        //set the cell value factory for the list
+        friendRequestsListView.setCellFactory(param -> new ListCell<FriendshipRequest>(){
+            @Override
+            protected void updateItem(FriendshipRequest item, boolean empty) {
+                super.updateItem(item, empty);
+                if (item == null || empty) {
+                    setText(null);
+                } else {
+                    setText("Between " + item.getUser1().getUsername() + " and " + item.getUser2().getUsername() + " is " + item.getStatus() + " since " + item.getDate());
+                }
+            }
+        });
+        
+        friendRequestsListView.setItems(items);
     }
 
     private void initItems() {

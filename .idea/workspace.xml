@@ -4,22 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="41f2fb74-9aed-4b1e-911c-0a45cacd57e5" name="Changes" comment="added notification of friend request">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/images/message.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/images/return.png" afterDir="false" />
+    <list default="true" id="41f2fb74-9aed-4b1e-911c-0a45cacd57e5" name="Changes" comment="added messages between 2 users">
+      <change afterPath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/images/delete-message.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/images/edit.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/images/send-message.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/App.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/controller/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/controller/LoginController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/controller/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/controller/MainController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/controller/SignupController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/controller/SignupController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/domain/messages/Message.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/domain/messages/Message.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/repository/database/MessageDataBaseRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/repository/database/MessageDataBaseRepo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/repository/database/factory/DataBaseRepoFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/repository/database/factory/DataBaseRepoFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/repository/database/factory/DataBaseStrategy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/repository/database/factory/DataBaseStrategy.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/service/MessageService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/service/MessageService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/controller/TableFriendRequestsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/controller/TableFriendRequestsController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/main-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/main-view.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/styles/main-view.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/styles/main-view.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/views/input-friend-request-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/views/input-friend-request-view.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/views/table-friend-requests-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/views/table-friend-requests-view.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -148,7 +143,7 @@
       <workItem from="1732035106047" duration="6239000" />
       <workItem from="1732129600125" duration="215000" />
       <workItem from="1732178410683" duration="28367000" />
-      <workItem from="1732286351154" duration="28206000" />
+      <workItem from="1732286351154" duration="39727000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit">
       <option name="closed" value="true" />
@@ -238,7 +233,15 @@
       <option name="project" value="LOCAL" />
       <updated>1732446809094</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="added messages between 2 users">
+      <option name="closed" value="true" />
+      <created>1732467485890</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1732467485890</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -256,7 +259,8 @@
     <MESSAGE value="adding style to some views" />
     <MESSAGE value="added logging in and signing up" />
     <MESSAGE value="added notification of friend request" />
-    <option name="LAST_COMMIT_MESSAGE" value="added notification of friend request" />
+    <MESSAGE value="added messages between 2 users" />
+    <option name="LAST_COMMIT_MESSAGE" value="added messages between 2 users" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/lab6_network_fx$Main.ic" NAME="Main Coverage Results" MODIFIED="1731848459897" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">
