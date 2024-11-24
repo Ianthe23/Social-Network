@@ -10,6 +10,8 @@ import org.example.lab6networkfx.domain.Friendship;
 import org.example.lab6networkfx.domain.Tuple;
 import org.example.lab6networkfx.domain.User;
 import org.example.lab6networkfx.domain.friendships.FriendshipRequest;
+import org.example.lab6networkfx.domain.messages.Message;
+import org.example.lab6networkfx.domain.messages.ReplyMessage;
 import org.example.lab6networkfx.domain.validators.Validator;
 import org.example.lab6networkfx.domain.validators.ValidatorFactory;
 import org.example.lab6networkfx.domain.validators.ValidatorStrategy;
@@ -17,6 +19,7 @@ import org.example.lab6networkfx.repository.database.factory.DataBaseRepoFactory
 import org.example.lab6networkfx.repository.database.factory.DataBaseStrategy;
 import org.example.lab6networkfx.repository.database.utils.AbstractDataBaseRepo;
 import org.example.lab6networkfx.repository.database.utils.DataBaseAcces;
+import org.example.lab6networkfx.service.MessageService;
 import org.example.lab6networkfx.service.NetworkService;
 
 import java.io.IOException;
@@ -27,7 +30,9 @@ public class App extends Application {
     private AbstractDataBaseRepo<Integer, User> userRepo;
     private AbstractDataBaseRepo<Tuple<Integer,Integer>, Friendship> friendshipRepo;
     private AbstractDataBaseRepo<Tuple<Integer, Integer>, FriendshipRequest> friendshipRequestRepo;
+    private AbstractDataBaseRepo<Integer, Message> messageRepo;
     public NetworkService service;
+    public MessageService messageService;
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -53,6 +58,8 @@ public class App extends Application {
         this.friendshipRepo = repoFactory.createRepo(DataBaseStrategy.Friendship, friendValidator);
         this.friendshipRequestRepo = repoFactory.createRepo(DataBaseStrategy.FriendshipRequest, requestValidator);
         this.service = new NetworkService(userRepo, friendshipRepo, friendshipRequestRepo, "database");
+        this.messageRepo = repoFactory.createRepo(DataBaseStrategy.Message, null);
+        this.messageService = new MessageService(userRepo, friendshipRepo, messageRepo);
         initView(stage);
         stage.setMinHeight(400);
         stage.setMinWidth(700);
@@ -68,7 +75,7 @@ public class App extends Application {
         primaryStage.setScene(scene);
 
         LoginController controller = stageLoader.getController();
-        controller.setLoginController(service, primaryStage);
+        controller.setLoginController(service, messageService, primaryStage);
     }
 
     public static void main(String[] args) {

@@ -4,43 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="41f2fb74-9aed-4b1e-911c-0a45cacd57e5" name="Changes" comment="added logging in and signing up">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/domain/messages/Message.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/domain/messages/ReplyMessage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/repository/database/MessageDataBaseRepo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/repository/database/ReplyDataBaseRepo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/service/MessageService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/service/MessageSrv.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/images/ghost.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/images/requests.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/images/user.png" afterDir="false" />
+    <list default="true" id="41f2fb74-9aed-4b1e-911c-0a45cacd57e5" name="Changes" comment="added notification of friend request">
+      <change afterPath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/images/message.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/images/return.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/controller/AlertMessages.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/controller/AlertMessages.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/controller/InputDeleteFriendController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/controller/InputDeleteFriendController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/controller/InputFriendRequestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/controller/InputFriendRequestController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/controller/InputFriendshipController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/controller/InputFriendshipController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/controller/InputUserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/controller/InputUserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/App.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/controller/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/controller/LoginController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/controller/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/controller/MainController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/controller/SignupController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/controller/SignupController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/repository/database/FriendshipRequestDataBaseRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/repository/database/FriendshipRequestDataBaseRepo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/service/NetworkService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/service/NetworkService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/utils/events/EventType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/utils/events/EventType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/images/add-friend.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/images/add-friend.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/images/delete-friend.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/images/delete-friend.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/images/friend-request.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/images/friends.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/images/friends.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/images/send-request.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/images/send-request.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/domain/messages/Message.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/domain/messages/Message.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/repository/database/MessageDataBaseRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/repository/database/MessageDataBaseRepo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/repository/database/factory/DataBaseRepoFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/repository/database/factory/DataBaseRepoFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/repository/database/factory/DataBaseStrategy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/repository/database/factory/DataBaseStrategy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/service/MessageService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/service/MessageService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/main-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/main-view.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/styles/main-view.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/styles/main-view.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/views/input-delete-friend-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/views/input-delete-friend-view.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/views/input-friend-request-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/views/input-friend-request-view.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/views/input-friendship-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/views/input-friendship-view.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/views/input-user-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/views/input-user-view.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/views/login-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/views/login-view.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/views/signup-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/views/signup-view.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/views/table-friend-requests-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/views/table-friend-requests-view.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/views/table-friends-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/views/table-friends-view.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,10 +35,10 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Enum" />
-        <option value="FxmlFile" />
         <option value="CSS File" />
         <option value="Class" />
         <option value="Interface" />
+        <option value="FxmlFile" />
       </list>
     </option>
   </component>
@@ -87,32 +66,32 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.HelloApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.Build lab6-network-fx.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.lab6-network-fx [:org.example.lab6networkfx.App.main()].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.lab6-network-fx [:org.example.lab6networkfx.Main.main()].executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Ivona/Facultate/MAP/lab6-network-fx/src/main/resources/org/example/lab6networkfx/images&quot;,
-    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.HelloApplication.executor": "Run",
+    "Application.Main.executor": "Run",
+    "Gradle.Build lab6-network-fx.executor": "Run",
+    "Gradle.lab6-network-fx [:org.example.lab6networkfx.App.main()].executor": "Run",
+    "Gradle.lab6-network-fx [:org.example.lab6networkfx.Main.main()].executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "master",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/Ivona/Facultate/MAP/lab6-network-fx/src/main/resources/org/example/lab6networkfx/images",
+    "list.type.of.created.stylesheet": "CSS",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;postgresql&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "postgresql"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Ivona\Facultate\MAP\lab6-network-fx\src\main\resources\org\example\lab6networkfx\images" />
@@ -169,7 +148,7 @@
       <workItem from="1732035106047" duration="6239000" />
       <workItem from="1732129600125" duration="215000" />
       <workItem from="1732178410683" duration="28367000" />
-      <workItem from="1732286351154" duration="10909000" />
+      <workItem from="1732286351154" duration="28206000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit">
       <option name="closed" value="true" />
@@ -251,7 +230,15 @@
       <option name="project" value="LOCAL" />
       <updated>1732041899464</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="added notification of friend request">
+      <option name="closed" value="true" />
+      <created>1732446809094</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1732446809094</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -268,7 +255,8 @@
     <MESSAGE value="deleting hello controller and view" />
     <MESSAGE value="adding style to some views" />
     <MESSAGE value="added logging in and signing up" />
-    <option name="LAST_COMMIT_MESSAGE" value="added logging in and signing up" />
+    <MESSAGE value="added notification of friend request" />
+    <option name="LAST_COMMIT_MESSAGE" value="added notification of friend request" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/lab6_network_fx$Main.ic" NAME="Main Coverage Results" MODIFIED="1731848459897" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">

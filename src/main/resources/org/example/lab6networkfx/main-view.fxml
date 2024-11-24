@@ -28,7 +28,7 @@
             </HBox>
             <HBox prefHeight="42.0" prefWidth="230.0" style="-fx-padding: 10 10 10 10;">
               <VBox styleClass="button-panel">
-                <Label fx:id="friendRequestsLabel" style="-fx-font-size: 14px; -fx-text-fill: white;" wrapText="true" text="No new friend requests..." />
+                <Label fx:id="friendRequestsLabel" style="-fx-font-size: 14px; -fx-text-fill: white;" text="No new friend requests..." wrapText="true" />
               </VBox>
             </HBox>
           </VBox>
@@ -51,26 +51,23 @@
       <!-- Second Panel: Table View -->
       <AnchorPane minHeight="200" minWidth="410" style="-fx-background-color: #535556;" HBox.hgrow="ALWAYS">
         <VBox alignment="TOP_CENTER" prefHeight="410" style="-fx-padding: 10;" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
-          <HBox fx:id="tableHeader" alignment="CENTER" style="-fx-padding: 10; -fx-font-weight: bold;">
-            <Label style="-fx-font-size: 18px; -fx-text-fill: white;" text="Table" />
+          <HBox style="-fx-padding: 10">
+            <Button fx:id="backButton" alignment="TOP_LEFT" onAction="#handleUserPanelClick" prefHeight="26.0" prefWidth="31.0">
+              <graphic>
+                <ImageView fitHeight="23" fitWidth="27">
+                  <image>
+                    <Image url="@/org/example/lab6networkfx/images/return.png" />
+                  </image>
+                </ImageView>
+              </graphic>
+            </Button>
+          </HBox>
+          <HBox fx:id="tableHeader" style="-fx-padding: 10; -fx-font-weight: bold;">
+            <Label fx:id="listLabel" alignment="TOP_CENTER" contentDisplay="CENTER" prefHeight="27.0" prefWidth="365.0" style="-fx-font-size: 18px; -fx-text-fill: white; -fx-spacing: 10" text="All users" textAlignment="CENTER" />
           </HBox>
 
-          <VBox fx:id="tablePanel" alignment="TOP_CENTER" style="-fx-padding: 10; -fx-text-fill: white" VBox.vgrow="ALWAYS">
-            <TableView fx:id="userTableView" maxWidth="410" onMouseClicked="#handleUserRowClick" prefHeight="400">
-              <columns>
-                <TableColumn fx:id="tableUserID" prefWidth="50" text="ID" />
-                <TableColumn fx:id="tableFirstName" prefWidth="110" text="First Name" />
-                <TableColumn fx:id="tableLastName" prefWidth="100" text="Last Name" />
-                <TableColumn fx:id="tableUsername" prefWidth="100" text="Username" />
-              </columns>
-            </TableView>
-            <TableView fx:id="friendshipTableView" maxWidth="410" onMouseClicked="#handleFriendshipRowClick" prefHeight="400">
-              <columns>
-                <TableColumn fx:id="tableFriendshipUser1" prefWidth="107" text="1st User" />
-                <TableColumn fx:id="tableFriendshipUser2" prefWidth="98" text="2nd User" />
-                <TableColumn fx:id="tableFriendshipDate" prefWidth="147" text="Since Date" />
-              </columns>
-            </TableView>
+          <VBox fx:id="listPanel" alignment="TOP_CENTER" style="-fx-padding: 10; -fx-text-fill: white" VBox.vgrow="ALWAYS">
+            <ListView fx:id="userListView" maxWidth="410" onMouseClicked="#handleUserItemClick" prefHeight="400" />
           </VBox>
 
           <StackPane alignment="CENTER" VBox.vgrow="ALWAYS">
@@ -146,9 +143,41 @@
                 </ImageView>
               </graphic>
             </Button>
+            <Button fx:id="btnMessage" onAction="#handleUserPanelClick">
+              <tooltip>
+                <Tooltip text="Send Message" />
+              </tooltip>
+              <graphic>
+                <ImageView fitHeight="27" fitWidth="27">
+                  <image>
+                    <Image url="@/org/example/lab6networkfx/images/message.png" />
+                  </image>
+                </ImageView>
+              </graphic>
+            </Button>
           </VBox>
         </VBox>
       </AnchorPane>
+      <AnchorPane fx:id="messagePane" style="-fx-background-color: #3c3c3c;" HBox.hgrow="ALWAYS">
+        <VBox alignment="TOP_CENTER" prefHeight="600" style="-fx-padding: 10;">
+          <!-- Chat Header -->
+          <HBox alignment="CENTER_LEFT" style="-fx-background-color: #202225; -fx-padding: 10;">
+            <Label style="-fx-text-fill: #ffffff; -fx-font-size: 16px;" text="Chat" />
+          </HBox>
+
+          <!-- Chat Display Area -->
+          <ListView fx:id="chatListView" style="-fx-background-color: #36393f; -fx-control-inner-background: #36393f; -fx-text-fill: #ffffff;" VBox.vgrow="ALWAYS">
+            <!-- Messages will be styled here -->
+          </ListView>
+
+          <!-- Message Input Area -->
+          <HBox alignment="CENTER" spacing="10" style="-fx-padding: 10;">
+            <TextField fx:id="messageInput" prefHeight="27.0" prefWidth="175.0" promptText="Type your message..." style="-fx-background-color: #40444b; -fx-text-fill: #ffffff;" />
+            <Button fx:id="btnSendMessage" onAction="#handleUserPanelClick" style="-fx-background-color: #7289da; -fx-text-fill: #ffffff;" text="Send" />
+          </HBox>
+        </VBox>
+      </AnchorPane>
+
     </HBox>
   </children>
 </AnchorPane>

@@ -12,12 +12,15 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import org.example.lab6networkfx.domain.User;
+import org.example.lab6networkfx.domain.messages.Message;
+import org.example.lab6networkfx.service.MessageService;
 import org.example.lab6networkfx.service.NetworkService;
 
 import java.io.IOException;
 
 public class SignupController {
     NetworkService service;
+    MessageService messageService;
 
     @FXML
     private TextField txtFirstName;
@@ -42,8 +45,9 @@ public class SignupController {
 
     Stage inputStage;
 
-    public void setSignup(Stage stage, NetworkService service) {
+    public void setSignup(Stage stage, NetworkService service, MessageService messageService) {
         this.service = service;
+        this.messageService = messageService;
         this.inputStage = stage;
     }
 
@@ -79,7 +83,7 @@ public class SignupController {
             stage.setTitle("Log In");
             stage.setScene(scene);
             LoginController controller = loader.getController();
-            controller.setLoginController(service, stage);
+            controller.setLoginController(service, messageService, stage);
             AlertMessages.showMessage(inputStage, Alert.AlertType.INFORMATION,"Success","User added successfully!");
         } catch (Exception e) {
             AlertMessages.showMessage(inputStage, Alert.AlertType.ERROR,"Error",e.getMessage());
@@ -98,7 +102,7 @@ public class SignupController {
         stage.setTitle("Log In");
         stage.setScene(scene);
         LoginController controller = stageLoader.getController();
-        controller.setLoginController(service, stage);
+        controller.setLoginController(service, messageService, stage);
     }
 
 

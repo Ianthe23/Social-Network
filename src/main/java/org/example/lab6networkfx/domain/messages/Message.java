@@ -9,21 +9,15 @@ import java.util.Objects;
 
 public class Message extends Entity<Integer> {
     private User from;
-    private List<User> to;
+    private User to;
     private String message;
     private LocalDateTime date;
 
-    public Message(User from, String message, LocalDateTime date) {
-        this.from = from;
+    public Message(String message, LocalDateTime date, User to, User from) {
         this.message = message;
         this.date = date;
-    }
-
-    public Message(User from, String message, LocalDateTime date, List<User> to) {
-        this.from = from;
         this.to = to;
-        this.message = message;
-        this.date = date;
+        this.from = from;
     }
 
     public User getFrom() {
@@ -34,11 +28,11 @@ public class Message extends Entity<Integer> {
         this.from = from;
     }
 
-    public List<User> getTo() {
+    public User getTo() {
         return to;
     }
 
-    public void setTo(List<User> to) {
+    public void setTo(User to) {
         this.to = to;
     }
 

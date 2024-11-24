@@ -18,45 +18,32 @@ import java.util.Map;
 import java.util.Optional;
 
 public class MessageDataBaseRepo extends AbstractDataBaseRepo<Integer, Message> {
-    private final UserDataBaseRepo userRepo;
-
-    public MessageDataBaseRepo(Validator validator, DataBaseAcces data, String table, UserDataBaseRepo userRepo) {
+    public MessageDataBaseRepo(Validator validator, DataBaseAcces data, String table) {
         super(validator, data, table);
-        this.userRepo = userRepo;
     }
 
     private Optional<Message> getMessage(ResultSet resultSet, Integer id) throws SQLException {
-        int senderId = resultSet.getInt("sender_id");
-        String messageText = resultSet.getString("message");
-        LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
+        try {
+            String firstName1 = resultSet.getString("firstname1");
+            String lastName1 = resultSet.getString("lastname1");
+            String username1 = resultSet.getString("username1");
+            String password1 = resultSet.getString("password1");
+            User from = new User(firstName1, lastName1, username1, password1);
 
-        Optional<User> sender = userRepo.findOne(senderId);
-        if (sender.isEmpty()) {
-            return Optional.empty();
+            String firstName2 = resultSet.getString("firstname2");
+            String lastName2 = resultSet.getString("lastname2");
+            String username2 = resultSet.getString("username2");
+            String password2 = resultSet.getString("password2");
+            User to = new User(firstName2, lastName2, username2, password2);
+
+            String message = resultSet.getString("message");
+            LocalDateTime date = resultSet.getTimestamp("created_at").toLocalDateTime();
+            Message msg = new Message(message, date, to, from);
+            msg.setId(id);
+            return Optional.of(msg);
+        } catch(SQLException e) {
+            throw new RuntimeException(e);
         }
-
-        List<User> receivers = getReceiversForMessage(id);
-        Message message = new Message(sender.get(), messageText, createdAt);
-        message.setTo(receivers);
-        message.setId(id);
-
-        return Optional.of(message);
-    }
-
-    private List<User> getReceiversForMessage(Integer messageId) throws SQLException {
-        String sql = "SELECT * FROM \"ReplyMessage\" WHERE message_id = ?";
-        List<User> receivers = new ArrayList<>();
-
-        try (PreparedStatement statement = data.createStatement(sql)) {
-            statement.setInt(1, messageId);
-            try (ResultSet resultSet = statement.executeQuery()) {
-                while (resultSet.next()) {
-                    int receiverId = resultSet.getInt("receiver_id");
-                    userRepo.findOne(receiverId).ifPresent(receivers::add);
-                }
-            }
-        }
-        return receivers;
     }
 
     @Override
@@ -64,7 +51,20 @@ public class MessageDataBaseRepo extends AbstractDataBaseRepo<Integer, Message> 
         if (id == null) {
             throw new IllegalArgumentException("ID must not be null");
         }
-        String sql = "SELECT * FROM \"" + table + "\" WHERE id = ?";
+        String sql = """
+                SELECT 
+                    m.id, m.message, m.created_at,
+                    u1.firstname AS firstname1, u1.lastname AS lastname1, u1.username AS username1, u1.password AS password1,
+                    u2.firstname AS firstname2, u2.lastname AS lastname2, u2.username AS username2, u2.password AS password2
+                FROM 
+                    "Message" m
+                JOIN 
+                    "User" u1 ON m.sender_id = u1.id
+                JOIN 
+                    "User" u2 ON m.receiver_id = u2.id
+                WHERE 
+                    m.id = ?;
+                """;
 
         try {
             PreparedStatement statement = data.createStatement(sql);
@@ -81,7 +81,18 @@ public class MessageDataBaseRepo extends AbstractDataBaseRepo<Integer, Message> 
 
     @Override
     public Iterable<Message> findAll() {
-        String sql = "SELECT * FROM \"" + table + "\"";
+        String sql = """
+                SELECT 
+                    m.id, m.message, m.created_at,
+                    u1.firstname AS firstname1, u1.lastname AS lastname1, u1.username AS username1, u1.password AS password1,
+                    u2.firstname AS firstname2, u2.lastname AS lastname2, u2.username AS username2, u2.password AS password2
+                FROM 
+                    "Message" m
+                JOIN 
+                    "User" u1 ON m.sender_id = u1.id
+                JOIN 
+                    "User" u2 ON m.receiver_id = u2.id;
+                """;
         List<Message> messages = new ArrayList<>();
 
         try (PreparedStatement statement = data.createStatement(sql);
@@ -105,12 +116,13 @@ public class MessageDataBaseRepo extends AbstractDataBaseRepo<Integer, Message> 
             throw new IllegalArgumentException("Entity must not be null");
         }
 
-        String sql = "INSERT INTO \"" + table + "\" (sender_id, message, created_at) VALUES (?, ?, ?) RETURNING id";
+        String sql = "INSERT INTO \"" + table + "\" (message, created_at, receiver_id, sender_id) VALUES (?, ?, ?, ?) RETURNING id";
 
         try (PreparedStatement statement = data.createStatement(sql)) {
-            statement.setInt(1, entity.getFrom().getId());
-            statement.setString(2, entity.getMessage());
-            statement.setTimestamp(3, java.sql.Timestamp.valueOf(entity.getDate()));
+            statement.setString(1, entity.getMessage());
+            statement.setTimestamp(2, java.sql.Timestamp.valueOf(entity.getDate()));
+            statement.setInt(3, entity.getTo().getId());
+            statement.setInt(4, entity.getFrom().getId());
 
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
@@ -127,13 +139,16 @@ public class MessageDataBaseRepo extends AbstractDataBaseRepo<Integer, Message> 
     @Override
     public Optional<Message> delete(Integer integer) {
         Optional<Message> entity = findOne(integer);
+        int response = 0;
         if (integer != null) {
             String deleteStatement = "DELETE FROM \"" + table + "\" WHERE id = ?";
             try {
                 PreparedStatement statement = data.createStatement(deleteStatement);
-                statement.setInt(1, integer);
-                int response = statement.executeUpdate();
-                return response == 0 ? entity : Optional.empty();
+                if (entity.isPresent()) {
+                    statement.setInt(1, integer);
+                    response = statement.executeUpdate();
+                }
+                return response > 0 ? entity : Optional.empty();
             } catch (SQLException e) {
                 throw new RepoException(e);
             }
@@ -144,6 +159,29 @@ public class MessageDataBaseRepo extends AbstractDataBaseRepo<Integer, Message> 
 
     @Override
     public Optional<Message> update(Message entity) {
-        return Optional.empty();
+        if (entity == null) {
+            throw new IllegalArgumentException("Entity must not be null");
+        }
+
+        validator.validate(entity);
+
+        if (findOne(entity.getId()).isEmpty()) {
+            throw new RepoException("Entity does not exist");
+        }
+
+        String sql = "UPDATE \"" + table + "\" SET message = ?, created_at = ?, receiver_id = ?, sender_id = ? WHERE id = ?";
+
+        try (PreparedStatement statement = data.createStatement(sql)) {
+            statement.setString(1, entity.getMessage());
+            statement.setTimestamp(2, java.sql.Timestamp.valueOf(entity.getDate()));
+            statement.setInt(3, entity.getTo().getId());
+            statement.setInt(4, entity.getFrom().getId());
+            statement.setInt(5, entity.getId());
+
+            int response = statement.executeUpdate();
+            return response > 0 ? Optional.of(entity) : Optional.empty();
+        } catch (SQLException e) {
+            throw new RepoException(e);
+        }
     }
 }

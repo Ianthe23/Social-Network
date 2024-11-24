@@ -15,12 +15,15 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import org.example.lab6networkfx.domain.Friendship;
 import org.example.lab6networkfx.domain.User;
+import org.example.lab6networkfx.domain.messages.Message;
+import org.example.lab6networkfx.service.MessageService;
 import org.example.lab6networkfx.service.NetworkService;
 
 import java.io.IOException;
 
 public class LoginController {
     NetworkService service;
+    MessageService messageService;
 
     @FXML
     private TextField txtUsername;
@@ -43,8 +46,9 @@ public class LoginController {
 
     Stage primaryStage;
 
-    public void setLoginController(NetworkService service, Stage primaryStage) {
+    public void setLoginController(NetworkService service, MessageService messageService, Stage primaryStage) {
         this.service = service;
+        this.messageService = messageService;
         this.primaryStage = primaryStage;
     }
 
@@ -76,10 +80,12 @@ public class LoginController {
                 scene.getStylesheets().add(getClass().getResource("/org/example/lab6networkfx/styles/main-view.css").toExternalForm());
                 mainStage.setTitle("Home");
                 mainStage.setScene(scene);
+                mainStage.setMinHeight(400);
+                mainStage.setMinWidth(700);
 
                 // Set up the controller for the main view
                 MainController controller = loader.getController();
-                controller.setNetworkService(service, userFound, mainStage);
+                controller.setNetworkService(service, messageService, userFound, mainStage);
 
                 // Show the main view stage
                 mainStage.show();
@@ -106,7 +112,7 @@ public class LoginController {
             stage.setScene(scene);
 
             SignupController controller = loader.getController();
-            controller.setSignup(stage, service);
+            controller.setSignup(stage, service, messageService);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
