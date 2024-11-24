@@ -63,11 +63,11 @@ public class InputDeleteFriendController {
             String user1 = user1Field.getText().toString();
             String user2 = user2Field.getValue().toString();
             service.removeFriendship(user1, user2);
-            AlertMessages.showMessage(null, Alert.AlertType.CONFIRMATION, "Friend deletede", "Friend deleted successfully");
+            AlertMessages.showMessage(inputStage, Alert.AlertType.CONFIRMATION, "Friend deletede", "Friend deleted successfully");
             clearFields();
             inputStage.close();
         } catch(Exception e) {
-            AlertMessages.showMessage(null, Alert.AlertType.ERROR, "Delete friend", e.getMessage());
+            AlertMessages.showMessage(inputStage, Alert.AlertType.ERROR, "Delete friend", e.getMessage());
         }
 
         inputStage.close();

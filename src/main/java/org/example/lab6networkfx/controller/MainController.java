@@ -2,6 +2,7 @@ package org.example.lab6networkfx.controller;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,6 +18,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.example.lab6networkfx.domain.Friendship;
+import org.example.lab6networkfx.domain.friendships.FriendshipRequest;
 import org.example.lab6networkfx.service.NetworkService;
 import org.example.lab6networkfx.utils.events.EventType;
 import org.example.lab6networkfx.utils.events.NetworkEvent;
@@ -25,6 +27,7 @@ import org.example.lab6networkfx.domain.User;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -33,18 +36,24 @@ import java.util.stream.StreamSupport;
 public class MainController implements Observer<NetworkEvent> {
     NetworkService service;
     private User userLogged;
+    private List<FriendshipRequest> friendRequests;
+
+    Stage mainStage;
+
+    @FXML
+    private Label userLabel;
+
+    @FXML
+    private Label fullNameLabel;
+
+    @FXML
+    private Label friendRequestsLabel;
 
     @FXML
     private RadioButton usersRadioButton;
 
     @FXML
     private RadioButton friendshipsRadioButton;
-
-    @FXML
-    private Button btnAdd;
-
-    @FXML
-    private Button btnDelete;
 
     @FXML
     private Button btnSendRequest;
@@ -74,6 +83,8 @@ public class MainController implements Observer<NetworkEvent> {
     private ObservableList<User> modelUsers = FXCollections.observableArrayList();
     @FXML
     private ObservableList<Friendship> modelFriendships = FXCollections.observableArrayList();
+    @FXML
+    private ObservableList<FriendshipRequest> modelFriendRequests = FXCollections.observableArrayList();
 
     //USERS TABLE
     @FXML
@@ -104,12 +115,16 @@ public class MainController implements Observer<NetworkEvent> {
     @FXML
     private TableColumn<Friendship, String> tableFriendshipDate ;
 
-    public void setNetworkService(NetworkService service, User user) {
+    public void setNetworkService(NetworkService service, User user, Stage stage) {
         this.service = service;
         this.userLogged = user;
+        this.mainStage = stage;
+        userLabel.setText(userLogged.getUsername());
+        fullNameLabel.setText(userLogged.getFirstName() + " " + userLogged.getLastName());
         service.addObserver(this);
         initModelUsers();
         initModelFriendships();
+        initModelFriendRequests();
     }
 
     @FXML
@@ -146,9 +161,6 @@ public class MainController implements Observer<NetworkEvent> {
                 tableHeader.setVisible(true);
                 tableHeader.setManaged(true);
 
-                btnAdd.setVisible(true);
-                btnAdd.setManaged(true);
-
                 btnSendRequest.setVisible(true);
                 btnSendRequest.setManaged(true);
 
@@ -180,9 +192,6 @@ public class MainController implements Observer<NetworkEvent> {
                 tableHeader.setVisible(true);
                 tableHeader.setManaged(true);
 
-                btnAdd.setVisible(false);
-                btnAdd.setManaged(false);
-
                 btnDeleteFriend.setVisible(false);
                 btnDeleteFriend.setManaged(false);
 
@@ -208,6 +217,21 @@ public class MainController implements Observer<NetworkEvent> {
         });
 
         configureButtons();
+    }
+
+    private void updateFriendRequestLabel() {
+        //get the last friendship request from model that is not in friendRequest
+        FriendshipRequest lastFriendshipRequest = null;
+        for (FriendshipRequest friendshipRequest : modelFriendRequests) {
+            if (!friendRequests.contains(friendshipRequest)) {
+                lastFriendshipRequest = friendshipRequest;
+                break;
+            }
+        }
+        if (lastFriendshipRequest.getUser2().getUsername().equals(userLogged.getUsername())){
+            AlertMessages.showMessage(mainStage, Alert.AlertType.INFORMATION, "New Notification", "You have a new friend request!");
+            friendRequestsLabel.setText(lastFriendshipRequest.getUser1().getUsername() + " sent you a friend request!");
+        }
     }
 
     @FXML
@@ -242,70 +266,26 @@ public class MainController implements Observer<NetworkEvent> {
     @FXML
     private void handleUserPanelClick(ActionEvent event) {
         if (usersRadioButton.isSelected()) {
-            if (event.getSource() == btnAdd) {
-                handleSceneInputData(null);
-            } else if (event.getSource() == btnDelete) {
-                handleDeleteUser();
-            } else if (event.getSource() == btnSendRequest) {
+            if (event.getSource() == btnSendRequest) {
                 if (getSelectedUser() != null) {
                     handleSceneInputFriendRequest(getSelectedUser());
                 } else {
-                    AlertMessages.showMessage(null, Alert.AlertType.ERROR, "Error", "No user selected!");
+                    AlertMessages.showMessage(mainStage, Alert.AlertType.ERROR, "Error", "No user selected!");
                 }
             } else if (event.getSource() == btnFriendAdd) {
-                if (getSelectedUser() != null) {
-                    handleSceneInputFriendship(getSelectedUser());
-                } else {
-                    AlertMessages.showMessage(null, Alert.AlertType.ERROR, "Error", "No user selected!");
-                }
+                    handleSceneInputFriendship();
             } else if (event.getSource() == btnDeleteFriend) {
-                if (getSelectedUser() != null) {
-                    handleSceneInputDeleteFriend(getSelectedUser());
-                } else {
-                    AlertMessages.showMessage(null, Alert.AlertType.ERROR, "Error", "No user selected!");
-                }
+                handleSceneInputDeleteFriend();
             } else if (event.getSource() == btnFriendList) {
-                if (getSelectedUser() != null) {
-                    handleSceneTableFriendList(getSelectedUser());
-                } else {
-                    AlertMessages.showMessage(null, Alert.AlertType.ERROR, "Error", "No user selected!");
-                }
+                handleSceneTableFriendList();
             } else if (event.getSource() == btnFriendRequestsList) {
                 handleSceneInputRequests(getSelectedUser());
             }
 
         } else if (friendshipsRadioButton.isSelected()) {
-            if (event.getSource() == btnDelete) {
-                handleDeleteFriendship();
-            } else if (event.getSource() == btnFriendRequestsList) {
+            if (event.getSource() == btnFriendRequestsList) {
                 handleSceneInputRequests(null);
             }
-        }
-    }
-
-    public void handleSceneInputData(User user) {
-        try {
-            URL resourceUrl = getClass().getResource("/org/example/lab6networkfx/views/input-user-view.fxml");
-            System.out.println("Resource URL: " + resourceUrl);
-
-            FXMLLoader loader = new FXMLLoader(resourceUrl);
-            loader.setLocation(resourceUrl);
-
-            AnchorPane root = (AnchorPane) loader.load();
-
-            Stage inputDataStage = new Stage();
-            inputDataStage.setTitle("Input Data User");
-            inputDataStage.initModality(javafx.stage.Modality.WINDOW_MODAL);
-            Scene scene = new Scene(root);
-            scene.getStylesheets().add(getClass().getResource("/org/example/lab6networkfx/styles/main-view.css").toExternalForm());
-            inputDataStage.setScene(scene);
-
-            InputUserController inputUserController = loader.getController();
-            inputUserController.setService(service, inputDataStage, user);
-            inputDataStage.show();
-        } catch(IOException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
         }
     }
 
@@ -335,7 +315,7 @@ public class MainController implements Observer<NetworkEvent> {
         }
     }
 
-    public void handleSceneTableFriendList(User user) {
+    public void handleSceneTableFriendList() {
         try {
             URL resourceUrl = getClass().getResource("/org/example/lab6networkfx/views/table-friends-view.fxml");
             System.out.println("Resource URL: " + resourceUrl);
@@ -353,7 +333,7 @@ public class MainController implements Observer<NetworkEvent> {
             inputDataStage.setScene(scene);
 
             TableFriendListController tableFriendListController= loader.getController();
-            tableFriendListController.setService(service, inputDataStage, user);
+            tableFriendListController.setService(service, inputDataStage, userLogged);
             inputDataStage.show();
         } catch(IOException e) {
             e.printStackTrace();
@@ -361,7 +341,7 @@ public class MainController implements Observer<NetworkEvent> {
         }
     }
 
-    public void handleSceneInputFriendship(User user) {
+    public void handleSceneInputFriendship() {
         try {
             URL resourceUrl = getClass().getResource("/org/example/lab6networkfx/views/input-friendship-view.fxml");
             System.out.println("Resource URL: " + resourceUrl);
@@ -379,7 +359,7 @@ public class MainController implements Observer<NetworkEvent> {
             inputDataStage.setScene(scene);
 
             InputFriendshipController inputFriendshipController = loader.getController();
-            inputFriendshipController.setService(service, inputDataStage, user);
+            inputFriendshipController.setService(service, inputDataStage, userLogged);
             inputDataStage.show();
         } catch(IOException e) {
             e.printStackTrace();
@@ -387,7 +367,7 @@ public class MainController implements Observer<NetworkEvent> {
         }
     }
 
-    public void handleSceneInputDeleteFriend(User user) {
+    public void handleSceneInputDeleteFriend() {
         try {
             URL resourceUrl = getClass().getResource("/org/example/lab6networkfx/views/input-delete-friend-view.fxml");
             System.out.println("Resource URL: " + resourceUrl);
@@ -405,7 +385,7 @@ public class MainController implements Observer<NetworkEvent> {
             inputDataStage.setScene(scene);
 
             InputDeleteFriendController inputDeleteFriendController = loader.getController();
-            inputDeleteFriendController.setService(service, inputDataStage, user);
+            inputDeleteFriendController.setService(service, inputDataStage, userLogged);
             inputDataStage.show();
         } catch(IOException e) {
             e.printStackTrace();
@@ -431,7 +411,7 @@ public class MainController implements Observer<NetworkEvent> {
             inputDataStage.setScene(scene);
 
             InputFriendRequestController inputFriendRequestController = loader.getController();
-            inputFriendRequestController.setService(service, inputDataStage, user);
+            inputFriendRequestController.setService(service, inputDataStage, userLogged, user);
             inputDataStage.show();
         } catch(IOException e) {
             e.printStackTrace();
@@ -439,23 +419,13 @@ public class MainController implements Observer<NetworkEvent> {
         }
     }
 
-    private void handleDeleteUser() {
-        User selected = getSelectedUser();
-        if (selected != null) {
-            service.removeUser(selected.getUsername());
-            AlertMessages.showMessage(null, Alert.AlertType.CONFIRMATION, "User deleted", "User " + selected.getUsername() + " was deleted successfully!");
-        } else {
-            AlertMessages.showMessage(null, Alert.AlertType.ERROR, "Error", "No user selected!");
-        }
-    }
-
     private void handleDeleteFriendship() {
         Friendship selected = friendshipTableView.getSelectionModel().getSelectedItem();
         if (selected != null) {
             service.removeFriendship(selected.getUser1().getUsername(), selected.getUser2().getUsername());
-            AlertMessages.showMessage(null, Alert.AlertType.CONFIRMATION, "Friendship deleted", "Friendship between " + selected.getUser1().getUsername() + " and " + selected.getUser2().getUsername() + " was deleted successfully!");
+            AlertMessages.showMessage(mainStage, Alert.AlertType.CONFIRMATION, "Friendship deleted", "Friendship between " + selected.getUser1().getUsername() + " and " + selected.getUser2().getUsername() + " was deleted successfully!");
         } else {
-            AlertMessages.showMessage(null, Alert.AlertType.ERROR, "Error", "No friendship selected!");
+            AlertMessages.showMessage(mainStage, Alert.AlertType.ERROR, "Error", "No friendship selected!");
         }
     }
 
@@ -476,10 +446,25 @@ public class MainController implements Observer<NetworkEvent> {
         modelFriendships.setAll(friendshipList);
     }
 
+    private void initModelFriendRequests() {
+        friendRequests = new ArrayList<>(modelFriendRequests);
+        Iterable<FriendshipRequest> friendshipRequests = service.getAllFriendshipRequests();
+        List<FriendshipRequest> friendshipRequestList = StreamSupport.stream(friendshipRequests.spliterator(), false).collect(Collectors.toList());
+        modelFriendRequests.setAll(friendshipRequestList);
+
+    }
+
     @Override
     public void update(NetworkEvent networkEvent) {
         initModelUsers();
         initModelFriendships();
+        initModelFriendRequests();
+
+        if (networkEvent.getType() == EventType.PEND) {
+            System.out.println("Pending request");
+            updateFriendRequestLabel();
+        }
+
     }
 
     private void configureFadeTransition(Button button) {
@@ -492,8 +477,6 @@ public class MainController implements Observer<NetworkEvent> {
     }
 
     private void configureButtons() {
-        configureFadeTransition(btnAdd);
-        configureFadeTransition(btnDelete);
         configureFadeTransition(btnFriendAdd);
         configureFadeTransition(btnFriendList);
         configureFadeTransition(btnFriendRequestsList);
@@ -502,6 +485,17 @@ public class MainController implements Observer<NetworkEvent> {
     }
 
     private void initializeUsers() {
+        userTableView.setRowFactory(tableView -> {
+            return new TableRow<User>() {
+                @Override
+                protected void updateItem(User item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (!empty) {
+                        setStyle("-fx-text-fill: #f0f0f0;");
+                    }
+                }
+            };
+        });
         tableUserID.setCellValueFactory(new PropertyValueFactory<>("id"));
         tableFirstName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
         tableLastName.setCellValueFactory(new PropertyValueFactory<>("lastName"));

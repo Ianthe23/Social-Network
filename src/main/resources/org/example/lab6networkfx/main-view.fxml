@@ -4,35 +4,59 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.lab6networkfx.controller.MainController">
+<AnchorPane style="-fx-background-color: #535556;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.lab6networkfx.controller.MainController">
   <children>
     <HBox spacing="20" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
 
-      <!-- First Panel: Choice between Users or Friendships -->
       <AnchorPane style="-fx-background-color: #3c3c3c;" HBox.hgrow="ALWAYS">
-        <VBox alignment="TOP_LEFT" prefHeight="400" prefWidth="150" style="-fx-padding: 10;" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
-          <HBox alignment="CENTER" style="-fx-padding: 10; -fx-font-weight: bold;">
-            <Label style="-fx-font-size: 18px; -fx-text-fill: white;" text="Options" />
-          </HBox>
-          <VBox alignment="TOP_LEFT" spacing="10" style="-fx-padding: 10;">
-            <Label text="Choose:" />
-            <RadioButton fx:id="usersRadioButton" text="Users" />
-            <RadioButton fx:id="friendshipsRadioButton" text="Friendships" />
+        <SplitPane dividerPositions="0.8" orientation="VERTICAL" style="-fx-background-color: transparent;" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+          <!-- User Info VBox -->
+          <VBox alignment="TOP_CENTER" prefHeight="400" prefWidth="260" style="-fx-padding: 10;">
+            <HBox prefHeight="79.0" prefWidth="230.0" spacing="10">
+              <ImageView fitHeight="84.0" fitWidth="78.0" preserveRatio="true">
+                <Image url="@/org/example/lab6networkfx/images/ghost.png" />
+              </ImageView>
+              <VBox alignment="CENTER_LEFT" spacing="5">
+                <HBox>
+                  <Label fx:id="fullNameLabel" style="-fx-font-size: 18px; -fx-text-fill: white; -fx-font-weight: bold;" />
+                </HBox>
+                <HBox>
+                  <Label style="-fx-font-size: 14px; -fx-text-fill: white;" text="username: " />
+                  <Label fx:id="userLabel" style="-fx-font-size: 14px; -fx-text-fill: white;" />
+                </HBox>
+              </VBox>
+            </HBox>
+            <HBox prefHeight="42.0" prefWidth="230.0" style="-fx-padding: 10 10 10 10;">
+              <VBox styleClass="button-panel">
+                <Label fx:id="friendRequestsLabel" style="-fx-font-size: 14px; -fx-text-fill: white;" wrapText="true" text="No new friend requests..." />
+              </VBox>
+            </HBox>
           </VBox>
-        </VBox>
+
+          <!-- Options VBox -->
+          <VBox alignment="TOP_LEFT" prefHeight="150" prefWidth="250" style="-fx-padding: 10;">
+            <HBox alignment="CENTER" style="-fx-padding: 10; -fx-font-weight: bold;">
+              <Label style="-fx-font-size: 18px; -fx-text-fill: white;" text="Options" />
+            </HBox>
+            <VBox alignment="TOP_LEFT" spacing="10" style="-fx-padding: 10;">
+              <Label styleClass="label-style" text="Choose:" />
+              <RadioButton fx:id="usersRadioButton" text="Users" />
+              <RadioButton fx:id="friendshipsRadioButton" text="Friendships" />
+            </VBox>
+          </VBox>
+        </SplitPane>
+
       </AnchorPane>
 
       <!-- Second Panel: Table View -->
-      <AnchorPane minHeight="200" minWidth="350" style="-fx-background-color: #535556;" HBox.hgrow="ALWAYS">
-        <VBox alignment="TOP_CENTER" prefHeight="400" style="-fx-padding: 10;" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+      <AnchorPane minHeight="200" minWidth="410" style="-fx-background-color: #535556;" HBox.hgrow="ALWAYS">
+        <VBox alignment="TOP_CENTER" prefHeight="410" style="-fx-padding: 10;" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
           <HBox fx:id="tableHeader" alignment="CENTER" style="-fx-padding: 10; -fx-font-weight: bold;">
             <Label style="-fx-font-size: 18px; -fx-text-fill: white;" text="Table" />
           </HBox>
-          <StackPane alignment="CENTER" VBox.vgrow="ALWAYS">
-            <Label fx:id="noTableLabel" style="-fx-font-size: 18px; -fx-text-fill: grey;" text="No table selected" />
-          </StackPane>
-          <VBox fx:id="tablePanel" alignment="TOP_CENTER" style="-fx-padding: 10;">
-            <TableView fx:id="userTableView" onMouseClicked="#handleUserRowClick" VBox.vgrow="SOMETIMES">
+
+          <VBox fx:id="tablePanel" alignment="TOP_CENTER" style="-fx-padding: 10; -fx-text-fill: white" VBox.vgrow="ALWAYS">
+            <TableView fx:id="userTableView" maxWidth="410" onMouseClicked="#handleUserRowClick" prefHeight="400">
               <columns>
                 <TableColumn fx:id="tableUserID" prefWidth="50" text="ID" />
                 <TableColumn fx:id="tableFirstName" prefWidth="110" text="First Name" />
@@ -40,14 +64,18 @@
                 <TableColumn fx:id="tableUsername" prefWidth="100" text="Username" />
               </columns>
             </TableView>
-            <TableView fx:id="friendshipTableView" onMouseClicked="#handleFriendshipRowClick" VBox.vgrow="SOMETIMES">
+            <TableView fx:id="friendshipTableView" maxWidth="410" onMouseClicked="#handleFriendshipRowClick" prefHeight="400">
               <columns>
                 <TableColumn fx:id="tableFriendshipUser1" prefWidth="107" text="1st User" />
-                <TableColumn fx:id="tableFriendshipUser2" prefWidth="98.20002746582031" text="2nd User" />
-                <TableColumn fx:id="tableFriendshipDate" prefWidth="147.19999084472659" text="Since Date" />
+                <TableColumn fx:id="tableFriendshipUser2" prefWidth="98" text="2nd User" />
+                <TableColumn fx:id="tableFriendshipDate" prefWidth="147" text="Since Date" />
               </columns>
             </TableView>
           </VBox>
+
+          <StackPane alignment="CENTER" VBox.vgrow="ALWAYS">
+            <Label fx:id="noTableLabel" style="-fx-font-size: 18px; -fx-text-fill: grey;" text="No table selected" />
+          </StackPane>
         </VBox>
       </AnchorPane>
 
@@ -58,36 +86,12 @@
             <Label style="-fx-font-size: 18px; -fx-text-fill: white;" text="Actions" />
           </HBox>
           <VBox alignment="TOP_CENTER" prefWidth="50" spacing="10" styleClass="button-panel">
-            <Button fx:id="btnAdd" onAction="#handleUserPanelClick">
-              <tooltip>
-                <Tooltip text="Add" />
-              </tooltip>
-              <graphic>
-                <ImageView fitHeight="24" fitWidth="24">
-                  <image>
-                    <Image url="@/org/example/lab6networkfx/images/add.png" />
-                  </image>
-                </ImageView>
-              </graphic>
-            </Button>
-            <Button fx:id="btnDelete" onAction="#handleUserPanelClick">
-              <tooltip>
-                <Tooltip text="Delete" />
-              </tooltip>
-              <graphic>
-                <ImageView fitHeight="24" fitWidth="24">
-                  <image>
-                    <Image url="@/org/example/lab6networkfx/images/minus.png" />
-                  </image>
-                </ImageView>
-              </graphic>
-            </Button>
             <Button fx:id="btnSendRequest" onAction="#handleUserPanelClick">
               <tooltip>
                 <Tooltip text="Send Friend Request" />
               </tooltip>
               <graphic>
-                <ImageView fitHeight="24" fitWidth="24">
+                <ImageView fitHeight="27" fitWidth="27">
                   <image>
                     <Image url="@/org/example/lab6networkfx/images/send-request.png" />
                   </image>
@@ -99,7 +103,7 @@
                 <Tooltip text="Add Friend" />
               </tooltip>
               <graphic>
-                <ImageView fitHeight="24" fitWidth="24">
+                <ImageView fitHeight="27" fitWidth="27">
                   <image>
                     <Image url="@/org/example/lab6networkfx/images/add-friend.png" />
                   </image>
@@ -111,7 +115,7 @@
                 <Tooltip text="Remove Friend" />
               </tooltip>
               <graphic>
-                <ImageView fitHeight="24" fitWidth="24">
+                <ImageView fitHeight="27" fitWidth="27">
                   <image>
                     <Image url="@/org/example/lab6networkfx/images/delete-friend.png" />
                   </image>
@@ -123,7 +127,7 @@
                 <Tooltip text="Friend List" />
               </tooltip>
               <graphic>
-                <ImageView fitHeight="24" fitWidth="24">
+                <ImageView fitHeight="27" fitWidth="27">
                   <image>
                     <Image url="@/org/example/lab6networkfx/images/friends.png" />
                   </image>
@@ -135,9 +139,9 @@
                 <Tooltip text="Friend Requests List" />
               </tooltip>
               <graphic>
-                <ImageView fitHeight="24" fitWidth="24">
+                <ImageView fitHeight="27" fitWidth="27">
                   <image>
-                    <Image url="@/org/example/lab6networkfx/images/friend-request.png" />
+                    <Image url="@/org/example/lab6networkfx/images/requests.png" />
                   </image>
                 </ImageView>
               </graphic>

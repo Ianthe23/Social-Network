@@ -79,7 +79,7 @@ public class LoginController {
 
                 // Set up the controller for the main view
                 MainController controller = loader.getController();
-                controller.setNetworkService(service, userFound);
+                controller.setNetworkService(service, userFound, mainStage);
 
                 // Show the main view stage
                 mainStage.show();
@@ -106,7 +106,7 @@ public class LoginController {
             stage.setScene(scene);
 
             SignupController controller = loader.getController();
-            controller.setSignup(service);
+            controller.setSignup(stage, service);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();

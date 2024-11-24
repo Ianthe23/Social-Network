@@ -27,30 +27,38 @@ public class InputFriendRequestController {
 
     NetworkService service;
     Stage inputStage;
-    User user;
+    User user1;
+    User user2;
 
     private void clearFields() {
         user1Field.setValue(null);
         user2Field.setValue(null);
     }
 
-    public void setService(NetworkService service, Stage stage, User user) {
+    public void setService(NetworkService service, Stage stage, User user1, User user2) {
         this.service = service;
         this.inputStage = stage;
-        this.user = user;
+        this.user1 = user1;
+        this.user2 = user2;
 
-        setFields(user);
+        setFields(user1, user2);
     }
 
-    private void setFields(User user) {
+    private void setFields(User user1, User user2) {
         //add the users to the combo boxes
         List<String> users = new ArrayList<>();
-        service.getAllUsers().forEach(user1 -> users.add(((User) user1).getUsername()));
+        service.getAllUsers().forEach(user3 -> users.add(((User) user3).getUsername()));
 
-        if (user == null) {
+        if (user1 == null) {
             user1Field.setValue(null);
         } else {
-            user1Field.setValue(user.getUsername());
+            user1Field.setValue(user1.getUsername());
+        }
+
+        if (user2 == null) {
+            user2Field.setValue(null);
+        } else {
+            user2Field.setValue(user2.getUsername());
         }
         user1Field.getItems().addAll(users);
         user2Field.getItems().addAll(users);
@@ -61,11 +69,11 @@ public class InputFriendRequestController {
             String user1 = user1Field.getValue().toString();
             String user2 = user2Field.getValue().toString();
             service.pendingFriendshipRequest(user1, user2);
-            AlertMessages.showMessage(null, Alert.AlertType.CONFIRMATION, "Friend Request sent", "Friend Request sent successfully");
+            AlertMessages.showMessage(inputStage, Alert.AlertType.CONFIRMATION, "Friend Request sent", "Friend Request sent successfully");
             clearFields();
             inputStage.close();
         } catch (Exception e) {
-            AlertMessages.showMessage(null, Alert.AlertType.ERROR, "Add Friendship", e.getMessage());
+            AlertMessages.showMessage(inputStage, Alert.AlertType.ERROR, "Add Friendship", e.getMessage());
         }
         inputStage.close();
     }

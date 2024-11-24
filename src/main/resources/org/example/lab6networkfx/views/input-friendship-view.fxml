@@ -3,17 +3,17 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.lab6networkfx.controller.InputFriendshipController">
+<AnchorPane style="-fx-background-color: #535556;" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.lab6networkfx.controller.InputFriendshipController">
   <children>
-    <VBox alignment="CENTER" maxWidth="300.0" spacing="10.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="100.0">
+    <VBox style="-fx-background-color: #535556;" alignment="CENTER" maxWidth="300.0" spacing="10.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="100.0">
       <VBox alignment="TOP_CENTER" prefWidth="100" styleClass="button-panel">
-        <Label prefHeight="41.0" prefWidth="264.0" style="-fx-font-weight: bold; -fx-text-fill: rgba(255,255,255,0.98)" text="Accept or Reject a Friend Request" />
+        <Label styleClass="label-style" prefHeight="41.0" prefWidth="264.0" style="-fx-font-weight: bold; -fx-text-fill: rgba(255,255,255,0.98)" text="Accept or Reject a Friend Request" />
         <HBox alignment="CENTER" prefHeight="40.0" prefWidth="302.0" spacing="10.0">
-          <Label style="-fx-text-fill: rgba(255,255,255,0.98)" text="First Username:" />
+          <Label styleClass="label-style" style="-fx-text-fill: rgba(255,255,255,0.98)" text="First Username:" />
           <TextField fx:id="user1Field" />
         </HBox>
         <HBox alignment="CENTER" prefHeight="50.0" prefWidth="302.0" spacing="10.0">
-          <Label style="-fx-text-fill: rgba(255,255,255,0.98)" text="Second Username:" />
+          <Label styleClass="label-style" style="-fx-text-fill: rgba(255,255,255,0.98)" text="Second Username:" />
           <ComboBox fx:id="user2Field" style="-fx-text-fill: rgba(255,255,255,0.98)" />
         </HBox>
       </VBox>

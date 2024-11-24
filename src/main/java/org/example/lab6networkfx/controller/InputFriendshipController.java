@@ -71,11 +71,11 @@ public class InputFriendshipController {
             String user2 = user2Field.getValue().toString();
             service.acceptFriendshipRequest(user1, user2);
             System.out.println("Friendship added");
-            AlertMessages.showMessage(null, Alert.AlertType.CONFIRMATION, "Friendship added", "Friendship added successfully");
+            AlertMessages.showMessage(inputStage, Alert.AlertType.CONFIRMATION, "Friendship added", "Friendship added successfully");
             clearFields();
             inputStage.close();
         } catch (Exception e) {
-            AlertMessages.showMessage(null, Alert.AlertType.ERROR, "Add Friendship", e.getMessage());
+            AlertMessages.showMessage(inputStage, Alert.AlertType.ERROR, "Add Friendship", e.getMessage());
         }
         inputStage.close();
     }
@@ -85,11 +85,11 @@ public class InputFriendshipController {
             String user1 = user1Field.getText().toString();
             String user2 = user2Field.getValue().toString();
             service.rejectFriendshipRequest(user1, user2);
-            AlertMessages.showMessage(null, Alert.AlertType.CONFIRMATION, "Friendship rejected", "Friendship rejected successfully");
+            AlertMessages.showMessage(inputStage, Alert.AlertType.CONFIRMATION, "Friendship rejected", "Friendship rejected successfully");
             clearFields();
             inputStage.close();
         } catch (Exception e) {
-            AlertMessages.showMessage(null, Alert.AlertType.ERROR, "Reject Friendship", e.getMessage());
+            AlertMessages.showMessage(inputStage, Alert.AlertType.ERROR, "Reject Friendship", e.getMessage());
         }
         inputStage.close();
     }

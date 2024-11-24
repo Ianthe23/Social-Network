@@ -40,8 +40,11 @@ public class SignupController {
     @FXML
     private Button btnCancel;
 
-    public void setSignup(NetworkService service) {
+    Stage inputStage;
+
+    public void setSignup(Stage stage, NetworkService service) {
         this.service = service;
+        this.inputStage = stage;
     }
 
     private void clearFields() {
@@ -61,7 +64,7 @@ public class SignupController {
         String confirmPassword = txtConfirmPassword.getText().toString();
 
         if (!password.equals(confirmPassword)) {
-            AlertMessages.showMessage(null, Alert.AlertType.ERROR,"Password Error","Passwords don't match!");
+            AlertMessages.showMessage(inputStage, Alert.AlertType.ERROR,"Password Error","Passwords don't match!");
         }
 
         try {
@@ -77,9 +80,9 @@ public class SignupController {
             stage.setScene(scene);
             LoginController controller = loader.getController();
             controller.setLoginController(service, stage);
-            AlertMessages.showMessage(null, Alert.AlertType.INFORMATION,"Success","User added successfully!");
+            AlertMessages.showMessage(inputStage, Alert.AlertType.INFORMATION,"Success","User added successfully!");
         } catch (Exception e) {
-            AlertMessages.showMessage(null, Alert.AlertType.ERROR,"Error",e.getMessage());
+            AlertMessages.showMessage(inputStage, Alert.AlertType.ERROR,"Error",e.getMessage());
         }
 
     }

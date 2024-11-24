@@ -142,13 +142,8 @@ public class FriendshipRequestDataBaseRepo extends AbstractDataBaseRepo<Tuple<In
 
             statement.setDate(4, java.sql.Date.valueOf(parsedDate));
 
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                FriendshipRequest friendshipRequest = getFriendshipRequest(resultSet);
-                return Optional.of(friendshipRequest);
-            }
-
-            return Optional.empty();
+            int response = statement.executeUpdate();
+            return response == 0 ? Optional.of(entity) : Optional.empty();
         } catch (SQLException e) {
             throw new RepoException(e);
         }

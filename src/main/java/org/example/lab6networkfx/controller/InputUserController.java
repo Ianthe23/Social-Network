@@ -77,10 +77,10 @@ public class InputUserController {
     private void saveUser(User user) {
         try {
             service.addUser(user.getFirstName(), user.getLastName(), user.getUsername(), user.getPassword());
-            AlertMessages.showMessage(null, Alert.AlertType.CONFIRMATION, "Add User", "User added successfully!");
+            AlertMessages.showMessage(inputStage, Alert.AlertType.CONFIRMATION, "Add User", "User added successfully!");
             inputStage.close();
         } catch (Exception e) {
-            AlertMessages.showMessage(null, Alert.AlertType.ERROR, "Add User", e.getMessage());
+            AlertMessages.showMessage(inputStage, Alert.AlertType.ERROR, "Add User", e.getMessage());
         }
         inputStage.close();
     }

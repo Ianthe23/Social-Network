@@ -1,21 +1,10 @@
-/* styles.css */
-/*. {*/
-/*    -fx-primary-color: #007acc;*/
-/*    -fx-secondary-color: #4B6EAF;*/
-/*    -fx-accent-color: #B6FF00;*/
-/*    -fx-grey-color: #b9b9b9;*/
-/*    -fx-light-grey-color: #d1d1d1;*/
-/*    -fx-lightest-grey-color: #F9F9FB;*/
-
-/*    -fx-focus-color: -fx-secondary-color;*/
-/*}*/
-
-/* General Styles */
 .root {
     -fx-font-family: "Inter";
-    -fx-background-color: #535556;
 }
 
+.split-pane *.split-pane-divider {
+    -fx-padding: 0 1 0 1;
+}
 /* VBox Panels Styling */
 .vbox {
     -fx-border-color: #707070;
@@ -24,99 +13,90 @@
 }
 
 
-.table-view{
-    -fx-background-color: transparent;
-    -fx-border-color: #ab0319;
+.table-view {
+    -fx-background-color: #2c2f33; /* Discord-like dark background */
+    -fx-border-color: transparent;
     -fx-border-radius: 5px;
 }
 
-.table-view:focused{
-    -fx-background-color: transparent;
+.table-view:focused {
+    -fx-background-color: #2c2f33;
 }
 
-.table-view .column-header-background{
-    -fx-background-color: rgba(255, 255, 255, 0.92);
-    -fx-border-color: #ab0319;
+.table-view .column-header-background {
+    -fx-background-color: #23272a; /* Darker header background */
+    -fx-border-color: #99aab5;     /* Soft border color */
     -fx-border-width: 0px 1px 1px 0px;
     -fx-border-style: solid;
 }
-.table-view:row-selection .column-header-background .filler{
-    -fx-background-color:rgba(255, 255, 255, 0.92);
-}
-.table-view:row-selection .column-header-background .show-hide-columns-button{
-    -fx-background-color:rgba(255, 255, 255, 0.92);
-}
 
-.table-view .column-header-background .label{
-    -fx-wrap-text: true; /* Enable text wrapping */
-    -fx-alignment: CENTER_LEFT; /* Aligns the text to the left */
+.table-view .column-header-background .label {
+    -fx-wrap-text: true;
+    -fx-alignment: CENTER_LEFT;
     -fx-background-color: transparent;
-    -fx-text-fill: #ab0319;
-    -fx-font-weight:bold;
-    -fx-font-size:16px;
+    -fx-text-fill: #99aab5;       /* Discord-like text color */
+    -fx-font-weight: bold;
+    -fx-font-size: 16px;
 }
 
 .table-view .column-header {
-    -fx-background-color: transparent;
-    -fx-pref-height:50px;
+    -fx-background-color: #23272a;
+    -fx-pref-height: 50px;
 }
-.table-view  .table-column{
+
+.table-view .table-column {
     -fx-padding: 18 0 0 10;
-    -fx-border-width: 0px 0px 0px 0px ;
 }
 
-/* The increment and decrement button CSS class of scrollbar */
-.table-view .increment-button ,.table-view .decrement-button {
-    -fx-background-color:transparent;
-    -fx-background-radius: 2em;
-
-}
-
-/* The main scrollbar **track** CSS class  */
-.table-view .scroll-bar:horizontal .track,
-.table-view .scroll-bar:vertical .track{
+.table-view .increment-button, .table-view .decrement-button {
     -fx-background-color: transparent;
-    -fx-border-color:derive( #ab0319,80%);
-
-    -fx-background-radius: 2em;
-    -fx-border-radius:2em;
 }
 
-/* The main scrollbar **thumb** CSS class which we drag every time (movable) */
+.table-view .scroll-bar:horizontal .track,
+.table-view .scroll-bar:vertical .track {
+    -fx-background-color: #2c2f33;
+    -fx-border-color: #7289da; /* Discord blue for scrollbar */
+    -fx-background-radius: 2em;
+    -fx-border-radius: 2em;
+}
+
 .table-view .scroll-bar:horizontal .thumb,
 .table-view .scroll-bar:vertical .thumb {
-    -fx-background-color:derive( #ab0319,90%);
-    -fx-background-insets: 2, 0, 0;
+    -fx-background-color: #7289da; /* Discord blue for scrollbar thumb */
     -fx-background-radius: 2em;
-
 }
 
-.table-view .table-row-cell{
-    -fx-background-color:rgba(255, 255, 255, 0.92);
-    -fx-font-size:14px;
-    -fx-pref-height:50px;
-    -fx-border-width: 0px 0px 1px 0px;
-    -fx-border-color:rgba(255, 255, 255, 0.92);
+.table-view .table-row-cell {
+    -fx-background-color: #2c2f33;
+    -fx-text-fill: #f0f0f0;  /* Discord-like text color */
+    -fx-font-size: 14px;
+    -fx-pref-height: 50px;
+    -fx-border-color: #2c2f33; /* Match background for seamless look */
 }
 
 .table-view .table-row-cell:hover {
-    -fx-background-color:rgba(255, 255, 255, 0.92);
+    -fx-background-color: #23272a; /* Slight hover effect */
 }
 
-.table-view .table-row-cell:selected{
-    -fx-background-color: rgba(171, 3, 25, 0.74);
+.table-view .table-row-cell:selected {
+    -fx-background-color: #7289da; /* Discord blue for selected item */
     -fx-text-fill: white;
 }
 
-.table-view .table-row-cell:empty{
-    -fx-background-color:rgba(255, 255, 255, 0.92);
-    -fx-border-color:rgba(255, 255, 255, 0.92);
+.table-view .table-row-cell:empty {
+    -fx-background-color: #2c2f33;
+    -fx-border-color: #2c2f33;
 }
 
 /* Label Styling */
 .label {
     -fx-font-size: 16px;
-    -fx-text-fill: #ccc;  /* Light grey text */
+    -fx-text-fill: #8c8888;  /* Light grey text */
+}
+
+.label-style {
+    -fx-font-size: 16px;
+    -fx-text-fill: #c4bfbf;  /* Light grey text */
 }
 
 /* RadioButton Styling */
@@ -128,7 +108,7 @@
 /* Button Styling */
 .button {
     -fx-background-color: rgba(255, 255, 255, 0.92);
-    -fx-text-fill: white;
+    -fx-text-fill: black;
     -fx-font-size: 14px;
     -fx-background-radius: 5px;
     -fx-effect: dropshadow(one-pass-box, rgba(0, 0, 0, 0.3), 8, 0, 0, 3);
@@ -163,11 +143,3 @@
     -fx-background-radius: 3;
     -fx-border-color: transparent;
 }
-
-/*.button-panel-inner {*/
-/*    -fx-background-color: #7a7d7e;*/
-/*    -fx-background-radius: 15px;*/
-/*    -fx-padding: 10;*/
-/*    -fx-border-radius: 15px;*/
-/*    -fx-border-color: #707070;*/
-/*}*/

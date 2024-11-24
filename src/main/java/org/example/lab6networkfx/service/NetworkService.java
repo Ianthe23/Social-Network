@@ -183,6 +183,18 @@ public class NetworkService implements Service<Integer>, Observable<NetworkEvent
         return pendingFriendshipRequests;
     }
 
+    public List<User> getFriendRequests(String username) {
+        User user = findUsername(username);
+        List<User> friendRequests = new ArrayList<>();
+        Iterable<FriendshipRequest> friendshipRequests = friendshipRequestRepo.findAll();
+
+        StreamSupport.stream(friendshipRequests.spliterator(), false)
+                .filter(friendshipRequest -> friendshipRequest.getUser2().equals(user))
+                .forEach(friendshipRequest -> friendRequests.add(friendshipRequest.getUser1()));
+
+        return friendRequests;
+    }
+
     /**
      * Method for adding a friendship
      * @param username1 - the username of the first user
