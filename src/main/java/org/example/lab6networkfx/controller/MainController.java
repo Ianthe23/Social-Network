@@ -657,6 +657,7 @@ public class MainController implements Observer<NetworkEvent> {
                     Label messageLabel = new Label(message.getMessage());
                     messageLabel.setWrapText(true);
                     messageLabel.setMaxWidth(170);
+                    messageLabel.setStyle("-fx-font-size: 14px;");
 
                     Label dateLabel = new Label(message.getDate().format(formatter));
                     dateLabel.setStyle("-fx-text-fill: #cccccc; -fx-font-size: 10px;");
@@ -679,6 +680,7 @@ public class MainController implements Observer<NetworkEvent> {
                             Label originalMessageLabel = new Label(originalMessage.getMessage());
                             originalMessageLabel.setWrapText(true);
                             originalMessageLabel.setMaxWidth(150);
+                            originalMessageLabel.setStyle("-fx-font-size: 12px;");
 
                             Label originalSenderLabel = new Label("Reply to " + originalMessage.getFrom().getUsername());
                             originalSenderLabel.setStyle("-fx-font-size: 10px;");

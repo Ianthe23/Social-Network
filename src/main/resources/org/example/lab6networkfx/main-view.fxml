@@ -162,7 +162,7 @@
         </VBox>
       </AnchorPane>
 
-      <AnchorPane fx:id="messagePane" style="-fx-background-color: #3c3c3c;" HBox.hgrow="ALWAYS">
+      <AnchorPane fx:id="messagePane" minWidth="280" style="-fx-background-color: #3c3c3c;" HBox.hgrow="ALWAYS">
         <VBox alignment="TOP_CENTER" prefHeight="650" style="-fx-padding: 10;">
           <!-- Chat Header -->
           <HBox alignment="CENTER_LEFT" style="-fx-background-color: #2a2929; -fx-padding: 10; -fx-border-radius: 4; -fx-border-width: 1; -fx-background-radius: 4;">
@@ -170,7 +170,7 @@
           </HBox>
 
           <!-- Chat Display Area -->
-          <ListView fx:id="chatListView" onMouseClicked="#handleMessageItemClick" prefWidth="250.0" VBox.vgrow="ALWAYS" />
+          <ListView fx:id="chatListView" onMouseClicked="#handleMessageItemClick" prefWidth="280.0" VBox.vgrow="ALWAYS" />
 
           <HBox style="-fx-padding: 10 10 0 10;" spacing="5">
             <Button fx:id="btnDeleteMessage" onAction="#handleUserPanelClick" prefHeight="20" style="-fx-padding: 5 8">
@@ -213,7 +213,7 @@
 
           <!-- Message Input Area -->
           <HBox alignment="CENTER" spacing="10" style="-fx-padding: 10;">
-            <TextField fx:id="messageInput" prefHeight="31.0" prefWidth="175.0" promptText="Type your message..." style="-fx-background-color: #3c3c3c; -fx-text-fill: #ffffff; -fx-border-width: 1; -fx-border-color: #8c8c8c; -fx-border-radius: 4" />
+            <TextField fx:id="messageInput" prefHeight="31.0" prefWidth="200.0" promptText="Type your message..." style="-fx-background-color: #3c3c3c; -fx-text-fill: #ffffff; -fx-border-width: 1; -fx-border-color: #8c8c8c; -fx-border-radius: 4" />
             <Button fx:id="btnSendMessage" onAction="#handleUserPanelClick" style="-fx-background-color: rgba(255, 255, 255, 0.92); -fx-text-fill: #ffffff;">
               <tooltip>
                 <Tooltip text="Send Message" />
