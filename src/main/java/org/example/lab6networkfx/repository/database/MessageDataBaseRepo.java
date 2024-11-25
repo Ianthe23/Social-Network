@@ -1,6 +1,5 @@
 package org.example.lab6networkfx.repository.database;
 
-import org.example.lab6networkfx.domain.Tuple;
 import org.example.lab6networkfx.domain.User;
 import org.example.lab6networkfx.domain.messages.Message;
 import org.example.lab6networkfx.domain.validators.Validator;
@@ -14,7 +13,6 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 public class MessageDataBaseRepo extends AbstractDataBaseRepo<Integer, Message> {
@@ -29,16 +27,20 @@ public class MessageDataBaseRepo extends AbstractDataBaseRepo<Integer, Message> 
             String username1 = resultSet.getString("username1");
             String password1 = resultSet.getString("password1");
             User from = new User(firstName1, lastName1, username1, password1);
+            from.setId(resultSet.getInt("sender_id"));
 
             String firstName2 = resultSet.getString("firstname2");
             String lastName2 = resultSet.getString("lastname2");
             String username2 = resultSet.getString("username2");
             String password2 = resultSet.getString("password2");
             User to = new User(firstName2, lastName2, username2, password2);
+            to.setId(resultSet.getInt("receiver_id"));
 
             String message = resultSet.getString("message");
             LocalDateTime date = resultSet.getTimestamp("created_at").toLocalDateTime();
-            Message msg = new Message(message, date, to, from);
+            Integer replyingTo = resultSet.getInt("replyingTo_id");
+
+            Message msg = new Message(message, date, replyingTo, to, from);
             msg.setId(id);
             return Optional.of(msg);
         } catch(SQLException e) {
@@ -53,9 +55,10 @@ public class MessageDataBaseRepo extends AbstractDataBaseRepo<Integer, Message> 
         }
         String sql = """
                 SELECT 
-                    m.id, m.message, m.created_at,
+                    m.id, m.message, m.created_at, m.replyingTo_id,
                     u1.firstname AS firstname1, u1.lastname AS lastname1, u1.username AS username1, u1.password AS password1,
-                    u2.firstname AS firstname2, u2.lastname AS lastname2, u2.username AS username2, u2.password AS password2
+                    u2.firstname AS firstname2, u2.lastname AS lastname2, u2.username AS username2, u2.password AS password2,
+                    u1.id AS sender_id, u2.id AS receiver_id
                 FROM 
                     "Message" m
                 JOIN 
@@ -83,9 +86,10 @@ public class MessageDataBaseRepo extends AbstractDataBaseRepo<Integer, Message> 
     public Iterable<Message> findAll() {
         String sql = """
                 SELECT 
-                    m.id, m.message, m.created_at,
+                    m.id, m.message, m.created_at, m.replyingTo_id,
                     u1.firstname AS firstname1, u1.lastname AS lastname1, u1.username AS username1, u1.password AS password1,
-                    u2.firstname AS firstname2, u2.lastname AS lastname2, u2.username AS username2, u2.password AS password2
+                    u2.firstname AS firstname2, u2.lastname AS lastname2, u2.username AS username2, u2.password AS password2,
+                    u1.id AS sender_id, u2.id AS receiver_id
                 FROM 
                     "Message" m
                 JOIN 
@@ -116,13 +120,14 @@ public class MessageDataBaseRepo extends AbstractDataBaseRepo<Integer, Message> 
             throw new IllegalArgumentException("Entity must not be null");
         }
 
-        String sql = "INSERT INTO \"" + table + "\" (message, created_at, receiver_id, sender_id) VALUES (?, ?, ?, ?) RETURNING id";
+        String sql = "INSERT INTO \"" + table + "\" (message, created_at, replyingTo_id, receiver_id, sender_id) VALUES (?, ?, ?, ?, ?) RETURNING id";
 
         try (PreparedStatement statement = data.createStatement(sql)) {
             statement.setString(1, entity.getMessage());
             statement.setTimestamp(2, java.sql.Timestamp.valueOf(entity.getDate()));
-            statement.setInt(3, entity.getTo().getId());
-            statement.setInt(4, entity.getFrom().getId());
+            statement.setInt(3, entity.getReplyingTo());
+            statement.setInt(4, entity.getTo().getId());
+            statement.setInt(5, entity.getFrom().getId());
 
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
@@ -169,14 +174,15 @@ public class MessageDataBaseRepo extends AbstractDataBaseRepo<Integer, Message> 
             throw new RepoException("Entity does not exist");
         }
 
-        String sql = "UPDATE \"" + table + "\" SET message = ?, created_at = ?, receiver_id = ?, sender_id = ? WHERE id = ?";
+        String sql = "UPDATE \"" + table + "\" SET message = ?, created_at = ?, replyingTo_id = ?, receiver_id = ?, sender_id = ? WHERE id = ?";
 
         try (PreparedStatement statement = data.createStatement(sql)) {
             statement.setString(1, entity.getMessage());
             statement.setTimestamp(2, java.sql.Timestamp.valueOf(entity.getDate()));
-            statement.setInt(3, entity.getTo().getId());
-            statement.setInt(4, entity.getFrom().getId());
-            statement.setInt(5, entity.getId());
+            statement.setInt(3, entity.getReplyingTo());
+            statement.setInt(4, entity.getTo().getId());
+            statement.setInt(5, entity.getFrom().getId());
+            statement.setInt(6, entity.getId());
 
             int response = statement.executeUpdate();
             return response > 0 ? Optional.of(entity) : Optional.empty();

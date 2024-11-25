@@ -12,10 +12,12 @@ public class Message extends Entity<Integer> {
     private User to;
     private String message;
     private LocalDateTime date;
+    private Integer replyingTo;
 
-    public Message(String message, LocalDateTime date, User to, User from) {
+    public Message(String message, LocalDateTime date, Integer replyingTo, User to, User from) {
         this.message = message;
         this.date = date;
+        this.replyingTo = replyingTo;
         this.to = to;
         this.from = from;
     }
@@ -52,13 +54,12 @@ public class Message extends Entity<Integer> {
         this.date = date;
     }
 
-    @Override
-    public String toString() {
-        return "Message{" +
-                "from=" + from +
-                ", message='" + message + '\'' +
-                ", date=" + date +
-                '}';
+    public Integer getReplyingTo() {
+        return replyingTo;
+    }
+
+    public void setReplyingTo(Integer replyingTo) {
+        this.replyingTo = replyingTo;
     }
 
     @Override
@@ -66,11 +67,22 @@ public class Message extends Entity<Integer> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Message message1 = (Message) o;
-        return Objects.equals(getFrom(), message1.getFrom()) && Objects.equals(getTo(), message1.getTo()) && Objects.equals(getMessage(), message1.getMessage()) && Objects.equals(getDate(), message1.getDate());
+        return Objects.equals(getFrom(), message1.getFrom()) && Objects.equals(getTo(), message1.getTo()) && Objects.equals(getMessage(), message1.getMessage()) && Objects.equals(getDate(), message1.getDate()) && Objects.equals(getReplyingTo(), message1.getReplyingTo());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getFrom(), getTo(), getMessage(), getDate());
+        return Objects.hash(getFrom(), getTo(), getMessage(), getDate(), getReplyingTo());
+    }
+
+    @Override
+    public String toString() {
+        return "Message{" +
+                "from=" + from +
+                ", to=" + to +
+                ", message='" + message + '\'' +
+                ", date=" + date +
+                ", replyingTo=" + replyingTo +
+                '}';
     }
 }

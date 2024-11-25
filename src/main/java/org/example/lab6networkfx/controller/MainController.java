@@ -1,8 +1,6 @@
 package org.example.lab6networkfx.controller;
 
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -11,13 +9,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import javafx.util.Pair;
 import org.example.lab6networkfx.domain.Friendship;
 import org.example.lab6networkfx.domain.friendships.FriendshipRequest;
 import org.example.lab6networkfx.domain.messages.Message;
@@ -30,7 +26,6 @@ import org.example.lab6networkfx.domain.User;
 
 import java.io.IOException;
 import java.net.URL;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -99,6 +94,8 @@ public class MainController implements Observer<NetworkEvent> {
     private Button btnDeleteMessage;
     @FXML
     private Button btnEditMessage;
+    @FXML
+    private Button btnReplyMessage;
 
     @FXML
     private VBox listPanel;
@@ -359,6 +356,12 @@ public class MainController implements Observer<NetworkEvent> {
                 } else {
                     AlertMessages.showMessage(mainStage, Alert.AlertType.ERROR, "Error", "No message selected!");
                 }
+            } else if (event.getSource() == btnReplyMessage) {
+                if (getSelectedMessage() == null || messageInput.getText().isEmpty()) {
+                    AlertMessages.showMessage(mainStage, Alert.AlertType.ERROR, "Error", "No message selected or message is empty!");
+                } else {
+                    handleReplyMessage();
+                }
             }
 
         } else if (friendshipsRadioButton.isSelected()) {
@@ -373,11 +376,23 @@ public class MainController implements Observer<NetworkEvent> {
         if (message.isEmpty()) {
             AlertMessages.showMessage(mainStage, Alert.AlertType.ERROR, "Error", "Message cannot be empty!");
         } else {
-            messageService.sendMessage(userLogged, user, message);
+            messageService.sendMessage(userLogged, user, message, -1);
             //sort the messages by date
             modelMessages.sort((o1, o2) -> o1.getDate().compareTo(o2.getDate()));
 //            modelMessages.add(new Message(message, LocalDateTime.now(), user, userLogged)); // Update the model
             messageInput.clear();
+        }
+    }
+
+    private void handleReplyMessage() {
+        Message selectedMessage = getSelectedMessage();
+        String message = messageInput.getText();
+        if (message.isEmpty()) {
+            AlertMessages.showMessage(mainStage, Alert.AlertType.ERROR, "Error", "Message cannot be empty!");
+        } else {
+            messageService.sendMessage(userLogged, selectedMessage.getFrom(), message, selectedMessage.getId());
+            //sort the messages by date
+            modelMessages.sort((o1, o2) -> o1.getDate().compareTo(o2.getDate()));
         }
     }
 
@@ -592,6 +607,7 @@ public class MainController implements Observer<NetworkEvent> {
         configureFadeTransition(btnSendMessage);
         configureFadeTransition(btnDeleteMessage);
         configureFadeTransition(btnEditMessage);
+        configureFadeTransition(btnReplyMessage);
     }
 
     public void initializeUsers() {
@@ -637,6 +653,7 @@ public class MainController implements Observer<NetworkEvent> {
                     setText(null);
                     setGraphic(null);
                 } else {
+                    // Create components for the message
                     Label messageLabel = new Label(message.getMessage());
                     messageLabel.setWrapText(true);
                     messageLabel.setMaxWidth(170);
@@ -645,18 +662,50 @@ public class MainController implements Observer<NetworkEvent> {
                     dateLabel.setStyle("-fx-text-fill: #cccccc; -fx-font-size: 10px;");
                     dateLabel.setAlignment(Pos.CENTER_RIGHT);
 
-                    VBox vbox = new VBox(messageLabel, dateLabel);
-                    vbox.setSpacing(2);
-                    vbox.setAlignment(Pos.CENTER_RIGHT);
-                    vbox.setStyle("-fx-background-radius: 10; -fx-padding: 5 10 5 10;");
+                    VBox messageVBox = new VBox(messageLabel, dateLabel);
+                    messageVBox.setSpacing(2);
+                    messageVBox.setAlignment(Pos.CENTER_RIGHT);
+                    messageVBox.setStyle("-fx-background-radius: 10; -fx-padding: 5 10 5 10;");
 
-                    if (message.getFrom().equals(userLogged)) {
-                        vbox.setStyle(vbox.getStyle() + "-fx-background-color: #7c8bef; -fx-text-fill: #FFFFFF;"); // Color for logged user
-                    } else {
-                        vbox.setStyle(vbox.getStyle() + "-fx-background-color: #706d6c; -fx-text-fill: #FFFFFF;"); // Color for other user
+                    // Check if the message is a reply
+                    if (message.getReplyingTo() != -1) {
+                        // Retrieve the original message using the replyingTo ID
+                        Message originalMessage = messageService.getAllMessages().stream()
+                                .filter(x -> x.getId().equals(message.getReplyingTo()))
+                                .findFirst()
+                                .orElse(null);
+
+                        if (originalMessage != null) {
+                            Label originalMessageLabel = new Label(originalMessage.getMessage());
+                            originalMessageLabel.setWrapText(true);
+                            originalMessageLabel.setMaxWidth(150);
+
+                            Label originalSenderLabel = new Label("Reply to " + originalMessage.getFrom().getUsername());
+                            originalSenderLabel.setStyle("-fx-font-size: 10px;");
+
+                            VBox replyVBox = new VBox(originalSenderLabel, originalMessageLabel);
+                            if (message.getFrom().equals(userLogged)) {
+                                replyVBox.setStyle("-fx-background-color: #959fee; -fx-background-radius: 8; -fx-padding: 5 10 5 10;");
+                            } else {
+                                replyVBox.setStyle("-fx-background-color: #8f8b8a; -fx-background-radius: 8; -fx-padding: 5 10 5 10;");
+                            }
+                            replyVBox.setSpacing(2);
+                            replyVBox.setAlignment(Pos.CENTER_LEFT);
+
+                            // Add a border to visually separate the reply box
+                            replyVBox.setStyle(replyVBox.getStyle() + "-fx-border-color: #bbbbbb; -fx-border-width: 1; -fx-border-radius: 8;");
+
+                            messageVBox.getChildren().add(0, replyVBox); // Prepend the reply VBox to the message VBox
+                        }
                     }
 
-                    HBox hbox = new HBox(vbox);
+                    if (message.getFrom().equals(userLogged)) {
+                        messageVBox.setStyle(messageVBox.getStyle() + "-fx-background-color: #7c8bef; -fx-text-fill: #FFFFFF;");
+                    } else {
+                        messageVBox.setStyle(messageVBox.getStyle() + "-fx-background-color: #706d6c; -fx-text-fill: #FFFFFF;");
+                    }
+
+                    HBox hbox = new HBox(messageVBox);
                     hbox.setSpacing(10);
                     hbox.setAlignment(message.getFrom().equals(userLogged) ? Pos.CENTER_RIGHT : Pos.CENTER_LEFT);
 

@@ -197,6 +197,18 @@
                 </ImageView>
               </graphic>
             </Button>
+            <Button fx:id="btnReplyMessage" onAction="#handleUserPanelClick" prefHeight="20" style="-fx-padding: 5 8">
+              <tooltip>
+                <Tooltip text="Reply to Message" />
+              </tooltip>
+              <graphic>
+                <ImageView fitHeight="18" fitWidth="18">
+                  <image>
+                    <Image url="@/org/example/lab6networkfx/images/reply.png" />
+                  </image>
+                </ImageView>
+              </graphic>
+            </Button>
           </HBox>
 
           <!-- Message Input Area -->

@@ -1,10 +1,7 @@
 package org.example.lab6networkfx.service;
 
-import org.example.lab6networkfx.domain.Tuple;
 import org.example.lab6networkfx.domain.User;
 import org.example.lab6networkfx.domain.messages.Message;
-import org.example.lab6networkfx.domain.messages.ReplyMessage;
-import org.example.lab6networkfx.exceptions.ServiceException;
 import org.example.lab6networkfx.repository.Repository;
 import org.example.lab6networkfx.utils.events.EventType;
 import org.example.lab6networkfx.utils.events.NetworkEvent;
@@ -13,12 +10,9 @@ import org.example.lab6networkfx.utils.observer.Observer;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
 public class MessageService extends MessageSrv implements Observable<NetworkEvent> {
     private final Repository messageRepo;
@@ -55,8 +49,8 @@ public class MessageService extends MessageSrv implements Observable<NetworkEven
         return conversation;
     }
 
-    public void sendMessage(User from, User to, String message) {
-        Message msg = new Message(message, LocalDateTime.now(), to, from);
+    public void sendMessage(User from, User to, String message, Integer replyingTo) {
+        Message msg = new Message(message, LocalDateTime.now(), replyingTo, to, from);
         messageRepo.save(msg);
         notifyObservers(new NetworkEvent(EventType.ADDMSG, msg));
     }
