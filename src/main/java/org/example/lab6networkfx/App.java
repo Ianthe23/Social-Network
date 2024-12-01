@@ -15,6 +15,7 @@ import org.example.lab6networkfx.domain.messages.ReplyMessage;
 import org.example.lab6networkfx.domain.validators.Validator;
 import org.example.lab6networkfx.domain.validators.ValidatorFactory;
 import org.example.lab6networkfx.domain.validators.ValidatorStrategy;
+import org.example.lab6networkfx.repository.database.UserRepo;
 import org.example.lab6networkfx.repository.database.factory.DataBaseRepoFactory;
 import org.example.lab6networkfx.repository.database.factory.DataBaseStrategy;
 import org.example.lab6networkfx.repository.database.utils.AbstractDataBaseRepo;
@@ -57,7 +58,7 @@ public class App extends Application {
         this.userRepo = repoFactory.createRepo(DataBaseStrategy.User, userValidator);
         this.friendshipRepo = repoFactory.createRepo(DataBaseStrategy.Friendship, friendValidator);
         this.friendshipRequestRepo = repoFactory.createRepo(DataBaseStrategy.FriendshipRequest, requestValidator);
-        this.service = new NetworkService(userRepo, friendshipRepo, friendshipRequestRepo, "database");
+        this.service = new NetworkService((UserRepo) userRepo, friendshipRepo, friendshipRequestRepo, "database");
         this.messageRepo = repoFactory.createRepo(DataBaseStrategy.Message, null);
         this.messageService = new MessageService(userRepo, friendshipRepo, messageRepo);
         initView(stage);

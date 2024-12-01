@@ -7,11 +7,14 @@ import org.example.lab6networkfx.domain.friendships.FriendshipRequest;
 import org.example.lab6networkfx.domain.friendships.FriendshipStatus;
 import org.example.lab6networkfx.exceptions.ServiceException;
 import org.example.lab6networkfx.repository.Repository;
+import org.example.lab6networkfx.repository.database.UserRepo;
 import org.example.lab6networkfx.utils.events.EventType;
 import org.example.lab6networkfx.utils.events.FriendshipStatusType;
 import org.example.lab6networkfx.utils.events.NetworkEvent;
 import org.example.lab6networkfx.utils.observer.Observable;
 import org.example.lab6networkfx.utils.observer.Observer;
+import org.example.lab6networkfx.utils.paging.Page;
+import org.example.lab6networkfx.utils.paging.Pageable;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -23,7 +26,7 @@ import java.util.stream.StreamSupport;
  * Service for the network
  */
 public class NetworkService implements Service<Integer>, Observable<NetworkEvent> {
-    private final Repository<Integer, User> userRepo;
+    private final UserRepo userRepo;
     private final Repository friendshipRepo;
     private final Repository friendshipRequestRepo;
     private List<Observer<NetworkEvent>> observers=new ArrayList<>();
@@ -35,7 +38,7 @@ public class NetworkService implements Service<Integer>, Observable<NetworkEvent
      * @param userRepo - the repository for the users
      * @param friendshipRepo - the repository for the friendships
      */
-    public NetworkService(Repository userRepo, Repository friendshipRepo, Repository friendshipRequestRepo, String type) {
+    public NetworkService(UserRepo userRepo, Repository friendshipRepo, Repository friendshipRequestRepo, String type) {
         this.userRepo = userRepo;
         this.friendshipRepo = friendshipRepo;
         this.friendshipRequestRepo = friendshipRequestRepo;
@@ -262,6 +265,14 @@ public class NetworkService implements Service<Integer>, Observable<NetworkEvent
     @Override
     public Iterable getAllUsers() {
         return userRepo.findAll();
+    }
+
+    public Page<User> findAllOnPage(Pageable pageable) {
+        return userRepo.findAllOnPage(pageable);
+    }
+
+    public Page<User> findAllBySearchText(Pageable pageable, String searchText) {
+        return userRepo.findAllBySearchText(pageable, searchText);
     }
 
     /**

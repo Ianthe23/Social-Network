@@ -5,6 +5,8 @@ import org.example.lab6networkfx.domain.validators.Validator;
 import org.example.lab6networkfx.exceptions.RepoException;
 import org.example.lab6networkfx.repository.database.utils.AbstractDataBaseRepo;
 import org.example.lab6networkfx.repository.database.utils.DataBaseAcces;
+import org.example.lab6networkfx.utils.paging.Page;
+import org.example.lab6networkfx.utils.paging.Pageable;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,7 +19,7 @@ import java.util.Optional;
 /**
  * Database repository for users
  */
-public class UserDataBaseRepo extends AbstractDataBaseRepo<Integer, User> {
+public class UserDataBaseRepo extends AbstractDataBaseRepo<Integer, User> implements UserRepo {
     /**
      * Constructor
      * @param validator - the validator
@@ -253,6 +255,83 @@ public class UserDataBaseRepo extends AbstractDataBaseRepo<Integer, User> {
         } catch (SQLException e) {
             throw new RepoException(e);
         }
+    }
+
+    private int count(String searchText) {
+        String sql = "SELECT COUNT(*) FROM \"User\" WHERE username LIKE ?";
+
+        try (PreparedStatement statement = data.createStatement(sql)) {
+            statement.setString(1, "%" + searchText + "%");
+            try (ResultSet resultSet = statement.executeQuery()) {
+                return resultSet.next() ? resultSet.getInt(1) : 0;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private int count() {
+        String sql = "SELECT COUNT(*) FROM \"User\"";
+
+        try (PreparedStatement statement = data.createStatement(sql);
+             ResultSet resultSet = statement.executeQuery()) {
+            return resultSet.next() ? resultSet.getInt(1) : 0;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public Page<User> findAllOnPage(Pageable pageable) {
+        String sql = "SELECT * FROM \"User\" LIMIT ? OFFSET ?";
+        Map<Integer, User> userMap = new HashMap<>();
+
+        try (PreparedStatement statement = data.createStatement(sql)) {
+            statement.setInt(1, pageable.getPageSize());
+            statement.setInt(2, pageable.getPageSize() * pageable.getPageNumber());
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    Integer id = resultSet.getInt("id");
+                    Optional<User> optionalUser = getUser(resultSet, id);
+                    optionalUser.ifPresent(user -> userMap.put(id, user));
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        // Load all friendships
+        loadFriendships(userMap);
+        loadFriendshipRequests(userMap);
+
+        return new Page<>(userMap.values(), count());
+    }
+
+    @Override
+    public Page<User> findAllBySearchText(Pageable pageable, String searchText) {
+        String sql = "SELECT * FROM \"User\" WHERE username LIKE ? LIMIT ? OFFSET ?";
+        Map<Integer, User> userMap = new HashMap<>();
+
+        try (PreparedStatement statement = data.createStatement(sql)) {
+            statement.setString(1, "%" + searchText + "%");
+            statement.setInt(2, pageable.getPageSize());
+            statement.setInt(3, pageable.getPageSize() * pageable.getPageNumber());
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    Integer id = resultSet.getInt("id");
+                    Optional<User> optionalUser = getUser(resultSet, id);
+                    optionalUser.ifPresent(user -> userMap.put(id, user));
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        // Load all friendships
+        loadFriendships(userMap);
+        loadFriendshipRequests(userMap);
+
+        return new Page<>(userMap.values(), count(searchText));
     }
 
 }

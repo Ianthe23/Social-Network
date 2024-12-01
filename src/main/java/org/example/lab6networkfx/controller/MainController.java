@@ -23,6 +23,8 @@ import org.example.lab6networkfx.utils.events.EventType;
 import org.example.lab6networkfx.utils.events.NetworkEvent;
 import org.example.lab6networkfx.utils.observer.Observer;
 import org.example.lab6networkfx.domain.User;
+import org.example.lab6networkfx.utils.paging.Page;
+import org.example.lab6networkfx.utils.paging.Pageable;
 
 import java.io.IOException;
 import java.net.URL;
@@ -40,6 +42,14 @@ public class MainController implements Observer<NetworkEvent> {
     private User selectedUser;
 
     private List<FriendshipRequest> friendRequests;
+    private List<User> friends = new ArrayList<>();
+    private List<User> filteredFriends = new ArrayList<>();
+
+    private int currentPage = 0;
+    private static final int PAGE_SIZE = 9;
+
+    private int friendCurrentPage = 0;
+    private static final int FRIEND_PAGE_SIZE = 9;
 
     Stage mainStage;
 
@@ -51,6 +61,9 @@ public class MainController implements Observer<NetworkEvent> {
 
     @FXML
     private Label friendRequestsLabel;
+
+    @FXML
+    private Label pageLabel;
 
     @FXML
     private RadioButton usersRadioButton;
@@ -80,6 +93,12 @@ public class MainController implements Observer<NetworkEvent> {
     private Button btnSendMessage;
 
     @FXML
+    private Button btnBefore;
+
+    @FXML
+    private Button btnNext;
+
+    @FXML
     private AnchorPane messagePane;
 
     @FXML
@@ -99,6 +118,15 @@ public class MainController implements Observer<NetworkEvent> {
 
     @FXML
     private VBox listPanel;
+
+    @FXML
+    private HBox backPanel;
+
+    @FXML
+    private HBox searchPanel;
+
+    @FXML
+    private HBox pagingPanel;
 
     @FXML
     private Label noTableLabel;
@@ -159,7 +187,7 @@ public class MainController implements Observer<NetworkEvent> {
         fullNameLabel.setText(userLogged.getFirstName() + " " + userLogged.getLastName());
         service.addObserver(this);
         messageService.addObserver(this);
-        initModelUsers();
+        initModelUsers("");
         initModelFriendships();
         initModelFriendRequests();
         initModelMessages(null, null);
@@ -167,10 +195,17 @@ public class MainController implements Observer<NetworkEvent> {
 
     @FXML
     public void initialize() {
+
         initializeUsers();
 //        initializeFriendships();
-        backButton.setVisible(false);
-        backButton.setManaged(false);
+        backPanel.setVisible(false);
+        backPanel.setManaged(false);
+
+        searchPanel.setVisible(false);
+        searchPanel.setManaged(false);
+
+        pagingPanel.setVisible(false);
+        pagingPanel.setManaged(false);
 
         // Initial visibility settings for the table
         listPanel.setVisible(false);
@@ -186,6 +221,17 @@ public class MainController implements Observer<NetworkEvent> {
 
         toggleGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
             if (usersRadioButton.isSelected()) {
+                currentPage = 0;
+
+                searchPanel.setVisible(true);
+                searchPanel.setManaged(true);
+
+                backPanel.setVisible(false);
+                backPanel.setManaged(false);
+
+                pagingPanel.setVisible(true);
+                pagingPanel.setManaged(true);
+
                 listPanel.setVisible(true);
                 listPanel.setManaged(true);
 
@@ -214,8 +260,15 @@ public class MainController implements Observer<NetworkEvent> {
                 btnFriendRequestsList.setManaged(true);
 
             } else if (friendshipsRadioButton.isSelected()) {
+                currentPage = 0;
                 listPanel.setVisible(true);
                 listPanel.setManaged(true);
+
+                searchPanel.setVisible(false);
+                searchPanel.setManaged(false);
+
+                pagingPanel.setVisible(true);
+                pagingPanel.setManaged(true);
 
                 userListView.setVisible(false);
                 userListView.setManaged(false);
@@ -239,6 +292,8 @@ public class MainController implements Observer<NetworkEvent> {
                 btnSendRequest.setManaged(false);
 
             } else {
+                currentPage = 0;
+
                 listPanel.setVisible(false);
                 listPanel.setManaged(false);
 
@@ -313,13 +368,24 @@ public class MainController implements Observer<NetworkEvent> {
     @FXML
     private void handleSearch(KeyEvent event) {
         String searchText = searchField.getText();
-            List<User> searchResults = new ArrayList<>();
-            for (User user : modelUsers) {
-                if (user.getUsername().contains(searchText) || user.getFirstName().contains(searchText) || user.getLastName().contains(searchText)) {
-                    searchResults.add(user);
-                }
+
+        if (backPanel.isVisible()) {
+            friendCurrentPage = 0; // Reset page when search changes
+
+            if (searchText.isEmpty()) {
+                filteredFriends = new ArrayList<>(friends); // No filter
+            } else {
+                filteredFriends = friends.stream()
+                        .filter(user -> user.getUsername().toLowerCase().contains(searchText))
+                        .collect(Collectors.toList());
             }
-            userListView.setItems(FXCollections.observableArrayList(searchResults));
+
+            updateFriendList();
+        } else {
+            currentPage = 0; // Reset to first page when search changes
+            initModelUsers(searchText);
+        }
+
     }
 
     @FXML
@@ -397,9 +463,10 @@ public class MainController implements Observer<NetworkEvent> {
     }
 
     private void handleBackButton() {
+        initModelUsers("");
         userListView.setItems(modelUsers);
-        backButton.setVisible(false);
-        backButton.setManaged(false);
+        backPanel.setVisible(false);
+        backPanel.setManaged(false);
         listLabel.setText("All users");
     }
 
@@ -430,18 +497,35 @@ public class MainController implements Observer<NetworkEvent> {
     }
 
     public void handleSceneTableFriendList() {
-        //modify the listView to show the friends of the user
-        userListView.setItems(null);
-        //iterate through the users and if the username is equal to the userLogged, set the items to the friends of the user
+        friendCurrentPage = 0; // Reset to the first page
         for (User user : modelUsers) {
             if (user.getUsername().equals(userLogged.getUsername())) {
-                userListView.setItems(FXCollections.observableArrayList(user.getFriendships()));
+                friends = new ArrayList<>(user.getFriendships());
+                break;
             }
         }
-        backButton.setVisible(true);
-        backButton.setManaged(true);
+        filteredFriends = new ArrayList<>(friends); // Initialize with all friends
+        updateFriendList();
+
+        backPanel.setVisible(true);
+        backPanel.setManaged(true);
         listLabel.setText("Friends List");
     }
+
+    private void updateFriendList() {
+        int fromIndex = friendCurrentPage * FRIEND_PAGE_SIZE;
+        int toIndex = Math.min(fromIndex + FRIEND_PAGE_SIZE, filteredFriends.size());
+        List<User> pageOfFriends = filteredFriends.subList(fromIndex, toIndex);
+
+        userListView.setItems(FXCollections.observableArrayList(pageOfFriends));
+
+        int totalPages = (int) Math.ceil((double) filteredFriends.size() / FRIEND_PAGE_SIZE);
+        pageLabel.setText("Page " + (friendCurrentPage + 1) + " of " + totalPages);
+
+        btnBefore.setDisable(friendCurrentPage == 0);
+        btnNext.setDisable(friendCurrentPage >= totalPages - 1);
+    }
+
 
     public void handleSceneInputFriendship() {
         try {
@@ -553,10 +637,28 @@ public class MainController implements Observer<NetworkEvent> {
         modelMessages.setAll(messageList);
     }
 
-    private void initModelUsers() {
-        Iterable<User> users = service.getAllUsers();
-        List<User> userList = StreamSupport.stream(users.spliterator(), false).collect(Collectors.toList());
+    private void initModelUsers(String searchText) {
+        List<User> userList;
+        Page<User> page;
+        if (searchText.isEmpty()) {
+            page = service.findAllOnPage(new Pageable(currentPage, PAGE_SIZE));
+            userList = StreamSupport.stream(page.getElementsOfPage().spliterator(), false)
+                    .collect(Collectors.toList());
+        } else {
+            // Assuming service has search functionality with pagination
+            page = service.findAllBySearchText(new Pageable(currentPage, PAGE_SIZE), searchText);
+            userList = StreamSupport.stream(page.getElementsOfPage().spliterator(), false)
+                    .collect(Collectors.toList());
+        }
+
         modelUsers.setAll(userList);
+        userListView.setItems(FXCollections.observableArrayList(modelUsers));
+
+        int numberOfPages = (int) Math.ceil((double) page.getTotalNumberOfElements() / PAGE_SIZE);
+        pageLabel.setText("Page " + (currentPage + 1) + " of " + numberOfPages);
+
+        btnBefore.setDisable(currentPage == 0);
+        btnNext.setDisable(currentPage == numberOfPages - 1);
     }
 
     private void initModelFriendships() {
@@ -575,7 +677,7 @@ public class MainController implements Observer<NetworkEvent> {
 
     @Override
     public void update(NetworkEvent networkEvent) {
-        initModelUsers();
+        initModelUsers(searchField.getText());
         initModelFriendships();
         initModelFriendRequests();
         initModelMessages(userLogged, selectedUser);
@@ -585,6 +687,28 @@ public class MainController implements Observer<NetworkEvent> {
             updateFriendRequestLabel();
         }
 
+    }
+
+    public void onNextPage(ActionEvent actionEvent) {
+        if (backPanel.isVisible()) {
+            friendCurrentPage++;
+            updateFriendList();
+        } else {
+            currentPage++;
+            String searchText = searchField.getText();
+            initModelUsers(searchText);
+        }
+    }
+
+    public void onBeforePage(ActionEvent actionEvent) {
+        if (backPanel.isVisible()) {
+            friendCurrentPage--;
+            updateFriendList();
+        } else {
+            currentPage--;
+            String searchText = searchField.getText();
+            initModelUsers(searchText);
+        }
     }
 
     private void configureFadeTransition(Button button) {
@@ -608,6 +732,8 @@ public class MainController implements Observer<NetworkEvent> {
         configureFadeTransition(btnDeleteMessage);
         configureFadeTransition(btnEditMessage);
         configureFadeTransition(btnReplyMessage);
+        configureFadeTransition(btnBefore);
+        configureFadeTransition(btnNext);
     }
 
     public void initializeUsers() {
