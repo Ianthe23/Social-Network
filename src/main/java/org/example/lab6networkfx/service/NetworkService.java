@@ -267,6 +267,11 @@ public class NetworkService implements Service<Integer>, Observable<NetworkEvent
         return userRepo.findAll();
     }
 
+    public List<User> getFriends(String username) {
+        User user = findUsername(username);
+        return user.getFriendships();
+    }
+
     public Page<User> findAllOnPage(Pageable pageable) {
         return userRepo.findAllOnPage(pageable);
     }

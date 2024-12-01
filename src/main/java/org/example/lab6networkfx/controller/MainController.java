@@ -1,6 +1,7 @@
 package org.example.lab6networkfx.controller;
 
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -305,6 +306,10 @@ public class MainController implements Observer<NetworkEvent> {
             }
         });
 
+        modelMessages.addListener((ListChangeListener<Message>) c -> {
+            chatListView.scrollTo(modelMessages.size() - 1);
+        });
+
         configureButtons();
     }
 
@@ -404,7 +409,7 @@ public class MainController implements Observer<NetworkEvent> {
             } else if (event.getSource() == btnFriendList) {
                 handleSceneTableFriendList();
             } else if (event.getSource() == btnFriendRequestsList) {
-                handleSceneInputRequests(getSelectedUser());
+                handleSceneInputRequests(userLogged);
             } else if (event.getSource() == backButton) {
                 handleBackButton();
             } else if (event.getSource() == btnMessage) {
@@ -457,6 +462,7 @@ public class MainController implements Observer<NetworkEvent> {
             AlertMessages.showMessage(mainStage, Alert.AlertType.ERROR, "Error", "Message cannot be empty!");
         } else {
             messageService.sendMessage(userLogged, selectedMessage.getFrom(), message, selectedMessage.getId());
+            messageInput.clear();
             //sort the messages by date
             modelMessages.sort((o1, o2) -> o1.getDate().compareTo(o2.getDate()));
         }
@@ -467,6 +473,10 @@ public class MainController implements Observer<NetworkEvent> {
         userListView.setItems(modelUsers);
         backPanel.setVisible(false);
         backPanel.setManaged(false);
+        btnSendRequest.setDisable(false);
+        btnFriendAdd.setDisable(false);
+        btnDeleteFriend.setDisable(false);
+        btnFriendRequestsList.setDisable(false);
         listLabel.setText("All users");
     }
 
@@ -498,17 +508,16 @@ public class MainController implements Observer<NetworkEvent> {
 
     public void handleSceneTableFriendList() {
         friendCurrentPage = 0; // Reset to the first page
-        for (User user : modelUsers) {
-            if (user.getUsername().equals(userLogged.getUsername())) {
-                friends = new ArrayList<>(user.getFriendships());
-                break;
-            }
-        }
+        friends = service.getFriends(userLogged.getUsername());
         filteredFriends = new ArrayList<>(friends); // Initialize with all friends
         updateFriendList();
 
         backPanel.setVisible(true);
         backPanel.setManaged(true);
+        btnSendRequest.setDisable(true);
+        btnFriendAdd.setDisable(true);
+        btnDeleteFriend.setDisable(true);
+        btnFriendRequestsList.setDisable(true);
         listLabel.setText("Friends List");
     }
 
@@ -681,6 +690,8 @@ public class MainController implements Observer<NetworkEvent> {
         initModelFriendships();
         initModelFriendRequests();
         initModelMessages(userLogged, selectedUser);
+        //scroll to the last message
+        chatListView.scrollTo(modelMessages.size() - 1);
 
         if (networkEvent.getType() == EventType.PEND) {
             System.out.println("Pending request");

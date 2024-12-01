@@ -70,6 +70,7 @@ public class InputFriendshipController {
             String user1 = user1Field.getText().toString();
             String user2 = user2Field.getValue().toString();
             service.acceptFriendshipRequest(user1, user2);
+
             System.out.println("Friendship added");
             AlertMessages.showMessage(inputStage, Alert.AlertType.CONFIRMATION, "Friendship added", "Friendship added successfully");
             clearFields();
