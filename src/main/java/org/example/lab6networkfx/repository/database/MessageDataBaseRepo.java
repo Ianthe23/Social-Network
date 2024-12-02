@@ -168,8 +168,6 @@ public class MessageDataBaseRepo extends AbstractDataBaseRepo<Integer, Message> 
             throw new IllegalArgumentException("Entity must not be null");
         }
 
-        validator.validate(entity);
-
         if (findOne(entity.getId()).isEmpty()) {
             throw new RepoException("Entity does not exist");
         }

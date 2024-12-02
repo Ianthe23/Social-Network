@@ -433,6 +433,12 @@ public class MainController implements Observer<NetworkEvent> {
                 } else {
                     handleReplyMessage();
                 }
+            } else if (event.getSource() == btnEditMessage) {
+                if (getSelectedMessage() == null) {
+                    AlertMessages.showMessage(mainStage, Alert.AlertType.ERROR, "Error", "No message selected!");
+                } else {
+                    handleEditMessage();
+                }
             }
 
         } else if (friendshipsRadioButton.isSelected()) {
@@ -461,11 +467,28 @@ public class MainController implements Observer<NetworkEvent> {
         if (message.isEmpty()) {
             AlertMessages.showMessage(mainStage, Alert.AlertType.ERROR, "Error", "Message cannot be empty!");
         } else {
-            messageService.sendMessage(userLogged, selectedMessage.getFrom(), message, selectedMessage.getId());
+            messageService.sendMessage(userLogged, selectedUser, message, selectedMessage.getId());
             messageInput.clear();
             //sort the messages by date
             modelMessages.sort((o1, o2) -> o1.getDate().compareTo(o2.getDate()));
         }
+    }
+
+    private void handleEditMessage() {
+        Message selectedMessage = getSelectedMessage();
+        String message = messageInput.getText();
+        if (!selectedMessage.getFrom().getUsername().equals(userLogged.getUsername())) {
+            AlertMessages.showMessage(mainStage, Alert.AlertType.ERROR, "Error", "You can only edit your own messages!");
+        }
+        else if (message.isEmpty()) {
+            AlertMessages.showMessage(mainStage, Alert.AlertType.ERROR, "Error", "Message cannot be empty!");
+        } else {
+            messageService.editMessage(selectedMessage, message);
+            //sort the messages by date
+            modelMessages.sort((o1, o2) -> o1.getDate().compareTo(o2.getDate()));
+        }
+
+        messageInput.clear();
     }
 
     private void handleBackButton() {
@@ -614,16 +637,6 @@ public class MainController implements Observer<NetworkEvent> {
         }
     }
 
-//    private void handleDeleteFriendship() {
-//        Friendship selected = friendshipTableView.getSelectionModel().getSelectedItem();
-//        if (selected != null) {
-//            service.removeFriendship(selected.getUser1().getUsername(), selected.getUser2().getUsername());
-//            AlertMessages.showMessage(mainStage, Alert.AlertType.CONFIRMATION, "Friendship deleted", "Friendship between " + selected.getUser1().getUsername() + " and " + selected.getUser2().getUsername() + " was deleted successfully!");
-//        } else {
-//            AlertMessages.showMessage(mainStage, Alert.AlertType.ERROR, "Error", "No friendship selected!");
-//        }
-//    }
-
     private User getSelectedUser() {
         User selected = userListView.getSelectionModel().getSelectedItem();
         return selected;
@@ -654,7 +667,6 @@ public class MainController implements Observer<NetworkEvent> {
             userList = StreamSupport.stream(page.getElementsOfPage().spliterator(), false)
                     .collect(Collectors.toList());
         } else {
-            // Assuming service has search functionality with pagination
             page = service.findAllBySearchText(new Pageable(currentPage, PAGE_SIZE), searchText);
             userList = StreamSupport.stream(page.getElementsOfPage().spliterator(), false)
                     .collect(Collectors.toList());

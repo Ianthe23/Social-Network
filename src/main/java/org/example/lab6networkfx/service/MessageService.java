@@ -60,6 +60,12 @@ public class MessageService extends MessageSrv implements Observable<NetworkEven
         notifyObservers(new NetworkEvent(EventType.DELETEMSG, message));
     }
 
+    public void editMessage(Message message, String newContent) {
+        message.setMessage(newContent);
+        messageRepo.update(message);
+        notifyObservers(new NetworkEvent(EventType.EDITMSG, message));
+    }
+
     @Override
     public void addObserver(Observer<NetworkEvent> e) {
         observers.add(e);
