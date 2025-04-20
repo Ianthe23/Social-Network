@@ -35,10 +35,7 @@ To see the full list of users, make sure to choose the Users option from the Opt
 Check down below the demo video regarding sending messages between 2 users.
 
 ## 🎥 Demo Video
-<video width="640" height="360" controls>
-  <source src="videos/demo.webm" type="video/webm">
-  Your browser does not support the video tag.
-</video>
+[🎬 Watch the Demo Video](videos/demo.webm)
 
 ## 📋 Requirements
 
