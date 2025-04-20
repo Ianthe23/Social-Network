@@ -5,12 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="41f2fb74-9aed-4b1e-911c-0a45cacd57e5" name="Changes" comment="improving the friend list + managing some buttons while friend list is visible">
+      <change afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/screenshots/login.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/screenshots/main-window.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/videos/demo.webm" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/controller/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/controller/MainController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/repository/database/MessageDataBaseRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/repository/database/MessageDataBaseRepo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/service/MessageService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/service/MessageService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/utils/events/EventType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/lab6networkfx/utils/events/EventType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/main-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/lab6networkfx/main-view.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,12 +43,12 @@
     &quot;assignee&quot;: &quot;Ianthe23&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/Ianthe23/lab6-network-fx.git&quot;,
-    &quot;accountId&quot;: &quot;bc797c28-8338-4e02-afb4-8a290ea29275&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/Ianthe23/Social-Network.git",
+    "accountId": "bc797c28-8338-4e02-afb4-8a290ea29275"
   }
-}</component>
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 0
 }</component>
@@ -57,37 +58,43 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.HelloApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.Build lab6-network-fx.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.lab6-network-fx [:org.example.lab6networkfx.App.main()].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.lab6-network-fx [:org.example.lab6networkfx.Main.main()].executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Ivona/Facultate/MAP/lab6-network-fx&quot;,
-    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.HelloApplication.executor": "Run",
+    "Application.Main.executor": "Run",
+    "Gradle.Build lab6-network-fx.executor": "Run",
+    "Gradle.lab6-network-fx [:org.example.lab6networkfx.App.main()].executor": "Run",
+    "Gradle.lab6-network-fx [:org.example.lab6networkfx.Main.main()].executor": "Run",
+    "Gradle.social-network [:org.example.lab6networkfx.Main.main()].executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "master",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/Ivona/Facultate/MPP/social-network/screenshots",
+    "list.type.of.created.stylesheet": "CSS",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;postgresql&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "postgresql"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Ivona\Facultate\MPP\social-network\screenshots" />
+      <recent name="C:\Users\Ivona\Facultate\MPP\social-network\videos" />
+      <recent name="C:\Users\Ivona\Facultate\MPP\social-network" />
       <recent name="C:\Users\Ivona\Facultate\MAP\lab6-network-fx\src\main\resources\org\example\lab6networkfx\images" />
       <recent name="C:\Users\Ivona\Facultate\MAP\lab6-network-fx\src\main\resources\org\example\lab6networkfx\fonts" />
-      <recent name="C:\Users\Ivona\Facultate\MAP\lab6-network-fx\src\main\java\org\example\lab6networkfx" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Ivona\Facultate\MAP\lab6-network-fx\src\main\resources\org\example\lab6networkfx" />
@@ -105,8 +112,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-28b599e66164-intellij.indexing.shared.core-IU-242.23726.103" />
-        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-IU-242.23726.103" />
+        <option value="bundled-jdk-9823dce3aa75-125ca727e0f0-intellij.indexing.shared.core-IU-243.24978.46" />
+        <option value="bundled-js-predefined-d6986cc7102b-76f8388c3a79-JavaScript-IU-243.24978.46" />
       </set>
     </attachedChunks>
   </component>
@@ -152,6 +159,7 @@
       <workItem from="1733072502397" duration="2323000" />
       <workItem from="1733126135449" duration="355000" />
       <workItem from="1733141914781" duration="4788000" />
+      <workItem from="1745136088384" duration="2504000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit">
       <option name="closed" value="true" />
